@@ -48,6 +48,9 @@ jobs:
       run: sudo apt-get update -q
         && sudo apt-get install lcov -q -y
 
+    - name: Install Ninja
+      run: sudo apt-get install ninja-build -q -y
+
     - name: Install Python
       uses: actions/setup-python@v4
       with: { python-version: "3.8" }
@@ -98,6 +101,9 @@ jobs:
         && sudo apt-get install -y -q clang-16 clang-format-16 clang-tidy-16
         && sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-16 140
         && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 140
+
+    - name: Install Ninja
+      run: sudo apt-get install ninja-build -q -y
 
     - name: Install dependencies
       run: pip3 install "conan<2"
@@ -150,6 +156,9 @@ jobs:
         && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 140
         && sudo apt-get install cppcheck -y -q
 
+    - name: Install Ninja
+      if: matrix.os == 'ubuntu-22.04'
+      run: sudo apt-get install ninja-build -q -y
 
     - name: Install Python
       uses: actions/setup-python@v4

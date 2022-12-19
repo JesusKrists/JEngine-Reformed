@@ -77,8 +77,21 @@
       }
     },
     {
-      "name": "ci-unix",
+      "name": "ci-linux",
       "generator": "Ninja",
+      "hidden": true,
+      "inherits": [
+        "flags-unix",
+        "ci-std"
+      ],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "ci-mac",
+      "generator": "Unix Makefiles",
       "hidden": true,
       "inherits": [
         "flags-unix",
@@ -149,7 +162,7 @@
       "name": "ci-macos",
       "inherits": [
         "ci-build",
-        "ci-unix",
+        "ci-mac",
         "dev-mode",
         "conan"
       ]
@@ -158,7 +171,7 @@
       "name": "ci-ubuntu",
       "inherits": [
         "ci-build",
-        "ci-unix",
+        "ci-linux",
         "clang-tidy",
         "conan",
         "cppcheck",
