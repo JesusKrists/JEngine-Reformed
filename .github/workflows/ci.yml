@@ -20,7 +20,9 @@ jobs:
       with: { python-version: "3.8" }
 
     - name: Install clang-16
-      run: sudo apt install -y clang-16
+      run: |
+        sudo apt update
+        sudo apt install -y clang-16
 
     - name: Install codespell
       run: pip3 install codespell
@@ -92,7 +94,9 @@ jobs:
       with: { python-version: "3.8" }
 
     - name: Install clang-16
-      run: sudo apt install -y clang-16
+      run: |
+        sudo apt update
+        sudo apt install -y clang-16
 
     - name: Install dependencies
       run: pip3 install "conan<2"
@@ -135,6 +139,7 @@ jobs:
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-22.04'
       run: >-
+        sudo apt update
         sudo apt-get install clang-tidy-16 cppcheck -y -q
 
         sudo update-alternatives --install
