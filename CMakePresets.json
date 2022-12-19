@@ -117,7 +117,7 @@
     {
       "name": "coverage-unix",
       "binaryDir": "${sourceDir}/build/coverage",
-      "inherits": "ci-unix",
+      "inherits": "ci-linux",
       "hidden": true,
       "cacheVariables": {
         "ENABLE_COVERAGE": "ON",
@@ -143,7 +143,7 @@
       "name": "ci-sanitize",
       "binaryDir": "${sourceDir}/build/sanitize",
       "inherits": [
-        "ci-unix",
+        "ci-linux",
         "dev-mode",
         "conan"
       ],
