@@ -1,6 +1,6 @@
-# JEngine3D
+# JEngine-Reformed
 
-This is the JEngine3D project.
+This is the JEngine-Reformed project.
 
 # Building and installing
 

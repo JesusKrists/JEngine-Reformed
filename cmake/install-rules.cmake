@@ -1,6 +1,6 @@
 install(
-    TARGETS JEngine3D_exe
-    RUNTIME COMPONENT JEngine3D_Runtime
+    TARGETS JEngine-Reformed_exe
+    RUNTIME COMPONENT JEngine-Reformed_Runtime
 )
 
 if(PROJECT_IS_TOP_LEVEL)

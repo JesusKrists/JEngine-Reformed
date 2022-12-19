@@ -1,11 +1,11 @@
 # ---- Developer mode ----
 
 # Developer mode enables targets and code paths in the CMake scripts that are
-# only relevant for the developer(s) of JEngine3D
+# only relevant for the developer(s) of JEngine-Reformed
 # Targets necessary to build the project must be provided unconditionally, so
 # consumers can trivially build and package the project
 if(PROJECT_IS_TOP_LEVEL)
-  option(JEngine3D_DEVELOPER_MODE "Enable developer mode" OFF)
+  option(JEngine-Reformed_DEVELOPER_MODE "Enable developer mode" OFF)
 endif()
 
 # ---- Warning guard ----
@@ -17,12 +17,12 @@ endif()
 set(warning_guard "")
 if(NOT PROJECT_IS_TOP_LEVEL)
   option(
-      JEngine3D_INCLUDES_WITH_SYSTEM
-      "Use SYSTEM modifier for JEngine3D's includes, disabling warnings"
+      JEngine-Reformed_INCLUDES_WITH_SYSTEM
+      "Use SYSTEM modifier for JEngine-Reformed's includes, disabling warnings"
       ON
   )
-  mark_as_advanced(JEngine3D_INCLUDES_WITH_SYSTEM)
-  if(JEngine3D_INCLUDES_WITH_SYSTEM)
+  mark_as_advanced(JEngine-Reformed_INCLUDES_WITH_SYSTEM)
+  if(JEngine-Reformed_INCLUDES_WITH_SYSTEM)
     set(warning_guard SYSTEM)
   endif()
 endif()

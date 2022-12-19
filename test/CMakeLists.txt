@@ -2,7 +2,7 @@
 # depends on being added from it, i.e. the testing is done only from the build
 # tree and is not feasible from an install location
 
-project(JEngine3DTests LANGUAGES CXX)
+project(JEngine-ReformedTests LANGUAGES CXX)
 
 # ---- Dependencies ----
 
@@ -11,15 +11,15 @@ include(Catch)
 
 # ---- Tests ----
 
-add_executable(JEngine3D_test source/JEngine3D_test.cpp)
+add_executable(JEngine-Reformed_test source/JEngine-Reformed_test.cpp)
 target_link_libraries(
-    JEngine3D_test PRIVATE
-    JEngine3D_lib
+    JEngine-Reformed_test PRIVATE
+    JEngine-Reformed_lib
     Catch2::Catch2WithMain
 )
-target_compile_features(JEngine3D_test PRIVATE cxx_std_20)
+target_compile_features(JEngine-Reformed_test PRIVATE cxx_std_20)
 
-catch_discover_tests(JEngine3D_test)
+catch_discover_tests(JEngine-Reformed_test)
 
 # ---- End-of-file commands ----
 

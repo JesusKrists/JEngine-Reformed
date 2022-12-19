@@ -2,8 +2,8 @@
 
 #include "lib.hpp"
 
-TEST_CASE("Name is JEngine3D", "[library]")
+TEST_CASE("Name is JEngine-Reformed", "[library]")
 {
     auto const lib = library {};
-    REQUIRE(lib.name == "JEngine3D");
+    REQUIRE(lib.name == "JEngine-Reformed");
 }
