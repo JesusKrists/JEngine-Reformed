@@ -82,7 +82,7 @@ installing it, download the dependencies and generate the necessary CMake
 files by running this command in the project root:
 
 ```sh
-conan install . -b missing -pr .github/clang-cl.profile
+conan install . -b missing -pr .github/clang-cl.profile -s build_type=Debug 
 ```
 
 Note that if your conan profile does not specify the same compiler used by
