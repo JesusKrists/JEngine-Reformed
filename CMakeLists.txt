@@ -28,6 +28,8 @@ find_package(Tracy REQUIRED)
 target_link_libraries(JEngine-Reformed_lib PRIVATE fmt::fmt nanosvg::nanosvg
                                             Tracy::TracyClient)
 
+target_compile_definitions(JEngine-Reformed_lib PRIVATE TRACY_NO_INVARIANT_CHECK=1)
+
 # ---- Declare executable ----
 
 add_executable(JEngine-Reformed_exe source/main.cpp)
