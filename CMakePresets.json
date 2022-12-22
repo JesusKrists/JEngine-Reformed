@@ -108,7 +108,8 @@
         "flags-windows",
         "ci-std"
       ],
-      "generator": "Ninja",
+      "generator": "Visual Studio 16 2019",
+      "architecture": "x64",
       "hidden": true,
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
