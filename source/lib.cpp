@@ -6,5 +6,4 @@
 library::library()
     : name {fmt::format("{}", "JEngine-Reformed")}
 {
-    ZoneScoped;
 }

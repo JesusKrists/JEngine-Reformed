@@ -125,7 +125,7 @@ jobs:
 
     - name: Install dependencies - MacOS
       if: matrix.os == 'macos-12'
-      run: conan install . -b missing -pr .github/clang.profile
+      run: conan install . -b missing -pr .github/clang-mac.profile
 
     - name: Configure - Linux
       if: matrix.os == 'ubuntu-22.04'
