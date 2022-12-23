@@ -97,6 +97,7 @@ jobs:
       with: { python-version: "3.8" }
 
     - name: Install clang-16
+      if: ${{ matrix.os }} != "macos-12"
       env:
         LLVM_URL: http://apt.llvm.org/focal/
         LLVM_PKG: llvm-toolchain-focal
@@ -119,10 +120,18 @@ jobs:
         && cp .github/clang.profile "$(conan config home)/profiles/default"
         && conan install . -b missing
 
-    - name: Configure
+    - name: Configure - Linux
+      if: ${{ matrix.os }} != "macos-12"
       env: 
         C: clang-16
         CXX: clang++-16
+      run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING="${{ matrix.configuration }}"
+      
+    - name: Configure - MacOS
+      if: ${{ matrix.os }} == "macos-12"
+      env: 
+        C: clang-14
+        CXX: clang++-14
       run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING="${{ matrix.configuration }}"
 
     - name: Build
@@ -195,7 +204,7 @@ jobs:
 
     - name: Configure
       shell: pwsh
-      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0]) -DCMAKE_BUILD_TYPE:STRING="${{ matrix.configuration }}"
+      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DCMAKE_BUILD_TYPE:STRING="${{ matrix.configuration }}"
 
     - name: Build
       run: cmake --build build --config ${{ matrix.configuration }} -j 2
