@@ -16,17 +16,17 @@ include(cmake/variables.cmake)
 
 add_library(JEngine-Reformed_lib OBJECT source/lib.cpp)
 
-target_include_directories(
-  JEngine-Reformed_lib ${warning_guard}
-  PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>")
-
-target_compile_features(JEngine-Reformed_lib PUBLIC cxx_std_20)
-
 find_package(fmt REQUIRED)
 find_package(nanosvg REQUIRED)
 find_package(Tracy REQUIRED)
 target_link_libraries(JEngine-Reformed_lib PUBLIC fmt::fmt nanosvg::nanosvg
                                             Tracy::TracyClient)
+
+target_include_directories(
+  JEngine-Reformed_lib ${warning_guard}
+  PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>")
+
+target_compile_features(JEngine-Reformed_lib PUBLIC cxx_std_20)
 
 # ---- Declare executable ----
 
