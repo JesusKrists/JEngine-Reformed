@@ -97,7 +97,7 @@ jobs:
       with: { python-version: "3.8" }
 
     - name: Install clang-16
-      if: matrix.os != 'macos-12'
+      if: matrix.os == 'ubuntu-22.04'
       env:
         LLVM_URL: http://apt.llvm.org/focal/
         LLVM_PKG: llvm-toolchain-focal
@@ -118,10 +118,17 @@ jobs:
       run: pip3 install "conan<2"
         && conan profile new default
         && cp .github/clang.profile "$(conan config home)/profiles/default"
-        && conan install . -b missing
+
+    - name: Install dependencies - Linux
+      if: matrix.os == 'ubuntu-22.04'
+      run: conan install . -b missing -pr .github/clang.profile
+
+    - name: Install dependencies - MacOS
+      if: matrix.os == 'macos-12'
+      run: conan install . -b missing -pr .github/clang-14.profile
 
     - name: Configure - Linux
-      if: matrix.os != 'macos-12'
+      if: matrix.os == 'ubuntu-22.04'
       env: 
         C: clang-16
         CXX: clang++-16
