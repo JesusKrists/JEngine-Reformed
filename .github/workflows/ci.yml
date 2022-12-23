@@ -97,7 +97,7 @@ jobs:
       with: { python-version: "3.8" }
 
     - name: Install clang-16
-      if: matrix.os != "macos-12"
+      if: matrix.os != 'macos-12'
       env:
         LLVM_URL: http://apt.llvm.org/focal/
         LLVM_PKG: llvm-toolchain-focal
@@ -121,14 +121,14 @@ jobs:
         && conan install . -b missing
 
     - name: Configure - Linux
-      if: matrix.os != "macos-12"
+      if: matrix.os != 'macos-12'
       env: 
         C: clang-16
         CXX: clang++-16
       run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING="${{ matrix.configuration }}"
       
     - name: Configure - MacOS
-      if: matrix.os == "macos-12"
+      if: matrix.os == 'macos-12'
       env: 
         C: clang-14
         CXX: clang++-14
