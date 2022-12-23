@@ -25,7 +25,8 @@ target_compile_features(JEngine-Reformed_lib PUBLIC cxx_std_20)
 find_package(fmt REQUIRED)
 find_package(nanosvg REQUIRED)
 find_package(Tracy REQUIRED)
-target_link_libraries(JEngine-Reformed_lib PUBLIC fmt::fmt nanosvg::nanosvg)
+target_link_libraries(JEngine-Reformed_lib PUBLIC fmt::fmt nanosvg::nanosvg
+                                            Tracy::TracyClient)
 
 # ---- Declare executable ----
 
