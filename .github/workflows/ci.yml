@@ -121,6 +121,8 @@ jobs:
       run: cmake --preset=ci-sanitize
 
     - name: Build
+      env:
+        TRACY_NO_INVARIANT_CHECK: "1"
       run: cmake --build build/sanitize -j 2
 
     - name: Test
