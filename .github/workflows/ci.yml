@@ -125,7 +125,7 @@ jobs:
 
     - name: Install dependencies - MacOS
       if: matrix.os == 'macos-12'
-      run: conan install . -b missing -pr .github/clang-14.profile
+      run: conan install . -b missing -pr .github/clang.profile
 
     - name: Configure - Linux
       if: matrix.os == 'ubuntu-22.04'
@@ -137,8 +137,8 @@ jobs:
     - name: Configure - MacOS
       if: matrix.os == 'macos-12'
       env: 
-        C: clang-14
-        CXX: clang++-14
+        C: clang
+        CXX: clang++
       run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING="${{ matrix.configuration }}"
 
     - name: Build
