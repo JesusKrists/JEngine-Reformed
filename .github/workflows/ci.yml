@@ -108,12 +108,6 @@ jobs:
         && sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-16 140
         && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 140
 
-    - name: Install LLVM and Clang
-      if: matrix.os == 'macos-12'
-      uses: KyleMayes/install-llvm-action@v1.6.1
-      with:
-        version: "14.0"
-
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
 
@@ -127,7 +121,7 @@ jobs:
 
     - name: Install dependencies - Linux
       if: matrix.os == 'ubuntu-22.04'
-      run: conan install . -b missing -pr .github/clang.profile
+      run: conan install . -b missing -pr .github/clang-16.profile
 
     - name: Install dependencies - MacOS
       if: matrix.os == 'macos-12'
