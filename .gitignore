@@ -1,6 +1,7 @@
 .idea/
 .vs/
-.vscode/
+.vscode/*
+!.vscode/tasks.json
 build/
 cmake/open-cpp-coverage.cmake
 cmake-build-*/
