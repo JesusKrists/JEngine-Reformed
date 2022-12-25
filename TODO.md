@@ -5,3 +5,9 @@
 - Add benchmarking
 - _GLIBCXX_DEBUG ???
 - Tracy heap profiling ???
+- CCache
+- LTO
+- Precompiled headers
+- Unity build
+- Native optimizations ???
+- Build time measurements (-ftime-trace) ???
