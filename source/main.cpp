@@ -3,11 +3,15 @@
 
 #include "lib.hpp"
 
+struct Abc
+{
+};
+
 auto main() -> int
 {
-    auto const lib = library {};
-    auto const message = "Hello from " + lib.name + "!";
-    std::cout << message << '\n';
+    auto const LIB = Library{};
+    auto const MESSAGE = "Hello from " + LIB.name + "!";
+    std::cout << MESSAGE << '\n';
 
     return 0;
 }

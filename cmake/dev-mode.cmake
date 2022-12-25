@@ -6,10 +6,9 @@ if(BUILD_TESTING)
 endif()
 
 add_custom_target(
-    run-exe
-    COMMAND JEngine-Reformed_exe
-    VERBATIM
-)
+  run-exe
+  COMMAND JEngine-Reformed_exe
+  VERBATIM)
 add_dependencies(run-exe JEngine-Reformed_exe)
 
 option(BUILD_MCSS_DOCS "Build documentation using Doxygen and m.css" OFF)

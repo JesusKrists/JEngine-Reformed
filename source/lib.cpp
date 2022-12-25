@@ -3,8 +3,8 @@
 #include <Tracy.hpp>
 #include <fmt/core.h>
 
-library::library()
-    : name {fmt::format("{}", "JEngine-Reformed")}
+Library::Library()
+    : name{fmt::format("{}", "JEngine-Reformed")}
 {
     ZoneScoped;
 }

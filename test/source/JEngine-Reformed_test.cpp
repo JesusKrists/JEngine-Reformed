@@ -4,6 +4,6 @@
 
 TEST_CASE("Name is JEngine-Reformed", "[library]")
 {
-    auto const lib = library {};
-    REQUIRE(lib.name == "JEngine-Reformed");
+    auto const LIB = Library{};
+    REQUIRE(LIB.name == "JEngine-Reformed");
 }
