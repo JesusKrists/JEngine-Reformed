@@ -3,10 +3,6 @@
 
 #include "lib.hpp"
 
-struct Abc
-{
-};
-
 auto main() -> int
 {
     auto const LIB = Library{};
