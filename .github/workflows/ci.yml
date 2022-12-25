@@ -9,6 +9,7 @@ on:
     branches:
     - master
 
+# TODO: Add sonarcloud job
 jobs:
   lint:
     runs-on: ubuntu-22.04
