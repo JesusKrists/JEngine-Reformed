@@ -58,9 +58,13 @@ jobs:
       run: cmake --preset=ci-coverage
 
     - name: Build
+      env:
+        TRACY_NO_INVARIANT_CHECK: "1"
       run: cmake --build build/coverage -j 2
 
     - name: Test
+      env:
+        TRACY_NO_INVARIANT_CHECK: "1"
       working-directory: build/coverage
       run: ctest --output-on-failure -j 2
 

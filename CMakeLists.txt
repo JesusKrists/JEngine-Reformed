@@ -4,7 +4,7 @@ include(cmake/prelude.cmake)
 
 project(
   JEngine-Reformed
-  VERSION 0.1.0
+  VERSION 0.0.1
   DESCRIPTION "The next generation of JEngine"
   HOMEPAGE_URL "https://github.com/JesusKrists/JEngine-Reformed"
   LANGUAGES CXX)
@@ -26,7 +26,7 @@ find_package(fmt REQUIRED)
 find_package(nanosvg REQUIRED)
 find_package(Tracy REQUIRED)
 target_link_libraries(JEngine-Reformed_lib PUBLIC fmt::fmt nanosvg::nanosvg
-                                            Tracy::TracyClient)
+                                                  Tracy::TracyClient)
 
 # ---- Declare executable ----
 
@@ -51,7 +51,8 @@ if(NOT JEngine-Reformed_DEVELOPER_MODE)
   return()
 elseif(NOT PROJECT_IS_TOP_LEVEL)
   message(
-    AUTHOR_WARNING "Developer mode is intended for developers of JEngine-Reformed")
+    AUTHOR_WARNING
+      "Developer mode is intended for developers of JEngine-Reformed")
 endif()
 
 include(cmake/dev-mode.cmake)
