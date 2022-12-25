@@ -77,21 +77,8 @@
       }
     },
     {
-      "name": "ci-linux",
+      "name": "ci-unix",
       "generator": "Ninja",
-      "hidden": true,
-      "inherits": [
-        "flags-unix",
-        "ci-std"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
-      }
-    },
-    {
-      "name": "ci-mac",
-      "generator": "Unix Makefiles",
       "hidden": true,
       "inherits": [
         "flags-unix",
@@ -118,7 +105,7 @@
     {
       "name": "coverage-unix",
       "binaryDir": "${sourceDir}/build/coverage",
-      "inherits": "ci-linux",
+      "inherits": "ci-unix",
       "hidden": true,
       "cacheVariables": {
         "ENABLE_COVERAGE": "ON",
@@ -144,7 +131,7 @@
       "name": "ci-sanitize",
       "binaryDir": "${sourceDir}/build/sanitize",
       "inherits": [
-        "ci-linux",
+        "ci-unix",
         "dev-mode",
         "conan"
       ],
@@ -163,7 +150,7 @@
       "name": "ci-macos",
       "inherits": [
         "ci-build",
-        "ci-mac",
+        "ci-unix",
         "dev-mode",
         "conan"
       ]
@@ -172,7 +159,7 @@
       "name": "ci-ubuntu",
       "inherits": [
         "ci-build",
-        "ci-linux",
+        "ci-unix",
         "clang-tidy",
         "conan",
         "cppcheck",
