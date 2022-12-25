@@ -26,15 +26,9 @@ if(NOT PROJECT_IS_TOP_LEVEL)
   endif()
 endif()
 
+# Extra GCC warnings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS
-      ${CMAKE_CXX_FLAGS}
-      -Wmisleading-indentation # warn if indentation implies blocks where blocks
-                               # do not exist
-      -Wduplicated-cond # warn if if / else chain has duplicated conditions
-      -Wduplicated-branches # warn if if / else branches have duplicated code
-      -Wlogical-op # warn about logical operations being used where bitwise were
-                   # probably wanted
-      -Wuseless-cast # warn if you perform a cast to the same type
+      "${CMAKE_CXX_FLAGS} -Wmisleading-indentation -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast"
   )
 endif()

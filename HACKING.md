@@ -48,6 +48,7 @@ the project:
                 "conan",
                 "cppcheck",
                 "clang-tidy",
+                "Ccache",
                 "ci-win64"
             ],
             "cacheVariables": {
