@@ -5,7 +5,7 @@ from conan.tools.build import check_min_cppstd
 
 class Recipe(ConanFile):
     name = "JEngine-Reformed"
-    version = "0.0.1"
+    version = "latest"
     description = "The next generation of JEngine"
     homepage = "https://jesuskrists.github.io/JEngine-Reformed/"
     url = "https://github.com/JesusKrists/JEngine-Reformed"
@@ -16,10 +16,10 @@ class Recipe(ConanFile):
     default_options = {"tracy:shared": True, "tracy:callstack": True}
 
     def source(self):
-        self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git")
+        self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git src")
 
     def layout(self):
-        cmake_layout(self, src_folder="source")
+        cmake_layout(self)
         self.folders.generators = "conan"
 
     def requirements(self):
@@ -40,7 +40,7 @@ class Recipe(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure()
+        cmake.configure(build_script_folder="src")
         cmake.build()
 
     def package(self):
