@@ -14,3 +14,5 @@
 - clang-cl in CI
 - MSVC control flow guard ???
 - clazy if using Qt
+- debug checked itertators
+_FORTIFY_SOURCE ???
