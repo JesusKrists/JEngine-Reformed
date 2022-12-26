@@ -1,6 +1,6 @@
 # JEngine-Reformed
 
-This is the JEngine-Reformed project.
+The next generation of JEngine.
 
 [![ci](https://github.com/JesusKrists/JEngine-Reformed/actions/workflows/ci.yml/badge.svg)](https://github.com/JesusKrists/JEngine-Reformed/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/JesusKrists/JEngine-Reformed/branch/master/graph/badge.svg?token=vfzC0Pdafu)](https://codecov.io/gh/JesusKrists/JEngine-Reformed)

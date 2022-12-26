@@ -49,7 +49,7 @@ the project:
                 "cppcheck",
                 "clang-tidy",
                 "Ccache",
-                "ci-win64"
+                "ci-<os>"
             ],
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
