@@ -16,7 +16,12 @@
         {
             "label": "Run JEngine-Reformed with Dr. Memory",
             "type": "shell",
-            "command": "drmemory -- build/dev/JEngine-Reformed.exe"
+            "command": "drmemory -exit_code_if_errors 3 -- build/dev/JEngine-Reformed.exe"
+        },
+        {
+            "label": "Run JEngine-Reformed",
+            "type": "shell",
+            "command": "cmake --build build/dev --target run-exe"
         }
     ]
 }
