@@ -10,3 +10,6 @@
 - Unity build
 - Native optimizations ???
 - Build time measurements (-ftime-trace) ???
+- MSVC /analyze
+- clang-cl in CI
+- MSVC control flow guard ???
