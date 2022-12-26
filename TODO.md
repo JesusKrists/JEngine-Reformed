@@ -13,3 +13,4 @@
 - MSVC /analyze
 - clang-cl in CI
 - MSVC control flow guard ???
+- clazy if using Qt
