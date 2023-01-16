@@ -9,6 +9,11 @@ project(
   HOMEPAGE_URL "https://github.com/JesusKrists/JEngine-Reformed"
   LANGUAGES CXX)
 
+# We have extra warnings enabled, which clang does not support
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+  set(CMAKE_CXX_FLAGS "-Wno-unknown-warning-option ${CMAKE_CXX_FLAGS}")
+endif()
+
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 
