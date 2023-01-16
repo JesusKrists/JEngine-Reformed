@@ -11,7 +11,7 @@
         {
             "label": "Install conan dependencies for development - Linux",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/clang-16.profile -s build_type=Debug"
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug"
         },
         {
             "label": "Run JEngine-Reformed with Dr. Memory",

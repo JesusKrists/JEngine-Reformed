@@ -27,11 +27,11 @@ target_include_directories(
 
 target_compile_features(JEngine-Reformed_lib PUBLIC cxx_std_20)
 
-find_package(fmt REQUIRED)
-find_package(nanosvg REQUIRED)
+find_package(spdlog REQUIRED)
 find_package(Tracy REQUIRED)
-target_link_libraries(JEngine-Reformed_lib PUBLIC fmt::fmt nanosvg::nanosvg
-                                                  Tracy::TracyClient)
+find_package(nanosvg REQUIRED)
+target_link_libraries(JEngine-Reformed_lib
+                      PUBLIC spdlog::spdlog Tracy::TracyClient nanosvg::nanosvg)
 
 # ---- Declare executable ----
 

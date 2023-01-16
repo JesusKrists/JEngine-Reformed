@@ -94,6 +94,14 @@ files by running this command in the project root:
 conan install . -b missing -pr .github/clang-cl.profile -s build_type=Debug 
 ```
 
+To remove all cached packages, run the following command
+
+```sh
+conan remove -f "*"
+```
+
+This can save you some trouble later if you have some kind of package issues
+
 Note that if your conan profile does not specify the same compiler used by
 CMake, then that could potentially cause issues. See the [conan docs][profile]
 on profiles.
