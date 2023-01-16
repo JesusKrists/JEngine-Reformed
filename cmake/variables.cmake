@@ -25,10 +25,3 @@ if(NOT PROJECT_IS_TOP_LEVEL)
     set(warning_guard SYSTEM)
   endif()
 endif()
-
-# Extra GCC warnings
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_CXX_FLAGS
-      "${CMAKE_CXX_FLAGS} -Wmisleading-indentation -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast"
-  )
-endif()
