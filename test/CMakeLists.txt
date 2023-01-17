@@ -12,7 +12,7 @@ include(Catch)
 # ---- Tests ----
 
 add_executable(JEngine-Reformed_test source/JEngine-Reformed_test.cpp)
-target_link_libraries(JEngine-Reformed_test PRIVATE JEngine-Reformed_lib
+target_link_libraries(JEngine-Reformed_test PRIVATE JEngine-Reformed::lib
                                                     Catch2::Catch2WithMain)
 target_compile_features(JEngine-Reformed_test PRIVATE cxx_std_20)
 

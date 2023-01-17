@@ -4,14 +4,24 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Install conan dependencies for development - Windows",
+            "label": "Install conan dependencies for development - Windows debug",
             "type": "shell",
             "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Debug"
         },
         {
-            "label": "Install conan dependencies for development - Linux",
+            "label": "Install conan dependencies for development - Windows release",
+            "type": "shell",
+            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Debug"
+        },
+        {
+            "label": "Install conan dependencies for development - Linux debug",
             "type": "shell",
             "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug"
+        },
+        {
+            "label": "Install conan dependencies for development - Linux release",
+            "type": "shell",
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Release"
         },
         {
             "label": "Run JEngine-Reformed with Dr. Memory",

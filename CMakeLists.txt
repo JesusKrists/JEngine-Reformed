@@ -17,32 +17,17 @@ endif()
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 
-# ---- Declare library ----
-
-add_library(JEngine-Reformed_lib OBJECT source/lib.cpp)
-
-target_include_directories(
-  JEngine-Reformed_lib ${warning_guard}
-  PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>")
-
-target_compile_features(JEngine-Reformed_lib PUBLIC cxx_std_20)
-
 find_package(spdlog REQUIRED)
 find_package(Tracy REQUIRED)
 find_package(nanosvg REQUIRED)
-target_link_libraries(JEngine-Reformed_lib
-                      PUBLIC spdlog::spdlog Tracy::TracyClient nanosvg::nanosvg)
+
+# ---- Declare library ----
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/source/JEngine-Reformed_lib.cmake)
 
 # ---- Declare executable ----
 
-add_executable(JEngine-Reformed_exe source/main.cpp)
-add_executable(JEngine-Reformed::exe ALIAS JEngine-Reformed_exe)
-
-set_property(TARGET JEngine-Reformed_exe PROPERTY OUTPUT_NAME JEngine-Reformed)
-
-target_compile_features(JEngine-Reformed_exe PRIVATE cxx_std_20)
-
-target_link_libraries(JEngine-Reformed_exe PRIVATE JEngine-Reformed_lib)
+include(${CMAKE_CURRENT_SOURCE_DIR}/source/JEngine-Reformed_exe.cmake)
 
 # ---- Install rules ----
 
