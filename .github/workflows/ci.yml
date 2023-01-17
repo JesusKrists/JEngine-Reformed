@@ -101,9 +101,9 @@ jobs:
         && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
         && sudo apt-get update -qq
         && sudo apt-get install -y -q clang-16 clang-tidy-16
-        && sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-16 100
-        && sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 100
-        && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 100
+        && sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-16 200
+        && sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 200
+        && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 200
 
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
@@ -171,7 +171,7 @@ jobs:
         && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
         && sudo apt-get update -qq
         && sudo apt-get install -y -q clang-tidy-16
-        && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 100
+        && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 200
         && sudo apt-get install cppcheck -y -q
       
     - name: Install ninja-build tool
