@@ -109,6 +109,8 @@ jobs:
       if: matrix.os == 'macos-12'
       run: brew install llvm@15
         && cd /usr/local/opt/llvm/bin
+        && rm clang
+        && rm clang++
         && ln -s clang-15 clang
         && ln -s clang++-15 clang++
         && echo "/usr/local/opt/llvm/bin" >> $GITHUB_PATH
