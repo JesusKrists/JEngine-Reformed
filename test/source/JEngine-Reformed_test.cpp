@@ -1,18 +1,18 @@
 #include <catch2/catch_test_macros.hpp>
 
-#ifdef _MSC_VER
-#    pragma warning(push)
-#    pragma warning(disable : 4365)
-#endif
+// #ifdef _MSC_VER
+// #    pragma warning(push)
+// #    pragma warning(disable : 4365)
+// #endif
 
 #include <spdlog/sinks/ansicolor_sink.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
-#ifdef _MSC_VER
-#    pragma warning(pop)
-#endif
+// #ifdef _MSC_VER
+// #    pragma warning(pop)
+// #endif
 
 ////////////////////////////////////////
 

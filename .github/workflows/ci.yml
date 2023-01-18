@@ -92,7 +92,7 @@ jobs:
       uses: actions/setup-python@v4
       with: { python-version: "3.8" }
 
-    - name: Install clang-16
+    - name: Install clang-16 - Linux
       if: matrix.os == 'ubuntu-22.04'
       env:
         LLVM_URL: http://apt.llvm.org/focal/
@@ -104,6 +104,14 @@ jobs:
         && sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-16 200
         && sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 200
         && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 200
+
+    - name: Install clang-15 - Mac
+      if: matrix.os == 'macos-12'
+      run: brew install llvm@15
+        && cd /usr/local/bin
+        && ln -s clang-15 clang
+        && ln -s clang++-15 clang++
+        && echo "/usr/local/bin" >> $GITHUB_PATH
 
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
