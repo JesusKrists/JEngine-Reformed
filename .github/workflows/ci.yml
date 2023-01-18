@@ -108,10 +108,10 @@ jobs:
     - name: Install clang-15 - Mac
       if: matrix.os == 'macos-12'
       run: brew install llvm@15
-        && cd /usr/local/bin
+        && cd /usr/local/opt/llvm/bin
         && ln -s clang-15 clang
         && ln -s clang++-15 clang++
-        && echo "/usr/local/bin" >> $GITHUB_PATH
+        && echo "/usr/local/opt/llvm/bin" >> $GITHUB_PATH
 
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
