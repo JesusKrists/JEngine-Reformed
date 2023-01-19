@@ -104,6 +104,10 @@ jobs:
         && sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-16 200
         && sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 200
 
+    - name: Install gcc-11 - Mac
+      if: matrix.os == 'ubuntu-22.04'
+      run: brew install gcc@11
+
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
 
