@@ -117,12 +117,11 @@ jobs:
       if: matrix.os == 'ubuntu-22.04'
       run: conan install . -b missing -pr .github/clang-16.profile
 
-    - name: Install dependencies - MacOS
+    - name: Install dependencies - Mac
       if: matrix.os == 'macos-12'
-      env:
-        CC: gcc
-        CXX: g++
-      run: conan install . -b missing -pr .github/gcc-mac.profile
+      run: export C=$(brew --prefix gcc)@11/bin/gcc-11
+        && export CXX=$(brew --prefix gcc)@11/bin/g++-11
+        && conan install . -b missing -pr .github/gcc-mac.profile
       
     - name: Configure - Linux
       if: matrix.os == 'ubuntu-22.04'
@@ -131,12 +130,11 @@ jobs:
         CXX: clang++
       run: cmake --preset=ci-sanitize
 
-    - name: Configure - Linux
+    - name: Configure - Mac
       if: matrix.os == 'macos-12'
-      env:
-        CC: gcc
-        CXX: g++
-      run: cmake --preset=ci-sanitize
+      run: export C=$(brew --prefix gcc)@11/bin/gcc-11
+        && export CXX=$(brew --prefix gcc)@11/bin/g++-11
+        && cmake --preset=ci-sanitize
 
     - name: Build
       env:
