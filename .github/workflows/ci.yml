@@ -119,8 +119,8 @@ jobs:
 
     - name: Install dependencies - MacOS
       if: matrix.os == 'macos-12'
-      run: export CXX=$(brew --prefix gcc)/bin/g++-12
-        && export C=$(brew --prefix gcc)/bin/gcc-12
+      run: export CXX=$(brew --prefix gcc)/bin/g++-11
+        && export C=$(brew --prefix gcc)/bin/gcc-11
         && conan install . -b missing -pr .github/gcc-mac.profile
       
     - name: Configure - Linux
@@ -132,8 +132,8 @@ jobs:
 
     - name: Configure - Linux
       if: matrix.os == 'macos-12'
-      run: export CXX=$(brew --prefix gcc)/bin/g++-12
-        && export C=$(brew --prefix gcc)/bin/gcc-12
+      run: export CXX=$(brew --prefix gcc)/bin/g++-11
+        && export C=$(brew --prefix gcc)/bin/gcc-11
         && cmake --preset=ci-sanitize
 
     - name: Build
