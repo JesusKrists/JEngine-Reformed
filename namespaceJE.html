@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JEngine-Reformed</title>
+  <title>JE namespace | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -34,7 +34,7 @@
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
             <li><a href="annotated.html">Classes</a></li>
-            <li><a href="files.html" id="m-navbar-current">Files</a></li>
+            <li><a href="files.html">Files</a></li>
             <li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path" />
             </svg></a></li>
@@ -48,47 +48,59 @@
   <div class="m-container m-container-inflatable">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <h1>Files</h1>
-        <ul class="m-doc">
-          <li class="m-doc-collapsible">
-            <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_49e56c817e5e54854c35e136979f97ca.html" class="m-doc">docs</a> <span class="m-doc"><span></span></span>
-            <ul class="m-doc">
-              <li>dir <a href="dir_ef3b2545113449f8f25e623a543d64e3.html" class="m-doc">pages</a> <span class="m-doc"><span></span></span></li>
-            </ul>
-          </li>
-          <li class="m-doc-collapsible">
-            <a href="#" onclick="return toggle(this)">dir</a> <a href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html" class="m-doc">source</a> <span class="m-doc"><span></span></span>
-            <ul class="m-doc">
-              <li>file <a href="Assert_8hpp.html" class="m-doc">Assert.hpp</a> <span class="m-doc"><span></span></span></li>
-              <li>file <a href="Base_8hpp.html" class="m-doc">Base.hpp</a> <span class="m-doc"><span></span></span></li>
-              <li>file <a href="lib_8cpp.html" class="m-doc">lib.cpp</a> <span class="m-doc"><span></span></span></li>
-              <li>file <a href="lib_8hpp.html" class="m-doc">lib.hpp</a> <span class="m-doc"><span></span></span></li>
-              <li>file <a href="main_8cpp.html" class="m-doc">main.cpp</a> <span class="m-doc"><span></span></span></li>
-            </ul>
-          </li>
-          <li>file <a href="BUILDING_8md.html" class="m-doc">BUILDING.md</a> <span class="m-doc"><span></span></span></li>
-          <li>file <a href="CODE__OF__CONDUCT_8md.html" class="m-doc">CODE_OF_CONDUCT.md</a> <span class="m-doc"><span></span></span></li>
-          <li>file <a href="CONTRIBUTING_8md.html" class="m-doc">CONTRIBUTING.md</a> <span class="m-doc"><span></span></span></li>
-          <li>file <a href="about_8dox.html" class="m-doc">about.dox</a> <span class="m-doc"><span></span></span></li>
-          <li>file <a href="HACKING_8md.html" class="m-doc">HACKING.md</a> <span class="m-doc"><span></span></span></li>
-          <li>file <a href="README_8md.html" class="m-doc">README.md</a> <span class="m-doc"><span></span></span></li>
-        </ul>
-        <script>
-        function toggle(e) {
-            e.parentElement.className = e.parentElement.className == 'm-doc-collapsible' ?
-                'm-doc-expansible' : 'm-doc-collapsible';
-            return false;
-        }
-        /* Collapse all nodes marked as such. Doing it via JS instead of
-           directly in markup so disabling it doesn't harm usability. The list
-           is somehow regenerated on every iteration and shrinks as I change
-           the classes. It's not documented anywhere and I'm not sure if this
-           is the same across browsers, so I am going backwards in that list to
-           be sure. */
-        var collapsed = document.getElementsByClassName("collapsed");
-        for(var i = collapsed.length - 1; i >= 0; --i)
-            collapsed[i].className = 'm-doc-expansible';
-        </script>
+        <h1>
+          JE <span class="m-thin">namespace</span>
+        </h1>
+        <p><span></span></p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#func-members">Functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;bool ENABLED = false, bool BREAK = true&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a2fbe25c924467796549b5fa2f9b0ab85" class="m-doc">Assert</a>(</span><span class="m-doc-wrap">const bool CHECK,
+              const std::string_view ASSERTION,
+              const std::source_location LOCATION = std::source_location::current()) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9ada2bd0b2ec72dd0c53033cf4e478a0" class="m-doc">DEBUGBREAK</a>(</span><span class="m-doc-wrap">) -&gt; int</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a2fbe25c924467796549b5fa2f9b0ab85"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Assert_8hpp.html">&lt;source/Assert.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;bool ENABLED = false, bool BREAK = true&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2fbe25c924467796549b5fa2f9b0ab85" class="m-doc-self">Assert</a>(</span><span class="m-doc-wrap">const bool CHECK,
+              const std::string_view ASSERTION,
+              const std::source_location LOCATION = std::source_location::current()) -&gt; bool</span></span>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a9ada2bd0b2ec72dd0c53033cf4e478a0"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9ada2bd0b2ec72dd0c53033cf4e478a0" class="m-doc-self">DEBUGBREAK</a>(</span><span class="m-doc-wrap">) -&gt; int</span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Base_8hpp.html">&lt;source/Base.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+        </section>
       </div>
     </div>
   </div>
