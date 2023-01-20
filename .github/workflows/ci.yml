@@ -79,6 +79,10 @@ jobs:
 
   sanitize:
     needs: [lint]
+    strategy:
+      matrix:
+        compiler: ["gcc-12", "clang-16"]
+
     runs-on: ubuntu-22.04
 
     steps:
@@ -89,6 +93,7 @@ jobs:
       with: { python-version: "3.8" }
 
     - name: Install clang-16
+      if: matrix.compiler == 'clang-16'
       env:
         LLVM_URL: http://apt.llvm.org/focal/
         LLVM_PKG: llvm-toolchain-focal
@@ -96,8 +101,10 @@ jobs:
         && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
         && sudo apt-get update -qq
         && sudo apt-get install -y -q clang-16
-        && sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-16 200
-        && sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 200
+
+    - name: Install gcc-12
+      if: matrix.compiler == 'gcc-12'
+      run: sudo apt-get install -y -q gcc-12
 
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
@@ -107,12 +114,20 @@ jobs:
 
     - name: Install dependencies
       run: pip3 install "conan<2"
-        && conan install . -b missing -pr .github/clang-16.profile
+        && conan install . -b missing -pr .github/${{ matrix.compiler }}.profile
       
-    - name: Configure
+    - name: Configure - clang-16
+      if: matrix.compiler == 'clang-16'
       env: 
-        C: clang
-        CXX: clang++
+        C: clang-16
+        CXX: clang++-16
+      run: cmake --preset=ci-sanitize
+      
+    - name: Configure - gcc-12
+      if: matrix.compiler == 'gcc-12'
+      env: 
+        C: gcc-12
+        CXX: g++-12
       run: cmake --preset=ci-sanitize
 
     - name: Build
