@@ -102,10 +102,6 @@ jobs:
         && sudo apt-get update -qq
         && sudo apt-get install -y -q clang-16
 
-    - name: Install gcc-12
-      if: matrix.compiler == 'gcc-12'
-      run: sudo apt-get install -y -q gcc-12
-
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
 
