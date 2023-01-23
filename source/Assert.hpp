@@ -1,10 +1,8 @@
 #pragma once
 
-#include <iostream>
 #include <source_location>
-#include <string>
 
-#include "Base.hpp"
+#include "Logger.hpp"
 
 namespace JE
 {
@@ -17,10 +15,12 @@ inline auto Assert(const bool CHECK,
 {
     if constexpr (ENABLED) {
         if (!CHECK) {
-            std::cout << "Assertion `" << ASSERTION << "` in `"
-                      << LOCATION.function_name() << "` at "
-                      << LOCATION.file_name() << ":" << LOCATION.line() << ":"
-                      << LOCATION.column() << " failed!\n";
+            EngineLogger()->error("Assertion `{}` in `{}` at {}:{}:{} failed!",
+                                  ASSERTION,
+                                  LOCATION.function_name(),
+                                  LOCATION.file_name(),
+                                  LOCATION.line(),
+                                  LOCATION.column());
 
             if constexpr (BREAK) {
                 DEBUGBREAK();
@@ -39,5 +39,5 @@ inline auto Assert(const bool CHECK,
 
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define ASSERT(check) \
-    JE::Assert<JE_ASSERTS_ENABLED, JE_ASSERT_BREAK_ON_FAIL>( \
+    JE::Assert<JE::ASSERTS_ENABLED, JE_ASSERT_BREAK_ON_FAIL>( \
         check, JE_STRINGIFY_MACRO(check))
