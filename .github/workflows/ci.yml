@@ -81,7 +81,7 @@ jobs:
     needs: [lint]
     strategy:
       matrix:
-        compiler: ["gcc-12", "clang-16"]
+        compiler: [gcc-12, clang-16]
 
     runs-on: ubuntu-22.04
 
@@ -149,7 +149,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04, windows-2022]
-        configuration: ["Debug", "Release"]
+        configuration: [Debug, Release]
 
     runs-on: ${{ matrix.os }}
 
@@ -186,7 +186,7 @@ jobs:
         && sudo apt-get install -y -q libxml2-utils libz3-dev libtinyxml2-dev libpcre3-dev
         && sudo mkdir -p ${{ env.CPPCHECK_BUILD }}
         && git clone --branch 2.9.3 https://github.com/danmar/cppcheck.git ${{ env.CPPCHECK_SRC }}
-        && cmake -S ${{ env.CPPCHECK_SRC }} -B ${{ env.CPPCHECK_BUILD }} -G "Unix Makefiles" -DHAVE_RULES=On -DBUILD_GUI=Off
+        && cmake -S ${{ env.CPPCHECK_SRC }} -B ${{ env.CPPCHECK_BUILD }} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release -DHAVE_RULES=On -DBUILD_GUI=Off
         && cmake --build ${{ env.CPPCHECK_BUILD }} -j
         && sudo cmake --install ${{ env.CPPCHECK_BUILD }}
 
@@ -206,7 +206,7 @@ jobs:
 
     - name: Configure
       shell: pwsh
-      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DCMAKE_BUILD_TYPE:STRING="${{ matrix.configuration }}"
+      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
     - name: Build
       run: cmake --build build --config ${{ matrix.configuration }} -j 2
