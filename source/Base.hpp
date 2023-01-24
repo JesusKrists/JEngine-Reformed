@@ -39,4 +39,11 @@ constexpr auto EnumToInt(const T ENUM_VALUE) -> std::int32_t
     return static_cast<std::int32_t>(ENUM_VALUE);
 }
 
+template<typename T>
+constexpr auto EnumToSizeT(const T ENUM_VALUE) -> std::size_t
+{
+    static_assert(std::is_enum_v<T>, "Can only be used with enum types");
+    return static_cast<std::size_t>(ENUM_VALUE);
+}
+
 }  // namespace JE

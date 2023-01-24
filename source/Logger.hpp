@@ -46,10 +46,10 @@ struct JEngineLoggers
         spdlog::set_pattern("[%T] [%l] %n: %v");
 
         if constexpr (JE::PLATFORM_UNIX) {
-            m_logSinks[EnumToInt(SpdlogSinks::CONSOLE_SINK)] =
+            m_logSinks[EnumToSizeT(SpdlogSinks::CONSOLE_SINK)] =
                 std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
         } else if constexpr (JE::PLATFORM_WINDOWS) {
-            m_logSinks[EnumToInt(SpdlogSinks::CONSOLE_SINK)] =
+            m_logSinks[EnumToSizeT(SpdlogSinks::CONSOLE_SINK)] =
                 std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         }
 
@@ -61,19 +61,19 @@ struct JEngineLoggers
             std::localtime(&IN_TIME_T),  // NOLINT(concurrency-mt-unsafe)
             "%Y-%m-%d %X");
 
-        m_logSinks[EnumToInt(SpdlogSinks::FILE_SINK)] =
+        m_logSinks[EnumToSizeT(SpdlogSinks::FILE_SINK)] =
             std::make_shared<spdlog::sinks::basic_file_sink_mt>(
                 "JEngine3D_" + datetime.str() + ".log", true);
 
-        m_logSinks[EnumToInt(SpdlogSinks::CONSOLE_SINK)]->set_pattern(
+        m_logSinks[EnumToSizeT(SpdlogSinks::CONSOLE_SINK)]->set_pattern(
             "%^[%T] [%l] %n: %v%$");
-        m_logSinks[EnumToInt(SpdlogSinks::FILE_SINK)]->set_pattern(
+        m_logSinks[EnumToSizeT(SpdlogSinks::FILE_SINK)]->set_pattern(
             "[%T] [%l] %n: %v");
 
-        m_spdlogLoggers[EnumToInt(SpdlogLoggers::JENGINE_LOGGER)] =
+        m_spdlogLoggers[EnumToSizeT(SpdlogLoggers::JENGINE_LOGGER)] =
             std::make_shared<spdlog::logger>(
                 "JEngine", std::begin(m_logSinks), std::end(m_logSinks));
-        m_spdlogLoggers[EnumToInt(SpdlogLoggers::APP_LOGGER)] =
+        m_spdlogLoggers[EnumToSizeT(SpdlogLoggers::APP_LOGGER)] =
             std::make_shared<spdlog::logger>(
                 "App", std::begin(m_logSinks), std::end(m_logSinks));
 
@@ -93,8 +93,9 @@ struct JEngineLoggers
         }
     }
 
-    std::array<spdlog::sink_ptr, EnumToInt(SpdlogSinks::COUNT)> m_logSinks;
-    std::array<std::shared_ptr<spdlog::logger>, EnumToInt(SpdlogLoggers::COUNT)>
+    std::array<spdlog::sink_ptr, EnumToSizeT(SpdlogSinks::COUNT)> m_logSinks;
+    std::array<std::shared_ptr<spdlog::logger>,
+               EnumToSizeT(SpdlogLoggers::COUNT)>
         m_spdlogLoggers;
 };
 
@@ -106,13 +107,13 @@ inline const JEngineLoggers
 
 inline auto EngineLogger() -> std::shared_ptr<spdlog::logger>
 {
-    return detail::LOGGERS.m_spdlogLoggers[EnumToInt(
+    return detail::LOGGERS.m_spdlogLoggers[EnumToSizeT(
         detail::JEngineLoggers::SpdlogLoggers::JENGINE_LOGGER)];
 }
 
 inline auto AppLogger() -> std::shared_ptr<spdlog::logger>
 {
-    return detail::LOGGERS.m_spdlogLoggers[EnumToInt(
+    return detail::LOGGERS.m_spdlogLoggers[EnumToSizeT(
         detail::JEngineLoggers::SpdlogLoggers::APP_LOGGER)];
 }
 

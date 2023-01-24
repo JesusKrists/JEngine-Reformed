@@ -29,6 +29,11 @@ elseif(UNIX)
   endif()
 endif()
 
+if(MSVC)
+  target_compile_definitions(JEngine-Reformed_lib
+                             PUBLIC _CRT_SECURE_NO_WARNINGS)
+endif()
+
 target_compile_definitions(
   JEngine-Reformed_lib
   PUBLIC JE_PLATFORM_WINDOWS_VALUE=${JE_PLATFORM_WINDOWS_VALUE})
