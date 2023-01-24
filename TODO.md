@@ -16,4 +16,3 @@
 - clazy if using Qt
 - debug checked itertators
 - _FORTIFY_SOURCE ???
-- install latest version of cppcheck in CI

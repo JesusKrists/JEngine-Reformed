@@ -160,7 +160,7 @@ jobs:
       if: matrix.os == 'windows-2022'
       uses: seanmiddleditch/gha-setup-vsdevenv@v4
 
-    - name: Install static analyzers
+    - name: Install clang-tidy-16
       if: matrix.os == 'ubuntu-22.04'
       env:
         LLVM_URL: http://apt.llvm.org/focal/
@@ -170,13 +170,25 @@ jobs:
         && sudo apt-get update -qq
         && sudo apt-get install -y -q clang-tidy-16
         && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-16 200
-        && sudo apt-get install cppcheck -y -q
       
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
 
     - name: Install CMake
       uses: jwlawson/actions-setup-cmake@v1.13.0
+
+    - name: Build cppcheck 2.9 - Linux
+      if: matrix.os == 'ubuntu-22.04'
+      env:
+        CPPCHECK_BUILD: /home/cppcheck/build
+        CPPCHECK_SRC: /home/cppcheck/cppcheck-src
+      run: sudo apt-get purge --auto-remove cppcheck
+        && sudo apt-get install -y -q libxml2-utils libz3-dev libtinyxml2-dev libpcre3-dev
+        && sudo mkdir -p ${{ env.CPPCHECK_BUILD }}
+        && git clone --branch 2.9.3 https://github.com/danmar/cppcheck.git ${{ env.CPPCHECK_SRC }}
+        && cmake -S ${{ env.CPPCHECK_SRC }} -B ${{ env.CPPCHECK_BUILD }} -G "Unix Makefiles" -DHAVE_RULES=On -DBUILD_GUI=Off
+        && cmake --build ${{ env.CPPCHECK_BUILD }} -j
+        && sudo cmake --install ${{ env.CPPCHECK_BUILD }}
 
     - name: Install Python
       uses: actions/setup-python@v4
