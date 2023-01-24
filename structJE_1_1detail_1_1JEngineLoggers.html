@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>source/Base.hpp file | JEngine-Reformed</title>
+  <title>JE::detail::JEngineLoggers struct | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,7 +49,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a>/</span>Base.hpp <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceJE_1_1detail.html">detail</a>::<wbr/></span>JEngineLoggers <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Logger_8hpp.html">&lt;Logger.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -58,24 +59,48 @@
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#define-members">Defines</a></li>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespaceJE.html" class="m-doc">JE</a></dt>
+            <dt id="acf86f2798ccfe6da26e7ce8c94015a34">
+              <span class="m-doc-wrap-bumper">enum class <a href="#acf86f2798ccfe6da26e7ce8c94015a34" class="m-doc-self">SpdlogSinks</a> { </span><span class="m-doc-wrap"><a href="#acf86f2798ccfe6da26e7ce8c94015a34a8b2a01f3cb87354a02ccf4511f8b4344" class="m-doc">CONSOLE_SINK</a>,
+              <a href="#acf86f2798ccfe6da26e7ce8c94015a34a644cd08529a431d4d808a0a7ec718f01" class="m-doc">FILE_SINK</a>,
+              <a href="#acf86f2798ccfe6da26e7ce8c94015a34a4905ac9d6a22bdfc1ae096094ce6248d" class="m-doc">COUNT</a> }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="af964e6d59389a14dd0c56d95bdf63182">
+              <span class="m-doc-wrap-bumper">enum class <a href="#af964e6d59389a14dd0c56d95bdf63182" class="m-doc-self">SpdlogLoggers</a> { </span><span class="m-doc-wrap"><a href="#af964e6d59389a14dd0c56d95bdf63182a71aaeb7436f6ca3b69b0c785183ae0d6" class="m-doc">JENGINE_LOGGER</a>,
+              <a href="#af964e6d59389a14dd0c56d95bdf63182accf91bd79794fae34a61574e3d13b2a5" class="m-doc">APP_LOGGER</a>,
+              <a href="#af964e6d59389a14dd0c56d95bdf63182a4905ac9d6a22bdfc1ae096094ce6248d" class="m-doc">COUNT</a> }</span>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="define-members">
-          <h2><a href="#define-members">Defines</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="af7c355408f87daf4168cd8f3af911f99">
-              <span class="m-doc-wrap-bumper">#define <a href="#af7c355408f87daf4168cd8f3af911f99" class="m-doc-self">JE_STRINGIFY_MACRO</a>(</span><span class="m-doc-wrap">x)</span>
+            <dt id="a8661d82c4cf2bdaa722b034d4460b96b">
+              <span class="m-doc-wrap-bumper"><a href="#a8661d82c4cf2bdaa722b034d4460b96b" class="m-doc-self">JEngineLoggers</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="afeaddf9943aef450ca337e961f87df4f">
+              std::array&lt;spdlog::sink_ptr, <a href="namespaceJE.html#a44cd319626a24baec4ef1d1b95d05af1" class="m-doc">EnumToSizeT</a>(<a href="structJE_1_1detail_1_1JEngineLoggers.html#acf86f2798ccfe6da26e7ce8c94015a34a4905ac9d6a22bdfc1ae096094ce6248d" class="m-doc">SpdlogSinks::<wbr />COUNT</a>)&gt; <a href="#afeaddf9943aef450ca337e961f87df4f" class="m-doc-self">m_logSinks</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a824981c42835f77066c2ca5876a3527e">
+              std::array&lt;std::shared_ptr&lt;spdlog::logger&gt;, <a href="namespaceJE.html#a44cd319626a24baec4ef1d1b95d05af1" class="m-doc">EnumToSizeT</a>(<a href="structJE_1_1detail_1_1JEngineLoggers.html#af964e6d59389a14dd0c56d95bdf63182a4905ac9d6a22bdfc1ae096094ce6248d" class="m-doc">SpdlogLoggers::<wbr />COUNT</a>)&gt; <a href="#a824981c42835f77066c2ca5876a3527e" class="m-doc-self">m_spdlogLoggers</a>
             </dt>
             <dd><span></span></dd>
           </dl>
