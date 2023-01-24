@@ -59,7 +59,7 @@ struct JEngineLoggers
         std::stringstream datetime;
         datetime << std::put_time(
             std::localtime(&IN_TIME_T),  // NOLINT(concurrency-mt-unsafe)
-            "%Y-%m-%d_%H.%M.%S");
+            "%Y-%m-%d_%H-%M-%S");
 
         m_logSinks[EnumToSizeT(SpdlogSinks::FILE_SINK)] =
             std::make_shared<spdlog::sinks::basic_file_sink_mt>(
@@ -77,13 +77,13 @@ struct JEngineLoggers
             std::make_shared<spdlog::logger>(
                 "App", std::begin(m_logSinks), std::end(m_logSinks));
 
-        for (auto& sink : m_logSinks) {
+        for (const auto& sink : m_logSinks) {
             if (sink == nullptr) {
                 DEBUGBREAK();
             }
         }
 
-        for (auto& logger : m_spdlogLoggers) {
+        for (const auto& logger : m_spdlogLoggers) {
             if (logger == nullptr) {
                 DEBUGBREAK();
             }
