@@ -22,9 +22,16 @@
 namespace JE
 {
 
+namespace detail  // NOLINT(readability-identifier-naming)
+{
 struct JEngineLoggers
 {
-    static constexpr auto SPDLOG_SINK_COUNT = 2;
+    enum struct SpdlogSinks
+    {
+        CONSOLE_SINK,
+        FILE_SINK,
+        COUNT
+    };
 
     enum struct SpdlogLoggers
     {
@@ -39,10 +46,10 @@ struct JEngineLoggers
         spdlog::set_pattern("[%T] [%l] %n: %v");
 
         if constexpr (JE::PLATFORM_UNIX) {
-            m_logSinks[0] =
+            m_logSinks[EnumToInt(SpdlogSinks::CONSOLE_SINK)] =
                 std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
         } else if constexpr (JE::PLATFORM_WINDOWS) {
-            m_logSinks[0] =
+            m_logSinks[EnumToInt(SpdlogSinks::CONSOLE_SINK)] =
                 std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         }
 
@@ -54,11 +61,14 @@ struct JEngineLoggers
             std::localtime(&IN_TIME_T),  // NOLINT(concurrency-mt-unsafe)
             "%Y-%m-%d %X");
 
-        m_logSinks[1] = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
-            "JEngine3D_" + datetime.str() + ".log", true);
+        m_logSinks[EnumToInt(SpdlogSinks::FILE_SINK)] =
+            std::make_shared<spdlog::sinks::basic_file_sink_mt>(
+                "JEngine3D_" + datetime.str() + ".log", true);
 
-        m_logSinks[0]->set_pattern("%^[%T] [%l] %n: %v%$");
-        m_logSinks[1]->set_pattern("[%T] [%l] %n: %v");
+        m_logSinks[EnumToInt(SpdlogSinks::CONSOLE_SINK)]->set_pattern(
+            "%^[%T] [%l] %n: %v%$");
+        m_logSinks[EnumToInt(SpdlogSinks::FILE_SINK)]->set_pattern(
+            "[%T] [%l] %n: %v");
 
         m_spdlogLoggers[EnumToInt(SpdlogLoggers::JENGINE_LOGGER)] =
             std::make_shared<spdlog::logger>(
@@ -67,13 +77,23 @@ struct JEngineLoggers
             std::make_shared<spdlog::logger>(
                 "App", std::begin(m_logSinks), std::end(m_logSinks));
 
+        for (auto& sink : m_logSinks) {
+            if (sink.get() == nullptr) {
+                DEBUGBREAK();
+            }
+        }
+
         for (auto& logger : m_spdlogLoggers) {
+            if (logger.get() == nullptr) {
+                DEBUGBREAK();
+            }
+
             logger->set_level(spdlog::level::trace);
             // logger->flush_on(spdlog::level::trace);
         }
     }
 
-    std::array<spdlog::sink_ptr, SPDLOG_SINK_COUNT> m_logSinks;
+    std::array<spdlog::sink_ptr, EnumToInt(SpdlogSinks::COUNT)> m_logSinks;
     std::array<std::shared_ptr<spdlog::logger>, EnumToInt(SpdlogLoggers::COUNT)>
         m_spdlogLoggers;
 };
@@ -82,16 +102,18 @@ inline const JEngineLoggers
     LOGGERS;  // NOLINT(cert-err58-cpp,
               // cppcoreguidelines-avoid-non-const-global-variables)
 
+}  // namespace detail
+
 inline auto EngineLogger() -> std::shared_ptr<spdlog::logger>
 {
-    return LOGGERS.m_spdlogLoggers[EnumToInt(
-        JEngineLoggers::SpdlogLoggers::JENGINE_LOGGER)];
+    return detail::LOGGERS.m_spdlogLoggers[EnumToInt(
+        detail::JEngineLoggers::SpdlogLoggers::JENGINE_LOGGER)];
 }
 
 inline auto AppLogger() -> std::shared_ptr<spdlog::logger>
 {
-    return LOGGERS
-        .m_spdlogLoggers[EnumToInt(JEngineLoggers::SpdlogLoggers::APP_LOGGER)];
+    return detail::LOGGERS.m_spdlogLoggers[EnumToInt(
+        detail::JEngineLoggers::SpdlogLoggers::APP_LOGGER)];
 }
 
 }  // namespace JE

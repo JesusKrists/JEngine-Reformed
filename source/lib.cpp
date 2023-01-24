@@ -4,7 +4,7 @@
 #include <fmt/core.h>
 
 Library::Library()
-    : name{fmt::format("{}", "JEngine-Reformed")}
+    : m_name{fmt::format("{}", "JEngine-Reformed")}
 {
     ZoneScoped;
 }

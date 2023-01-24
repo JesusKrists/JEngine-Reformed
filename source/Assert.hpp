@@ -4,7 +4,7 @@
 
 #include "Logger.hpp"
 
-namespace JE
+namespace JE::detail
 {
 
 template<bool ENABLED = false, bool BREAK = true>
@@ -31,7 +31,7 @@ inline auto Assert(const bool CHECK,
     return CHECK;
 }
 
-}  // namespace JE
+}  // namespace JE::detail
 
 #if !defined(JE_ASSERT_BREAK_ON_FAIL)
 #    define JE_ASSERT_BREAK_ON_FAIL true
@@ -39,5 +39,5 @@ inline auto Assert(const bool CHECK,
 
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define ASSERT(check) \
-    JE::Assert<JE::ASSERTS_ENABLED, JE_ASSERT_BREAK_ON_FAIL>( \
+    JE::detail::Assert<JE::ASSERTS_ENABLED, JE_ASSERT_BREAK_ON_FAIL>( \
         check, JE_STRINGIFY_MACRO(check))
