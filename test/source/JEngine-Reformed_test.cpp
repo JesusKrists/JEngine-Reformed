@@ -27,6 +27,6 @@ TEST_CASE("Test Assert", "[Assert]")
 
 TEST_CASE("Test Loggers", "[Logger]")
 {
-    REQUIRE(JE::EngineLogger().get() != nullptr);
-    REQUIRE(JE::AppLogger().get() != nullptr);
+    REQUIRE(JE::EngineLogger() != nullptr);
+    REQUIRE(JE::AppLogger() != nullptr);
 }
