@@ -141,8 +141,8 @@ jobs:
           check_initialization_order=1:\
           strict_init_order=1:\
           detect_leaks=1"
-        TRACY_NO_INVARIANT_CHECK: "1"
         UBSAN_OPTIONS: print_stacktrace=1
+        TRACY_NO_INVARIANT_CHECK: "1"
       run: ctest --output-on-failure -j 2
 
   test:
@@ -210,6 +210,8 @@ jobs:
       run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
     - name: Build
+      env:
+        TRACY_NO_INVARIANT_CHECK: "1"
       run: cmake --build build --config ${{ matrix.configuration }} -j 2
 
     - name: Install
@@ -217,6 +219,8 @@ jobs:
 
     - name: Test
       working-directory: build
+      env:
+        TRACY_NO_INVARIANT_CHECK: "1"
       run: ctest --output-on-failure -C ${{ matrix.configuration }} -j 2
 
   docs:
