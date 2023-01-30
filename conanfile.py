@@ -30,6 +30,17 @@ class Recipe(ConanFile):
     def build_requirements(self):
         self.test_requires("catch2/3.1.0")
 
+    def imports(self):
+        self.copy("*.dll", "build/dev/", "bin")
+        self.copy("*.dll", "build/dev/test", "bin")
+        self.copy("*.so", "build/dev/", "lib")
+        self.copy("*.so", "build/dev/test", "lib")
+
+        self.copy("*.dll", "build/", "bin")
+        self.copy("*.dll", "build/test", "bin")
+        self.copy("*.so", "build/", "lib")
+        self.copy("*.so", "build/test", "lib")
+
     def generate(self):
         tc = CMakeToolchain(self)
         tc.generate()

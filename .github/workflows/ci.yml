@@ -178,7 +178,7 @@ jobs:
     - name: Install CMake
       uses: jwlawson/actions-setup-cmake@v1.13.0
 
-    - name: Build cppcheck 2.9 - Linux
+    - name: Build cppcheck 2.10 - Linux
       if: matrix.os == 'ubuntu-22.04'
       env:
         CPPCHECK_BUILD: /home/cppcheck/build
@@ -186,7 +186,7 @@ jobs:
       run: sudo apt-get purge --auto-remove cppcheck
         && sudo apt-get install -y -q libxml2-utils libz3-dev libtinyxml2-dev libpcre3-dev
         && sudo mkdir -p ${{ env.CPPCHECK_BUILD }}
-        && git clone --branch 2.9.3 https://github.com/danmar/cppcheck.git ${{ env.CPPCHECK_SRC }}
+        && git clone --branch 2.10 https://github.com/danmar/cppcheck.git ${{ env.CPPCHECK_SRC }}
         && cmake -S ${{ env.CPPCHECK_SRC }} -B ${{ env.CPPCHECK_BUILD }} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release -DHAVE_RULES=On -DBUILD_GUI=Off
         && cmake --build ${{ env.CPPCHECK_BUILD }} -j
         && sudo cmake --install ${{ env.CPPCHECK_BUILD }}
