@@ -110,6 +110,7 @@ jobs:
 
     - name: Install dependencies
       run: pip3 install "conan<2"
+        && conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
         && conan install . -b missing -pr .github/${{ matrix.compiler }}.profile
       
     - name: Configure - clang-17
