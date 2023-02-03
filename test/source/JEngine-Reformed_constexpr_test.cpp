@@ -18,5 +18,5 @@ TEST_CASE("Test Base macros constexpr", "[Base]")
     STATIC_REQUIRE(JE::EnumToInt(TestEnum::ONE) == 1);
 
     STATIC_REQUIRE(JE::EnumToSizeT(TestEnum::ONE) == 1);
-    STATIC_REQUIRE(JE::EnumToSizeT(TestEnum::ONE) == 1);
+    STATIC_REQUIRE(JE::EnumToSizeT(TestEnum::TWO) == 2);
 }

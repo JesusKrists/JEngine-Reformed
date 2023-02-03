@@ -24,6 +24,7 @@ class Recipe(ConanFile):
 
     def requirements(self):
         self.requires("spdlog/1.11.0")
+        self.requires("sdl/2.26.1")
         self.requires("tracy/cci.20220130")
         self.requires("nanosvg/cci.20210904")
 

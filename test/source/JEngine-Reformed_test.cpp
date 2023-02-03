@@ -30,7 +30,7 @@ TEST_CASE("Test Base macros", "[Base]")
     REQUIRE(JE::EnumToInt(TestEnum::ONE) == 1);
 
     REQUIRE(JE::EnumToSizeT(TestEnum::ONE) == 1);
-    REQUIRE(JE::EnumToSizeT(TestEnum::ONE) == 1);
+    REQUIRE(JE::EnumToSizeT(TestEnum::TWO) == 2);
 }
 
 TEST_CASE("Test Assert", "[Assert]")
