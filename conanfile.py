@@ -16,6 +16,8 @@ class Recipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps", "VirtualRunEnv"
 
+    keep_imports = True
+
     default_options = {
         "spdlog:shared": True,
         "fmt:shared": True,
@@ -37,11 +39,6 @@ class Recipe(ConanFile):
         self.copy("*.dll", "build/dev/test", "bin")
         self.copy("*.so", "build/dev/", "lib")
         self.copy("*.so", "build/dev/test", "lib")
-
-        if not os.path.exists("build"):
-            os.makedirs("build")
-        if not os.path.exists("build/test"):
-            os.makedirs("build/test")
 
         self.copy("*.dll", "build/", "bin")
         self.copy("*.dll", "build/test", "bin")
