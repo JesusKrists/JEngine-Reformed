@@ -46,13 +46,15 @@ the project:
             "inherits": [
                 "dev-mode",
                 "conan",
-                "cppcheck",
-                "clang-tidy",
                 "Ccache",
-                "ci-<os>"
+                "clang-tidy",
+                "cppcheck",
+                "iwyu",
+                "ci-ubuntu"
             ],
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_COMPILER": "g++-12"
             }
         }
     ],

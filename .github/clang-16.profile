@@ -10,3 +10,6 @@ os=Linux
 [env]
 CC=clang-16
 CXX=clang++-16
+
+[conf]
+tools.system.package_manager:mode=install

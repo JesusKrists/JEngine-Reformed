@@ -10,3 +10,6 @@ os=Linux
 [env]
 CC=gcc-11
 CXX=g++-11
+
+[conf]
+tools.system.package_manager:mode=install

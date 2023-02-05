@@ -13,7 +13,11 @@ class Recipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps", "VirtualRunEnv"
 
-    default_options = {"tracy:shared": True, "tracy:callstack": True}
+    default_options = {
+        "tracy:shared": True,
+        "tracy:callstack": True,
+        "sdl:iconv": False,
+    }
 
     def source(self):
         self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git src")
@@ -25,7 +29,7 @@ class Recipe(ConanFile):
     def requirements(self):
         self.requires("spdlog/1.11.0")
         self.requires("sdl/2.26.1")
-        self.requires("tracy/cci.20220130")
+        self.requires("tracy/0.9")
         self.requires("nanosvg/cci.20210904")
 
     def build_requirements(self):

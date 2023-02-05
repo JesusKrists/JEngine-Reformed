@@ -12,7 +12,10 @@ enum struct TestEnum
     COUNT
 };
 
-TEST_CASE("Test Base macros constexpr", "[Base]")
+TEST_CASE(  // NOLINT(cert-err58-cpp,
+            // cppcoreguidelines-avoid-non-const-global-variables)
+    "Test Base macros constexpr",
+    "[Base]")
 {
     STATIC_REQUIRE(JE::EnumToInt(TestEnum::ZERO) == 0);
     STATIC_REQUIRE(JE::EnumToInt(TestEnum::ONE) == 1);

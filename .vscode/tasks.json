@@ -4,6 +4,16 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Add JesusKrists conan remote",
+            "type": "shell",
+            "command": "conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0"
+        },
+        {
+            "label": "Update JesusKrists conan remote to top",
+            "type": "shell",
+            "command": "conan remote update jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0"
+        },
+        {
             "label": "Install conan dependencies for development - Windows debug",
             "type": "shell",
             "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Debug"
