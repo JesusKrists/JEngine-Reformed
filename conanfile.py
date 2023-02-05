@@ -3,6 +3,8 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout
 from conan.tools.build import check_min_cppstd
 from conan.tools.microsoft import is_msvc
 
+import os
+
 
 class Recipe(ConanFile):
     name = "JEngine-Reformed"
@@ -35,6 +37,11 @@ class Recipe(ConanFile):
         self.copy("*.dll", "build/dev/test", "bin")
         self.copy("*.so", "build/dev/", "lib")
         self.copy("*.so", "build/dev/test", "lib")
+
+        if not os.path.exists("build"):
+            os.makedirs("build")
+        if not os.path.exists("build/test"):
+            os.makedirs("build/test")
 
         self.copy("*.dll", "build/", "bin")
         self.copy("*.dll", "build/test", "bin")
