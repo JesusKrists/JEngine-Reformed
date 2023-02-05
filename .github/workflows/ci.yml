@@ -53,7 +53,7 @@ jobs:
       run: pip3 install "conan<2"
         && conan profile new default --detect
         && conan profile update settings.compiler.libcxx=libstdc++11 default
-        && conan install . -b missing
+        && conan install . -b missing -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
     - name: Configure
       run: cmake --preset=ci-coverage
@@ -205,7 +205,7 @@ jobs:
         if [ ${{ matrix.os }} = ubuntu-22.04 ]; then
           conan profile update settings.compiler.libcxx=libstdc++11 default
         fi
-        conan install . -b missing -s build_type=${{ matrix.configuration }}
+        conan install . -b missing -s build_type=${{ matrix.configuration }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
     - name: Configure
       shell: pwsh

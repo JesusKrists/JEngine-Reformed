@@ -17,6 +17,7 @@ class Recipe(ConanFile):
     default_options = {
         "spdlog:shared": True,
         "fmt:shared": True,
+        "sdl:pulse": False,
         "tracy:shared": True,
         "tracy:callstack": True,
     }
