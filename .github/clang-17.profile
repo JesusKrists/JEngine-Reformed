@@ -13,3 +13,4 @@ CXX=clang++-17
 
 [conf]
 tools.system.package_manager:mode=install
+tools.system.package_manager:sudo=True

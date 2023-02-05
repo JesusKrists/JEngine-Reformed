@@ -13,3 +13,4 @@ CXX=g++-11
 
 [conf]
 tools.system.package_manager:mode=install
+tools.system.package_manager:sudo=True
