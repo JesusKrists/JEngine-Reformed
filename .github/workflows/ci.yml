@@ -83,7 +83,7 @@ jobs:
     needs: [lint]
     strategy:
       matrix:
-        compiler: [gcc-12, clang-15]
+        compiler: [gcc-12, clang-17]
 
     runs-on: ubuntu-22.04
 
@@ -94,8 +94,8 @@ jobs:
       uses: actions/setup-python@v4
       with: { python-version: "3.8" }
 
-    - name: Install clang-15
-      if: matrix.compiler == 'clang-15'
+    - name: Install clang-17
+      if: matrix.compiler == 'clang-17'
       env:
         LLVM_URL: http://apt.llvm.org/focal/
         LLVM_PKG: llvm-toolchain-focal
@@ -113,13 +113,13 @@ jobs:
     - name: Install dependencies
       run: pip3 install "conan<2"
         && conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
-        && conan install . -b missing -pr .github/${{ matrix.compiler }}.profile
+        && conan install . -b missing -pr .github/clang-15.profile
       
-    - name: Configure - clang-15
-      if: matrix.compiler == 'clang-15'
+    - name: Configure - clang-17
+      if: matrix.compiler == 'clang-17'
       env: 
-        C: clang-15
-        CXX: clang++-15
+        C: clang-17
+        CXX: clang++-17
       run: cmake --preset=ci-sanitize
       
     - name: Configure - gcc-12

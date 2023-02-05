@@ -17,7 +17,6 @@ class Recipe(ConanFile):
     default_options = {
         "spdlog:shared": True,
         "fmt:shared": True,
-        "sdl:pulse": False,
         "tracy:shared": True,
         "tracy:callstack": True,
     }
@@ -45,6 +44,8 @@ class Recipe(ConanFile):
     def config_options(self):
         if not is_msvc(self):
             self.options["sdl"].iconv = False
+        if self.settings.os == "Linux":
+            self.options["sdl"].pulse = False
 
     def source(self):
         self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git src")
