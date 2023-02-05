@@ -14,9 +14,11 @@ class Recipe(ConanFile):
     generators = "CMakeToolchain", "CMakeDeps", "VirtualRunEnv"
 
     default_options = {
+        "spdlog:shared": True,
+        "fmt:shared": True,
+        "sdl:iconv": False,
         "tracy:shared": True,
         "tracy:callstack": True,
-        "sdl:iconv": False,
     }
 
     def source(self):
