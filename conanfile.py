@@ -1,6 +1,7 @@
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout
 from conan.tools.build import check_min_cppstd
+from conan.tools.microsoft import is_msvc
 
 
 class Recipe(ConanFile):
@@ -16,17 +17,9 @@ class Recipe(ConanFile):
     default_options = {
         "spdlog:shared": True,
         "fmt:shared": True,
-        "sdl:iconv": False,
         "tracy:shared": True,
         "tracy:callstack": True,
     }
-
-    def source(self):
-        self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git src")
-
-    def layout(self):
-        cmake_layout(self)
-        self.folders.generators = "conan"
 
     def requirements(self):
         self.requires("spdlog/1.11.0")
@@ -47,6 +40,17 @@ class Recipe(ConanFile):
         self.copy("*.dll", "build/test", "bin")
         self.copy("*.so", "build/", "lib")
         self.copy("*.so", "build/test", "lib")
+
+    def config_options(self):
+        if not is_msvc(self):
+            self.options["sdl"].iconv = False
+
+    def source(self):
+        self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git src")
+
+    def layout(self):
+        cmake_layout(self)
+        self.folders.generators = "conan"
 
     def generate(self):
         tc = CMakeToolchain(self)
