@@ -53,7 +53,7 @@ jobs:
       run: pip3 install "conan<2"
         && conan profile new default --detect
         && conan profile update settings.compiler.libcxx=libstdc++11 default
-        && conan install . --build -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+        && conan install . -b missing -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
     - name: Configure
       run: cmake --preset=ci-coverage
@@ -116,11 +116,11 @@ jobs:
 
     - name: Install dependencies - clang-15
       if: matrix.compiler != 'gcc-12'
-      run: conan install . --build -pr .github/clang-15.profile
+      run: conan install . -b missing -pr .github/clang-15.profile
 
     - name: Install dependencies - gcc-12
       if: matrix.compiler == 'gcc-12'
-      run: conan install . --build -pr .github/${{ matrix.compiler }}.profile
+      run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile
       
     - name: Configure - clang-17
       if: matrix.compiler != 'gcc-12'
@@ -212,7 +212,7 @@ jobs:
         if [ ${{ matrix.os }} = ubuntu-22.04 ]; then
           conan profile update settings.compiler.libcxx=libstdc++11 default
         fi
-        conan install . --build -s build_type=${{ matrix.configuration }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+        conan install . -b missing -s build_type=${{ matrix.configuration }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
     - name: Configure
       shell: pwsh
