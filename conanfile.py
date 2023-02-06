@@ -63,7 +63,7 @@ class Recipe(ConanFile):
                         extension,
                         dep.cpp_info.libdirs[0],
                         os.path.join(
-                            self.source_folder, "build", build_configuration, build_type
+                            self.source_folder, build_configuration, build_type
                         ),
                     )
                     copy(
@@ -72,7 +72,6 @@ class Recipe(ConanFile):
                         dep.cpp_info.libdirs[0],
                         os.path.join(
                             self.source_folder,
-                            "build",
                             build_configuration,
                             "test",
                             build_type,
@@ -83,10 +82,10 @@ class Recipe(ConanFile):
         tc = CMakeToolchain(self)
         tc.generate()
 
-        self.copy_binaries_to_build_folders()
-        self.copy_binaries_to_build_folders("dev")
-        self.copy_binaries_to_build_folders("coverage")
-        self.copy_binaries_to_build_folders("sanitize")
+        self.copy_binaries_to_build_folders("build")
+        self.copy_binaries_to_build_folders("build/dev")
+        self.copy_binaries_to_build_folders("build/coverage")
+        self.copy_binaries_to_build_folders("build/sanitize")
 
     def validate(self):
         if self.info.settings.compiler.get_safe("cppstd"):
