@@ -101,7 +101,7 @@ jobs:
         LLVM_PKG: llvm-toolchain-focal
       run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - 2>/dev/null
         && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
-        && sudo apt-get update -qq
+        && sudo apt-get update -q
         && sudo apt-get install -y -q clang-15 ${{ matrix.compiler }}
 
     - name: Install ninja-build tool
@@ -177,7 +177,7 @@ jobs:
         LLVM_PKG: llvm-toolchain-focal
       run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - 2>/dev/null
         && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
-        && sudo apt-get update -qq
+        && sudo apt-get update -q
         && sudo apt-get install -y -q clang-tidy-17
         && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-17 200
       

@@ -48,8 +48,12 @@ class Recipe(ConanFile):
         cmake_layout(self)
         self.folders.generators = "conan"
 
-    def copy_binaries_to_build_folders(self, build_type: str = ""):
+    def copy_binaries_to_build_folders(self, build_configuration: str = ""):
         EXTENSION_PATTERNS = ["*.dll", "*.so"]
+
+        build_type = ""
+        if is_msvc(self):
+            build_type = self.settings.build_type
 
         for dep in self.dependencies.values():
             if len(dep.cpp_info.libdirs) != 0:
@@ -58,13 +62,21 @@ class Recipe(ConanFile):
                         self,
                         extension,
                         dep.cpp_info.libdirs[0],
-                        os.path.join(self.source_folder, "build", build_type),
+                        os.path.join(
+                            self.source_folder, "build", build_configuration, build_type
+                        ),
                     )
                     copy(
                         self,
                         extension,
                         dep.cpp_info.libdirs[0],
-                        os.path.join(self.source_folder, "build", build_type, "test"),
+                        os.path.join(
+                            self.source_folder,
+                            "build",
+                            build_configuration,
+                            "test",
+                            build_type,
+                        ),
                     )
 
     def generate(self):
