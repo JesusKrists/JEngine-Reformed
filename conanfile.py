@@ -53,7 +53,7 @@ class Recipe(ConanFile):
 
         build_type = ""
         if is_msvc(self):
-            build_type = self.settings.build_type
+            build_type = str(self.settings.build_type)
 
         for dep in self.dependencies.values():
             if len(dep.cpp_info.libdirs) != 0:
