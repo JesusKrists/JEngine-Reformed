@@ -183,7 +183,8 @@
         "ci-win64",
         "dev-mode",
         "conan"
-      ]
+      ],
+      "architecture": ""
     }
   ]
 }
