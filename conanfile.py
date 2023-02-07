@@ -35,6 +35,17 @@ class Recipe(ConanFile):
     def build_requirements(self):
         self.test_requires("catch2/3.1.0")
 
+    def imports(self):
+        self.copy("*.dll", "build/dev/", "bin")
+        self.copy("*.dll", "build/dev/test", "bin")
+        self.copy("*.so*", "build/dev/", "lib")
+        self.copy("*.so*", "build/dev/test", "lib")
+
+        self.copy("*.dll", "build/", "bin")
+        self.copy("*.dll", "build/test", "bin")
+        self.copy("*.so*", "build/", "lib")
+        self.copy("*.so*", "build/test", "lib")
+
     def config_options(self):
         if not is_msvc(self):
             self.options["sdl"].iconv = False
@@ -48,44 +59,9 @@ class Recipe(ConanFile):
         cmake_layout(self)
         self.folders.generators = "conan"
 
-    def copy_binaries_to_build_folders(self, build_configuration: str = ""):
-        EXTENSION_PATTERNS = ["*.dll", "*.so"]
-
-        build_type = ""
-        if is_msvc(self) and build_configuration == "build":
-            build_type = str(self.settings.build_type)
-
-        for dep in self.dependencies.values():
-            if len(dep.cpp_info.bindirs) != 0:
-                for extension in EXTENSION_PATTERNS:
-                    copy(
-                        self,
-                        extension,
-                        dep.cpp_info.bindirs[0],
-                        os.path.join(
-                            self.source_folder, build_configuration, build_type
-                        ),
-                    )
-                    copy(
-                        self,
-                        extension,
-                        dep.cpp_info.bindirs[0],
-                        os.path.join(
-                            self.source_folder,
-                            build_configuration,
-                            "test",
-                            build_type,
-                        ),
-                    )
-
     def generate(self):
         tc = CMakeToolchain(self)
         tc.generate()
-
-        self.copy_binaries_to_build_folders("build")
-        self.copy_binaries_to_build_folders("build/dev")
-        self.copy_binaries_to_build_folders("build/coverage")
-        self.copy_binaries_to_build_folders("build/sanitize")
 
     def validate(self):
         if self.info.settings.compiler.get_safe("cppstd"):
