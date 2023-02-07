@@ -52,16 +52,16 @@ class Recipe(ConanFile):
         EXTENSION_PATTERNS = ["*.dll", "*.so"]
 
         build_type = ""
-        if is_msvc(self):
+        if is_msvc(self) and build_configuration == "build":
             build_type = str(self.settings.build_type)
 
         for dep in self.dependencies.values():
-            if len(dep.cpp_info.libdirs) != 0:
+            if len(dep.cpp_info.bindirs) != 0:
                 for extension in EXTENSION_PATTERNS:
                     copy(
                         self,
                         extension,
-                        dep.cpp_info.libdirs[0],
+                        dep.cpp_info.bindirs[0],
                         os.path.join(
                             self.source_folder, build_configuration, build_type
                         ),
@@ -69,7 +69,7 @@ class Recipe(ConanFile):
                     copy(
                         self,
                         extension,
-                        dep.cpp_info.libdirs[0],
+                        dep.cpp_info.bindirs[0],
                         os.path.join(
                             self.source_folder,
                             build_configuration,

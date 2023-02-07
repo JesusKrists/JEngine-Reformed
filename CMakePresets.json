@@ -42,7 +42,7 @@
       "name": "cppcheck",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_CPPCHECK": "cppcheck;--enable=all;--suppress=internalAstError;--suppress=missingIncludeSystem;--suppress=unmatchedSuppression;--inline-suppr;--inconclusive;--error-exitcode=1"
+        "CMAKE_CXX_CPPCHECK": "cppcheck;--enable=all;--suppress=internalAstError;--suppress=missingIncludeSystem;--suppress=unmatchedSuppression;--inline-suppr;--inconclusive;--platform=native;--error-exitcode=1"
       }
     },
     {
