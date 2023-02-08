@@ -99,9 +99,7 @@ struct JEngineLoggers
         m_spdlogLoggers;
 };
 
-inline const JEngineLoggers
-    LOGGERS;  // NOLINT(cert-err58-cpp,
-              // cppcoreguidelines-avoid-non-const-global-variables)
+inline const JEngineLoggers LOGGERS;  // NOLINT(cert-err58-cpp)
 
 }  // namespace detail
 
