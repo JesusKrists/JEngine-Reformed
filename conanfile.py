@@ -36,12 +36,10 @@ class Recipe(ConanFile):
         self.test_requires("catch2/3.1.0")
 
     def imports(self):
-        build_type = ""
-        if is_msvc(self):
-            build_type = str(self.settings.build_type)
-
-        self.copy("*.dll", "build/" + build_type, "bin")
-        self.copy("*.dll", "build/test" + build_type, "bin")
+        self.copy("*.dll", "build/Debug", "bin")
+        self.copy("*.dll", "build/test/Debug", "bin")
+        self.copy("*.dll", "build/Release", "bin")
+        self.copy("*.dll", "build/test/Release", "bin")
 
         self.copy("*.dll", "build/dev/", "bin")
         self.copy("*.dll", "build/dev/test", "bin")
