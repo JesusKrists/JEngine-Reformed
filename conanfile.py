@@ -17,8 +17,6 @@ class Recipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps", "VirtualRunEnv"
 
-    keep_imports = True
-
     options = {
         "dev_build": [True, False],
         "coverage_build": [True, False],
@@ -45,7 +43,20 @@ class Recipe(ConanFile):
     def build_requirements(self):
         self.test_requires("catch2/3.1.0")
 
-    def imports(self):
+    def config_options(self):
+        if not is_msvc(self):
+            self.options["sdl"].iconv = False
+        if self.settings.os == "Linux":
+            self.options["sdl"].pulse = False
+
+    def source(self):
+        self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git src")
+
+    def layout(self):
+        cmake_layout(self)
+        self.folders.generators = "conan"
+
+    def import_shared_libraries(self):
         build_folder = "build/"
         test_folder = "build/test"
         if self.options.dev_build:
@@ -65,29 +76,42 @@ class Recipe(ConanFile):
         ):
             build_folder = f"build/{str(self.settings.build_type)}"
             test_folder = f"build/test/{str(self.settings.build_type)}"
-        if self.settings.os == "Windows":
-            self.copy("*.dll", build_folder, "bin")
-            self.copy("*.dll", test_folder, "bin")
-        if self.settings.os == "Linux":
-            self.copy("*.so*", build_folder, "lib")
-            self.copy("*.so*", test_folder, "lib")
 
-    def config_options(self):
-        if not is_msvc(self):
-            self.options["sdl"].iconv = False
-        if self.settings.os == "Linux":
-            self.options["sdl"].pulse = False
-
-    def source(self):
-        self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git src")
-
-    def layout(self):
-        cmake_layout(self)
-        self.folders.generators = "conan"
+        for dep in self.dependencies.values():
+            if self.settings.os == "Windows":
+                for dir in dep.cpp_info.bindirs:
+                    copy(
+                        self,
+                        "*.dll",
+                        dir,
+                        os.path.join(self.source_path, build_folder),
+                    )
+                    copy(
+                        self,
+                        "*.dll",
+                        dir,
+                        os.path.join(self.source_path, test_folder),
+                    )
+            if self.settings.os == "Linux":
+                for dir in dep.cpp_info.libdirs:
+                    copy(
+                        self,
+                        "*.so*",
+                        dir,
+                        os.path.join(self.source_path, build_folder),
+                    )
+                    copy(
+                        self,
+                        "*.so*",
+                        dir,
+                        os.path.join(self.source_path, test_folder),
+                    )
 
     def generate(self):
         tc = CMakeToolchain(self)
         tc.generate()
+
+        self.import_shared_libraries()
 
     def validate(self):
         if self.info.settings.compiler.get_safe("cppstd"):
