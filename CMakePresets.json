@@ -105,11 +105,12 @@
     },
     {
       "name": "ci-win64",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
       "inherits": [
         "flags-windows",
         "ci-std"
       ],
-      "generator": "Ninja",
       "hidden": true
     },
     {
@@ -183,8 +184,7 @@
         "ci-win64",
         "dev-mode",
         "conan"
-      ],
-      "architecture": ""
+      ]
     }
   ]
 }
