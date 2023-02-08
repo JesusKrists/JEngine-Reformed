@@ -3,12 +3,13 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout
 from conan.tools.build import check_min_cppstd
 from conan.tools.microsoft import is_msvc
 from conan.tools.files import copy
+from conan.errors import ConanInvalidConfiguration
 
 import os
 
 
 class Recipe(ConanFile):
-    name = "JEngine-Reformed"
+    name = "jengine-reformed"
     version = "latest"
     description = "The next generation of JEngine"
     homepage = "https://jesuskrists.github.io/JEngine-Reformed/"
@@ -28,10 +29,10 @@ class Recipe(ConanFile):
         "coverage_build": False,
         "sanitize_build": False,
         ##########################
-        "spdlog:shared": True,
-        "fmt:shared": True,
-        "tracy:shared": True,
-        "tracy:callstack": True,
+        "spdlog*:shared": True,
+        "fmt*:shared": True,
+        "tracy*:shared": True,
+        "tracy*:callstack": True,
     }
 
     def requirements(self):
@@ -109,7 +110,9 @@ class Recipe(ConanFile):
         self.import_shared_libraries()
 
     def validate(self):
-        if self.info.settings.compiler.get_safe("cppstd"):
+        if self.settings.os == "Macos":
+            raise ConanInvalidConfiguration("Macos not supported")
+        if self.settings.get_safe("compiler.cppstd"):
             check_min_cppstd(self, 20)
 
     def build(self):
