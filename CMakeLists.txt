@@ -18,8 +18,9 @@ include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 
 find_package(spdlog REQUIRED)
-find_package(Tracy REQUIRED)
+find_package(SDL2 REQUIRED)
 find_package(nanosvg REQUIRED)
+find_package(Tracy REQUIRED)
 
 # ---- Declare library ----
 

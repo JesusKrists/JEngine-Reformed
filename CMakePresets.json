@@ -155,7 +155,10 @@
     {
       "name": "ci-build",
       "binaryDir": "${sourceDir}/build",
-      "hidden": true
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_MAP_IMPORTED_CONFIG_DEBUG": "Release;RelWithDebInfo;Debug;"
+      }
     },
     {
       "name": "ci-macos",

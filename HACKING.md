@@ -54,7 +54,8 @@ the project:
             ],
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_COMPILER": "g++-12"
+                "CMAKE_CXX_COMPILER": "g++-12",
+                "CMAKE_MAP_IMPORTED_CONFIG_DEBUG": "Release;RelWithDebInfo;Debug;"
             }
         }
     ],
