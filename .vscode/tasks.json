@@ -16,32 +16,32 @@
         {
             "label": "Install conan dependencies for development - Windows debug",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Debug"
+            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Debug -o JEngine-Reformed:dev_build=True"
         },
         {
             "label": "Install conan dependencies for development - Windows release",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Release"
+            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Release -o JEngine-Reformed:dev_build=True"
         },
         {
             "label": "Install conan dependencies for development - Windows gcc debug",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug -s os=Windows"
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug -s os=Windows -o JEngine-Reformed:dev_build=True"
         },
         {
             "label": "Install conan dependencies for development - Windows gcc release",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Release -s os=Windows"
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Release -s os=Windows -o JEngine-Reformed:dev_build=True"
         },
         {
             "label": "Install conan dependencies for development - Linux debug",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug"
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug -o JEngine-Reformed:dev_build=True"
         },
         {
             "label": "Install conan dependencies for development - Linux release",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Release"
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Release -o JEngine-Reformed:dev_build=True"
         },
         {
             "label": "Run JEngine-Reformed with Dr. Memory",
