@@ -78,34 +78,29 @@ class Recipe(ConanFile):
             test_folder = f"build/test/{str(self.settings.build_type)}"
 
         for dep in self.dependencies.values():
+            dirs = []
+            extension_pattern = ""
+
             if self.settings.os == "Windows":
-                for dir in dep.cpp_info.bindirs:
-                    copy(
-                        self,
-                        "*.dll",
-                        dir,
-                        os.path.join(self.source_path, build_folder),
-                    )
-                    copy(
-                        self,
-                        "*.dll",
-                        dir,
-                        os.path.join(self.source_path, test_folder),
-                    )
+                dirs = dep.cpp_info.bindirs
+                extension_pattern = "*.dll"
             if self.settings.os == "Linux":
-                for dir in dep.cpp_info.libdirs:
-                    copy(
-                        self,
-                        "*.so*",
-                        dir,
-                        os.path.join(self.source_path, build_folder),
-                    )
-                    copy(
-                        self,
-                        "*.so*",
-                        dir,
-                        os.path.join(self.source_path, test_folder),
-                    )
+                dirs = dep.cpp_info.libdirs
+                extension_pattern = "*.so*"
+
+            for dir in dirs:
+                copy(
+                    self,
+                    extension_pattern,
+                    dir,
+                    os.path.join(self.source_path, build_folder),
+                )
+                copy(
+                    self,
+                    extension_pattern,
+                    dir,
+                    os.path.join(self.source_path, test_folder),
+                )
 
     def generate(self):
         tc = CMakeToolchain(self)
