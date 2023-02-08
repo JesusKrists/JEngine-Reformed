@@ -1,7 +1,7 @@
-#include <iostream>  // for operator<<, basic_ostream, cout, ostream
-#include <string>  // for allocator, char_traits, operator+, operator<<
+#include <iostream>
+#include <string>
 
-#include "lib.hpp"  // for Library
+#include "lib.hpp"
 
 auto main() -> int
 {

@@ -1,16 +1,16 @@
-#include <catch2/catch_test_macros.hpp>  // for operator==, AssertionHandler
+#include <catch2/catch_test_macros.hpp>
 
 ////////////////////////////////////////
 
-#include <memory>  // for operator==, operator<<, shar...
-#include <string>  // for operator==, string
+#include <memory>
+#include <string>
 
-#include <fmt/core.h>  // for format
+#include <fmt/core.h>
 
 #define JE_ASSERT_BREAK_ON_FAIL false
-#include "Assert.hpp"  // for Assert, ASSERT
-#include "Base.hpp"  // for EnumToInt, EnumToSizeT, JE_S...
-#include "Logger.hpp"  // for AppLogger, EngineLogger
+#include "Assert.hpp"
+#include "Base.hpp"
+#include "Logger.hpp"
 
 struct Library
 {

@@ -63,7 +63,7 @@
       "name": "iwyu",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_INCLUDE_WHAT_YOU_USE": "include-what-you-use;-Xiwyu;--cxx17ns;-Xiwyu;--error=4;-Wno-unknown-warning-option"
+        "CMAKE_CXX_INCLUDE_WHAT_YOU_USE": "include-what-you-use;-Xiwyu;--cxx17ns;-Xiwyu;--error=4;-Xiwyu;--no_comments;-Wno-unknown-warning-option"
       }
     },
     {
