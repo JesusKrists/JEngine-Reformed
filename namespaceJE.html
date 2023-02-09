@@ -59,6 +59,7 @@
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#typedef-members">Typedefs</a></li>
                 <li><a href="#func-members">Functions</a></li>
                 <li><a href="#var-members">Variables</a></li>
               </ul>
@@ -69,6 +70,21 @@
           <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
             <dt>namespace <a href="namespaceJE_1_1detail.html" class="m-doc">detail</a></dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a href="#a3ade3b9ff46734d87eea097f6dfab51b" class="m-doc">Scope</a> = std::unique_ptr&lt;T&gt;
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a href="#a7335a0faae7215b460b0c63b1b791146" class="m-doc">Ref</a> = std::shared_ptr&lt;T&gt;
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
@@ -90,11 +106,21 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a0a91fca06cb5442ffb1f0db079bcea84" class="m-doc">EngineLogger</a>(</span><span class="m-doc-wrap">) -&gt; std::shared_ptr&lt; spdlog::logger &gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a423697e1c9303c2f9e5438c5c44947b1" class="m-doc">EngineLogger</a>(</span><span class="m-doc-wrap">) -&gt; Ref&lt; spdlog::logger &gt;</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aad10869b851b0f6f17087569185d0961" class="m-doc">AppLogger</a>(</span><span class="m-doc-wrap">) -&gt; std::shared_ptr&lt; spdlog::logger &gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a61d0073e141f06f1b63e40b7802b2495" class="m-doc">AppLogger</a>(</span><span class="m-doc-wrap">) -&gt; Ref&lt; spdlog::logger &gt;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... Args&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9bbb7efe26555eea60b585e84e2500fc" class="m-doc">CreateScope</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; Scope&lt; T &gt;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename... Args&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a20cb78505dd9864fb9a0fe37c34fcb11" class="m-doc">CreateRef</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; Ref&lt; T &gt;</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -125,6 +151,29 @@
           </dl>
         </section>
         <section>
+          <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="a3ade3b9ff46734d87eea097f6dfab51b"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Memory_8hpp.html">&lt;source/Memory.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using JE::<wbr /><a href="#a3ade3b9ff46734d87eea097f6dfab51b" class="m-doc-self">Scope</a> = std::unique_ptr&lt;T&gt;
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a7335a0faae7215b460b0c63b1b791146"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Memory_8hpp.html">&lt;source/Memory.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using JE::<wbr /><a href="#a7335a0faae7215b460b0c63b1b791146" class="m-doc-self">Ref</a> = std::shared_ptr&lt;T&gt;
+            </h3>
+            <p><span></span></p>
+          </div></section>
+        </section>
+        <section>
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="ac8aa8e44ca8adb77ac26188d3b346456"><div>
             <h3>
@@ -153,17 +202,37 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a0a91fca06cb5442ffb1f0db079bcea84"><div>
+          <section class="m-doc-details" id="a423697e1c9303c2f9e5438c5c44947b1"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a0a91fca06cb5442ffb1f0db079bcea84" class="m-doc-self">EngineLogger</a>(</span><span class="m-doc-wrap">) -&gt; std::shared_ptr&lt; spdlog::logger &gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a423697e1c9303c2f9e5438c5c44947b1" class="m-doc-self">EngineLogger</a>(</span><span class="m-doc-wrap">) -&gt; Ref&lt; spdlog::logger &gt;</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Logger_8hpp.html">&lt;source/Logger.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="aad10869b851b0f6f17087569185d0961"><div>
+          <section class="m-doc-details" id="a61d0073e141f06f1b63e40b7802b2495"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aad10869b851b0f6f17087569185d0961" class="m-doc-self">AppLogger</a>(</span><span class="m-doc-wrap">) -&gt; std::shared_ptr&lt; spdlog::logger &gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a61d0073e141f06f1b63e40b7802b2495" class="m-doc-self">AppLogger</a>(</span><span class="m-doc-wrap">) -&gt; Ref&lt; spdlog::logger &gt;</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Logger_8hpp.html">&lt;source/Logger.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a9bbb7efe26555eea60b585e84e2500fc"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Memory_8hpp.html">&lt;source/Memory.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... Args&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9bbb7efe26555eea60b585e84e2500fc" class="m-doc-self">CreateScope</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; Scope&lt; T &gt;</span></span>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a20cb78505dd9864fb9a0fe37c34fcb11"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Memory_8hpp.html">&lt;source/Memory.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename... Args&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a20cb78505dd9864fb9a0fe37c34fcb11" class="m-doc-self">CreateRef</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) -&gt; Ref&lt; T &gt;</span></span>
             </h3>
             <p><span></span></p>
           </div></section>
