@@ -41,7 +41,7 @@ jobs:
       with: 
         python-version: "3.8"
         cache: "pip"
-    - run: pip install requirements.txt
+    - run: pip install -r requirements.txt
 
     - name: Install SDL2 system dependencies
       run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
@@ -94,7 +94,7 @@ jobs:
       with: 
         python-version: "3.8"
         cache: "pip"
-    - run: pip install requirements.txt
+    - run: pip install -r requirements.txt
 
     - name: Install SDL2 system dependencies
       run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
@@ -172,7 +172,7 @@ jobs:
       with: 
         python-version: "3.8"
         cache: "pip"
-    - run: pip install requirements.txt
+    - run: pip install -r requirements.txt
 
     - name: Install SDL2 system dependencies - ubuntu
       if: matrix.os == 'ubuntu-22.04'
@@ -251,7 +251,7 @@ jobs:
       with: 
         python-version: "3.8"
         cache: "pip"
-    - run: pip install requirements.txt
+    - run: pip install -r requirements.txt
 
     - name: Install Doxygen
       run: sudo apt-get update -q
