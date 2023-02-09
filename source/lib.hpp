@@ -17,5 +17,5 @@ struct Library
      */
     Library();
 
-    std::string m_name;
+    std::string mName;
 };

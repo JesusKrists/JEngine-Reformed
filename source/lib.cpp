@@ -4,7 +4,7 @@
 #include <tracy/Tracy.hpp>
 
 Library::Library()
-    : m_name{fmt::format("{}", "JEngine-Reformed")}
+    : mName{fmt::format("{}", "JEngine-Reformed")}
 {
     ZoneScoped;
 }

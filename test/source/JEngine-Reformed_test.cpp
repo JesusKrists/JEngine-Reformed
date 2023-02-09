@@ -21,7 +21,7 @@
 
 struct Library
 {
-    std::string m_name = fmt::format("{}", "JEngine-Reformed");
+    std::string mName = fmt::format("{}", "JEngine-Reformed");
 };
 
 enum struct TestEnum
@@ -51,8 +51,8 @@ TEST_CASE("Test Assert", "[Assert]")
 {
     auto const LIB = Library{};
 
-    REQUIRE(ASSERT(LIB.m_name == "JEngine-Reformed") == true);
-    REQUIRE(ASSERT(LIB.m_name == "JEngine-Old") == false);
+    REQUIRE(ASSERT(LIB.mName == "JEngine-Reformed") == true);
+    REQUIRE(ASSERT(LIB.mName == "JEngine-Old") == false);
 }
 
 TEST_CASE("Test Loggers", "[Logger]")
@@ -64,29 +64,10 @@ TEST_CASE("Test Loggers", "[Logger]")
 namespace JE
 {
 
-struct SDLWindow
+struct Size2D
 {
-    static constexpr auto DEFAULT_WINDOW_WIDTH = 640;
-    static constexpr auto DEFAULT_WINDOW_HEIGHT = 480;
-
-    SDLWindow(const SDLWindow& other) = delete;
-    SDLWindow(SDLWindow&& other) = delete;
-    auto operator=(const SDLWindow& other) -> SDLWindow& = delete;
-    auto operator=(SDLWindow&& other) -> SDLWindow& = delete;
-
-    explicit SDLWindow(const std::string& title)
-        : m_window(SDL_CreateWindow(title.c_str(),
-                                    SDL_WINDOWPOS_CENTERED,
-                                    SDL_WINDOWPOS_CENTERED,
-                                    DEFAULT_WINDOW_WIDTH,
-                                    DEFAULT_WINDOW_HEIGHT,
-                                    SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE))
-    {
-    }
-
-    ~SDLWindow() { SDL_DestroyWindow(m_window); }
-
-    SDL_Window* m_window = nullptr;
+    int x = 0;
+    int y = 0;
 };
 
 struct SDLPlatform
@@ -102,10 +83,47 @@ struct SDLPlatform
         if (SDL_Init(SDL_INIT_VIDEO) != 0) {
             EngineLogger()->error("Failed to initialize SDL: {}",
                                   SDL_GetError());
+            return;
         }
+
+        sPlatformInitialized = true;
     }
 
     ~SDLPlatform() { SDL_Quit(); }
+
+    static inline bool
+        sPlatformInitialized =  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+        false;
+};
+
+struct SDLWindow
+{
+    static constexpr auto DEFAULT_WINDOW_SIZE = Size2D{640, 480};
+
+    SDLWindow(const SDLWindow& other) = delete;
+    SDLWindow(SDLWindow&& other) = delete;
+    auto operator=(const SDLWindow& other) -> SDLWindow& = delete;
+    auto operator=(SDLWindow&& other) -> SDLWindow& = delete;
+
+    explicit SDLWindow(const std::string& title,
+                       const Size2D& size = DEFAULT_WINDOW_SIZE)
+    {
+        ASSERT(SDLPlatform::sPlatformInitialized);
+        mWindow = SDL_CreateWindow(title.c_str(),
+                                   SDL_WINDOWPOS_CENTERED,
+                                   SDL_WINDOWPOS_CENTERED,
+                                   size.x,
+                                   size.y,
+                                   SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+        if (mWindow == nullptr) {
+            EngineLogger()->error("Failed to create SDL window: {}",
+                                  SDL_GetError());
+        }
+    }
+
+    ~SDLWindow() { SDL_DestroyWindow(mWindow); }
+
+    SDL_Window* mWindow = nullptr;
 };
 
 }  // namespace JE
@@ -116,5 +134,5 @@ TEST_CASE("Test SDL initialization", "[SDL]")
     REQUIRE(SDL_WasInit(0) != 0);
 
     const JE::SDLWindow WINDOW{"TestWindow"};
-    REQUIRE(WINDOW.m_window != nullptr);
+    REQUIRE(WINDOW.mWindow != nullptr);
 }
