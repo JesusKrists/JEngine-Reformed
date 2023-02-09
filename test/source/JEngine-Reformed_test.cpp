@@ -1,4 +1,3 @@
-#include <SDL_video.h>
 #include <catch2/catch_test_macros.hpp>
 
 ////////////////////////////////////////
@@ -12,6 +11,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_main.h>
+#include <SDL2/SDL_video.h>
 
 #define JE_ASSERT_BREAK_ON_FAIL false
 #include "Assert.hpp"
@@ -109,12 +109,13 @@ struct SDLWindow
                        const Size2D& size = DEFAULT_WINDOW_SIZE)
     {
         ASSERT(SDLPlatform::sPlatformInitialized);
-        mWindow = SDL_CreateWindow(title.c_str(),
-                                   SDL_WINDOWPOS_CENTERED,
-                                   SDL_WINDOWPOS_CENTERED,
-                                   size.x,
-                                   size.y,
-                                   SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+        mWindow = SDL_CreateWindow(
+            title.c_str(),
+            SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
+            SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
+            size.x,
+            size.y,
+            SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
         if (mWindow == nullptr) {
             EngineLogger()->error("Failed to create SDL window: {}",
                                   SDL_GetError());

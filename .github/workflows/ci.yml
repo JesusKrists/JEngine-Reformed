@@ -38,12 +38,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Temporary workaround for azure connection failed
-      run: sudo gem install apt-spy2
-        && sudo apt-spy2 check
-        && sudo apt-spy2 fix --commit
-        && sudo apt-get update
-
     - name: Install SDL2 system dependencies
       run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
         && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
@@ -101,12 +95,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: Temporary workaround for azure connection failed
-      run: sudo gem install apt-spy2
-        && sudo apt-spy2 check
-        && sudo apt-spy2 fix --commit
-        && sudo apt-get update
 
     - name: Install SDL2 system dependencies
       run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
@@ -189,13 +177,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: Temporary workaround for azure connection failed
-      if: matrix.os == 'ubuntu-22.04'
-      run: sudo gem install apt-spy2
-        && sudo apt-spy2 check
-        && sudo apt-spy2 fix --commit
-        && sudo apt-get update
 
     - name: Install SDL2 system dependencies - ubuntu
       if: matrix.os == 'ubuntu-22.04'

@@ -42,7 +42,7 @@ class Recipe(ConanFile):
         self.requires("tracy/0.9")
 
     def build_requirements(self):
-        self.test_requires("catch2/3.1.0")
+        self.test_requires("catch2/3.3.1")
 
     def config_options(self):
         if not is_msvc(self):
