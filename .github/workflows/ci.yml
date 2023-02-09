@@ -16,15 +16,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
     - uses: actions/setup-python@v4
-      with: { python-version: "3.8" }
+      with:
+        python-version: "3.8"
+    - run: pip install codespell
 
-    - name: Install codespell
-      run: pip3 install codespell
-
-    - name: Lint
-      run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
+    - run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
 
     - name: Spell check
       if: always()
@@ -37,6 +34,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: sudo apt-get update -q
+        && sudo apt-get install lcov -q -y
+    - uses: seanmiddleditch/gha-setup-ninja@v3
+    - uses: actions/setup-python@v4.5.0
+      with: 
+        python-version: "3.8"
+        cache: "pip"
+    - run: pip install requirements.txt
 
     - name: Install SDL2 system dependencies
       run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
@@ -44,20 +49,8 @@ jobs:
         && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
         && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev
 
-    - name: Install LCov
-      run: sudo apt-get update -q
-        && sudo apt-get install lcov -q -y
-
-    - name: Install ninja-build tool
-      uses: seanmiddleditch/gha-setup-ninja@v3
-
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with: { python-version: "3.8" }
-
     - name: Install dependencies
-      run: pip3 install "conan<2"
-        && conan profile new default --detect
+      run: conan profile new default --detect
         && conan profile update settings.compiler.libcxx=libstdc++11 default
         && conan install . -b missing -o jengine-reformed*:coverage_build=True -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
@@ -95,16 +88,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - run: sudo apt-get update -q
+    - uses: seanmiddleditch/gha-setup-ninja@v3
+    - uses: actions/setup-python@v4.5.0
+      with: 
+        python-version: "3.8"
+        cache: "pip"
+    - run: pip install requirements.txt
 
     - name: Install SDL2 system dependencies
       run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
         && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
         && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
         && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev
-
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with: { python-version: "3.8" }
 
     - name: Install clang-17
       if: matrix.compiler != 'gcc-12'
@@ -116,15 +112,9 @@ jobs:
         && sudo apt-get update -q
         && sudo apt-get install -y -q clang-15 ${{ matrix.compiler }}
 
-    - name: Install ninja-build tool
-      uses: seanmiddleditch/gha-setup-ninja@v3
 
-    - name: Install CMake
-      uses: jwlawson/actions-setup-cmake@v1.13.0
-
-    - name: Install conan
-      run: pip3 install "conan<2"
-        && conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
+    - name: Install conan config
+      run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
 
     - name: Install dependencies - clang-15
       if: matrix.compiler != 'gcc-12'
@@ -177,10 +167,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: seanmiddleditch/gha-setup-ninja@v3
+    - uses: actions/setup-python@v4.5.0
+      with: 
+        python-version: "3.8"
+        cache: "pip"
+    - run: pip install requirements.txt
 
     - name: Install SDL2 system dependencies - ubuntu
       if: matrix.os == 'ubuntu-22.04'
-      run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
+      run: sudo apt-get update -q
+        && sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
         && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
         && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
         && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev
@@ -199,12 +196,6 @@ jobs:
         && sudo apt-get update -q
         && sudo apt-get install -y -q clang-tidy-17
         && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-17 200
-      
-    - name: Install ninja-build tool
-      uses: seanmiddleditch/gha-setup-ninja@v3
-
-    - name: Install CMake
-      uses: jwlawson/actions-setup-cmake@v1.13.0
 
     - name: Build cppcheck 2.10 - Linux
       if: matrix.os == 'ubuntu-22.04'
@@ -219,14 +210,9 @@ jobs:
         && cmake --build ${{ env.CPPCHECK_BUILD }} -j
         && sudo cmake --install ${{ env.CPPCHECK_BUILD }}
 
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with: { python-version: "3.8" }
-
     - name: Install dependencies
       shell: bash
       run: |
-        pip3 install "conan<2"
         conan profile new default --detect
         if [ ${{ matrix.os }} = ubuntu-22.04 ]; then
           conan profile update settings.compiler.libcxx=libstdc++11 default
@@ -261,12 +247,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - uses: actions/setup-python@v4
-      with: { python-version: "3.8" }
-
-    - name: Install m.css dependencies
-      run: pip3 install jinja2 Pygments
+    - uses: actions/setup-python@v4.5.0
+      with: 
+        python-version: "3.8"
+        cache: "pip"
+    - run: pip install requirements.txt
 
     - name: Install Doxygen
       run: sudo apt-get update -q
