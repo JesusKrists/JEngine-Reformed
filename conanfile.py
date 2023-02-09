@@ -58,25 +58,27 @@ class Recipe(ConanFile):
         self.folders.generators = "conan"
 
     def import_shared_libraries(self):
-        build_folder = "build/"
-        test_folder = "build/test"
+        build_folders = ["build/"]
+        test_folders = ["build/test"]
         if self.options.dev_build:
-            build_folder = "build/dev"
-            test_folder = "build/dev/test"
+            build_folders[0] = "build/dev"
+            test_folders[0] = "build/dev/test"
         if self.options.coverage_build:
-            build_folder = "build/coverage"
-            test_folder = "build/coverage/test"
+            build_folders[0] = "build/coverage"
+            test_folders[0] = "build/coverage/test"
         if self.options.sanitize_build:
-            build_folder = "build/sanitize"
-            test_folder = "build/sanitize/test"
+            build_folders[0] = "build/sanitize"
+            test_folders[0] = "build/sanitize/test"
         if (
             is_msvc(self)
             and not self.options.dev_build
             and not self.options.coverage_build
             and not self.options.sanitize_build
         ):
-            build_folder = f"build/{str(self.settings.build_type)}"
-            test_folder = f"build/test/{str(self.settings.build_type)}"
+            build_folders[0] = "build/Debug"
+            test_folders[0] = "build/test/Debug"
+            build_folders.append("build/Release")
+            test_folders.append("build/test/Release")
 
         for dep in self.dependencies.values():
             dirs = []
@@ -90,18 +92,19 @@ class Recipe(ConanFile):
                 extension_pattern = "*.so*"
 
             for dir in dirs:
-                copy(
-                    self,
-                    extension_pattern,
-                    dir,
-                    os.path.join(self.source_path, build_folder),
-                )
-                copy(
-                    self,
-                    extension_pattern,
-                    dir,
-                    os.path.join(self.source_path, test_folder),
-                )
+                for i, _ in enumerate(build_folders):
+                    copy(
+                        self,
+                        extension_pattern,
+                        dir,
+                        os.path.join(self.source_path, build_folders[i]),
+                    )
+                    copy(
+                        self,
+                        extension_pattern,
+                        dir,
+                        os.path.join(self.source_path, test_folders[i]),
+                    )
 
     def generate(self):
         tc = CMakeToolchain(self)
