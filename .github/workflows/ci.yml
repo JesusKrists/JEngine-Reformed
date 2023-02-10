@@ -40,7 +40,7 @@ jobs:
 
     - uses: ./.github/actions/setup_tools_shared
       with:
-        platform: ${{ jobs.coverage.runs-on }}
+        platform: ubuntu-latest
 
     - name: Install dependencies
       run: conan profile new default --detect
@@ -84,7 +84,7 @@ jobs:
 
     - uses: ./.github/actions/setup_tools_shared
       with:
-        platform: ${{ jobs.sanitize.runs-on }}
+        platform: ubuntu-latest
 
     - name: Install clang-17
       if: matrix.compiler != 'gcc-12'
