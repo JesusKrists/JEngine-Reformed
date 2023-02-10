@@ -12,13 +12,14 @@ on:
 # TODO: Add sonarcloud job
 jobs:
   lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
+    - uses: actions/setup-python@v4.5.0
+      with: 
         python-version: "3.8"
+        cache: "pip"
     - run: pip install codespell
 
     - run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
@@ -29,25 +30,17 @@ jobs:
 
   coverage:
     needs: [lint]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: github.repository_owner == 'JesusKrists'
 
     steps:
     - uses: actions/checkout@v3
     - run: sudo apt-get update -q
         && sudo apt-get install lcov -q -y
-    - uses: seanmiddleditch/gha-setup-ninja@v3
-    - uses: actions/setup-python@v4.5.0
-      with: 
-        python-version: "3.8"
-        cache: "pip"
-    - run: pip install -r requirements.txt
 
-    - name: Install SDL2 system dependencies
-      run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
-        && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
-        && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
-        && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev
+    - uses: ./.github/actions/setup_tools_shared
+      with:
+        platform: ${{ jobs.coverage.runs-on }}
 
     - name: Install dependencies
       run: conan profile new default --detect
@@ -84,23 +77,14 @@ jobs:
       matrix:
         compiler: [gcc-12, clang-17]
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - run: sudo apt-get update -q
-    - uses: seanmiddleditch/gha-setup-ninja@v3
-    - uses: actions/setup-python@v4.5.0
-      with: 
-        python-version: "3.8"
-        cache: "pip"
-    - run: pip install -r requirements.txt
 
-    - name: Install SDL2 system dependencies
-      run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
-        && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
-        && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
-        && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev
+    - uses: ./.github/actions/setup_tools_shared
+      with:
+        platform: ${{ jobs.sanitize.runs-on }}
 
     - name: Install clang-17
       if: matrix.compiler != 'gcc-12'
@@ -124,18 +108,10 @@ jobs:
       if: matrix.compiler == 'gcc-12'
       run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -o jengine-reformed*:sanitize_build=True
       
-    - name: Configure - clang-17
-      if: matrix.compiler != 'gcc-12'
+    - name: Configure 
       env: 
-        C: clang-17
-        CXX: clang++-17
-      run: cmake --preset=ci-sanitize
-      
-    - name: Configure - gcc-12
-      if: matrix.compiler == 'gcc-12'
-      env: 
-        C: gcc-12
-        CXX: g++-12
+        C: ${{ matrix.compiler }}
+        CXX: ${{ matrix.compiler }}
       run: cmake --preset=ci-sanitize
 
     - name: Build
@@ -160,34 +136,20 @@ jobs:
     needs: [lint]
     strategy:
       matrix:
-        os: [ubuntu-22.04, windows-2022]
+        os: [ubuntu-latest, windows-latest]
         configuration: [Debug, Release]
 
     runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v3
-    - uses: seanmiddleditch/gha-setup-ninja@v3
-    - uses: actions/setup-python@v4.5.0
-      with: 
-        python-version: "3.8"
-        cache: "pip"
-    - run: pip install -r requirements.txt
 
-    - name: Install SDL2 system dependencies - ubuntu
-      if: matrix.os == 'ubuntu-22.04'
-      run: sudo apt-get update -q
-        && sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
-        && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
-        && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
-        && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev
-
-    - name: Setup VS Dev Environment
-      if: matrix.os == 'windows-2022'
-      uses: seanmiddleditch/gha-setup-vsdevenv@v4
+    - uses: ./.github/actions/setup_tools_shared
+      with:
+        platform: ${{ matrix.os }}
 
     - name: Install clang-tidy-17
-      if: matrix.os == 'ubuntu-22.04'
+      if: matrix.os == 'ubuntu-latest'
       env:
         LLVM_URL: http://apt.llvm.org/focal/
         LLVM_PKG: llvm-toolchain-focal
@@ -198,7 +160,7 @@ jobs:
         && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-17 200
 
     - name: Build cppcheck 2.10 - Linux
-      if: matrix.os == 'ubuntu-22.04'
+      if: matrix.os == 'ubuntu-latest'
       env:
         CPPCHECK_BUILD: /home/cppcheck/build
         CPPCHECK_SRC: /home/cppcheck/cppcheck-src
@@ -214,7 +176,7 @@ jobs:
       shell: bash
       run: |
         conan profile new default --detect
-        if [ ${{ matrix.os }} = ubuntu-22.04 ]; then
+        if [ ${{ matrix.os }} = ubuntu-latest ]; then
           conan profile update settings.compiler.libcxx=libstdc++11 default
         fi
         conan install . -b missing -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
@@ -240,7 +202,7 @@ jobs:
   docs:
     # Deploy docs only when builds succeed
     needs: [sanitize, test]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
       && github.event_name == 'push'
       && github.repository_owner == 'JesusKrists'

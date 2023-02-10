@@ -1,0 +1,34 @@
+name: Setup tools shared
+description: Setup platform tools
+
+inputs:
+  platform:
+    description: "Runner platform"
+    required: true
+
+runs:
+  using: "composite"
+
+  steps:
+    - shell: bash
+      if: inputs.platform == 'ubuntu-latest'
+      run: sudo apt-get update -q
+    - uses: actions/setup-python@v4.5.0
+      with: 
+        python-version: "3.8"
+        cache: "pip"
+
+    - shell: bash
+      run: pip install -r requirements.txt
+    - uses: seanmiddleditch/gha-setup-ninja@v3
+    - uses: jwlawson/actions-setup-cmake@v1.13.1
+    - name: Setup VS Dev Environment - Windows
+      if: inputs.platform == 'windows-latest'
+      uses: seanmiddleditch/gha-setup-vsdevenv@v4
+    - name: Install SDL2 dependencies - Ubuntu
+      if: inputs.platform == 'ubuntu-latest'
+      shell: bash
+      run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
+        && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
+        && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
+        && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev
