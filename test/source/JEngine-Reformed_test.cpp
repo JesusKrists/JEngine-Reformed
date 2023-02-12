@@ -2,22 +2,19 @@
 
 ////////////////////////////////////////
 
-#include <exception>
+#include <cstdint>
 #include <string>
 
+#include <SDL.h>
+#include <SDL_video.h>
 #include <fmt/core.h>
-
-#define SDL_MAIN_HANDLED
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_error.h>
-#include <SDL2/SDL_main.h>
-#include <SDL2/SDL_video.h>
 
 #define JE_ASSERT_BREAK_ON_FAIL false
 #include "Assert.hpp"
 #include "Base.hpp"
 #include "Logger.hpp"
 #include "Memory.hpp"
+#include "SDLPlatform.hpp"
 
 struct Library
 {
@@ -49,7 +46,7 @@ TEST_CASE(  // NOLINT(cert-err58-cpp,
 
 TEST_CASE("Test Assert", "[Assert]")
 {
-    auto const LIB = Library{};
+    const auto LIB = Library{};
 
     REQUIRE(ASSERT(LIB.mName == "JEngine-Reformed") == true);
     REQUIRE(ASSERT(LIB.mName == "JEngine-Old") == false);
@@ -61,79 +58,88 @@ TEST_CASE("Test Loggers", "[Logger]")
     REQUIRE(JE::AppLogger() != nullptr);
 }
 
-namespace JE
-{
-
-struct Size2D
-{
-    int x = 0;
-    int y = 0;
-};
-
-struct SDLPlatform
-{
-    SDLPlatform(const SDLPlatform& other) = delete;
-    SDLPlatform(SDLPlatform&& other) = delete;
-    auto operator=(const SDLPlatform& other) -> SDLPlatform& = delete;
-    auto operator=(SDLPlatform&& other) -> SDLPlatform& = delete;
-
-    SDLPlatform()
-    {
-        SDL_SetMainReady();
-        if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-            EngineLogger()->error("Failed to initialize SDL: {}",
-                                  SDL_GetError());
-            return;
-        }
-
-        sPlatformInitialized = true;
-    }
-
-    ~SDLPlatform() { SDL_Quit(); }
-
-    static inline bool
-        sPlatformInitialized =  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
-        false;
-};
-
-struct SDLWindow
-{
-    static constexpr auto DEFAULT_WINDOW_SIZE = Size2D{640, 480};
-
-    SDLWindow(const SDLWindow& other) = delete;
-    SDLWindow(SDLWindow&& other) = delete;
-    auto operator=(const SDLWindow& other) -> SDLWindow& = delete;
-    auto operator=(SDLWindow&& other) -> SDLWindow& = delete;
-
-    explicit SDLWindow(const std::string& title,
-                       const Size2D& size = DEFAULT_WINDOW_SIZE)
-    {
-        ASSERT(SDLPlatform::sPlatformInitialized);
-        mWindow = SDL_CreateWindow(
-            title.c_str(),
-            SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
-            SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
-            size.x,
-            size.y,
-            SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-        if (mWindow == nullptr) {
-            EngineLogger()->error("Failed to create SDL window: {}",
-                                  SDL_GetError());
-        }
-    }
-
-    ~SDLWindow() { SDL_DestroyWindow(mWindow); }
-
-    SDL_Window* mWindow = nullptr;
-};
-
-}  // namespace JE
-
 TEST_CASE("Test SDL initialization", "[SDL]")
 {
-    const JE::SDLPlatform PLATFORM;
+    JE::EnginePlatform().Initialize();
+    REQUIRE(JE::detail::SDLPlatform::sPlatformInitialized != 0);
     REQUIRE(SDL_WasInit(0) != 0);
+}
+
+TEST_CASE("Test SDL window creation", "[SDL]")
+{
+    JE::EnginePlatform().Initialize();
 
     const JE::SDLWindow WINDOW{"TestWindow"};
     REQUIRE(WINDOW.mWindow != nullptr);
+}
+
+TEST_CASE("Test SDL OpenGL context creation", "[SDL][OpenGL]")
+{
+    JE::EnginePlatform().Initialize();
+
+    const JE::SDLWindow WINDOW{"TestWindow"};
+
+    REQUIRE(JE::detail::SDLOpenGLGraphicsContext::sGraphicsContextInitialized);
+    REQUIRE(WINDOW.mGraphicsContext.mContext != nullptr);
+}
+
+namespace JE
+{
+
+namespace detail
+{
+
+struct App
+{
+    static constexpr auto MAINWINDOW_DEFAULT_TITLE =
+        "JEngine-Reformed Application";
+
+    App()
+    {
+        EnginePlatform().Initialize();
+        mMainWindow = CreateScope<SDLWindow>(MAINWINDOW_DEFAULT_TITLE);
+    }
+
+    inline void ProcessEvents()
+    {
+        auto onEvent = []() {};
+
+        while (EnginePlatform().PollEvents(onEvent)) {
+            ++mEventsProcessed;
+        }
+    }
+
+    inline void Loop(std::int64_t loopCount = -1)
+    {
+        while (mLoopCount != loopCount) {
+            ProcessEvents();
+
+            ++mLoopCount;
+        }
+    }
+
+    Scope<SDLWindow> mMainWindow;
+    std::int64_t mLoopCount = 0;
+    std::uint64_t mEventsProcessed = 0;
+};
+
+}  // namespace detail
+
+inline auto Application() -> detail::App&
+{
+    static detail::App s_Application;
+    return s_Application;
+}
+
+}  // namespace JE
+
+TEST_CASE("Test Application creation and main loop", "[Application]")
+{
+    REQUIRE(JE::Application().mMainWindow->mWindow != nullptr);
+    REQUIRE(JE::Application().mLoopCount == 0);
+
+    JE::Application().Loop(1);
+
+    REQUIRE(JE::Application().mLoopCount == 1);
+    REQUIRE(JE::Application().mEventsProcessed != 0);
 }

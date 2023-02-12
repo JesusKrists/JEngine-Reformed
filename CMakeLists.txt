@@ -9,6 +9,10 @@ project(
   HOMEPAGE_URL "https://github.com/JesusKrists/JEngine-Reformed"
   LANGUAGES CXX)
 
+if(MSVC)
+  set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+endif()
+
 # We have extra warnings enabled, which clang does not support
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   set(CMAKE_CXX_FLAGS "-Wno-unknown-warning-option ${CMAKE_CXX_FLAGS}")
@@ -19,6 +23,7 @@ include(cmake/variables.cmake)
 
 find_package(spdlog REQUIRED)
 find_package(SDL2 REQUIRED)
+find_package(glad REQUIRED)
 find_package(nanosvg REQUIRED)
 find_package(Tracy REQUIRED)
 
