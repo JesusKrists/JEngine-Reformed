@@ -12,6 +12,7 @@
 - Build time measurements (-ftime-trace) ???
 - MSVC /analyze
 - clang-cl in CI
+- mingw in CI
 - MSVC control flow guard ???
 - clazy if using Qt
 - debug checked itertators

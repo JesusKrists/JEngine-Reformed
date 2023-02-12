@@ -5,6 +5,9 @@ inputs:
   platform:
     description: "Runner platform"
     required: true
+  build_type:
+    description: "Release or Debug"
+    required: true
 
 runs:
   using: "composite"
@@ -32,3 +35,13 @@ runs:
         && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
         && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
         && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev
+
+    - name: Install Mesa3D - Windows
+      if: inputs.platform == 'windows-latest'
+      shell: cmd
+      run: |
+        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.3.5/mesa3d-22.3.5-release-msvc.7z
+        "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+        mklink opengl32.dll "x64\opengl32.dll"
+        mklink libglapi.dll "x64\libglapi.dll"
+      working-directory: build\test\${{ inputs.build_type }}
