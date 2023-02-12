@@ -37,7 +37,7 @@ runs:
         && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev mesa-utils
 
     - name: Create test directory - Windows
-      if: input.platform == 'windows-latest'
+      if: inputs.platform == 'windows-latest'
       shell: cmd
       run: |
         mkdir build/test/${{ inputs.build_type }}/x64
