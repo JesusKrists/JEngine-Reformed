@@ -53,6 +53,6 @@ runs:
       working-directory: build/test/${{ inputs.build_type }}
 
     - name: Output glxinfo - Ubuntu
-      if: inputs.os == 'ubuntu-latest'
+      if: inputs.platform == 'ubuntu-latest'
       shell: bash
       run: glxinfo | grep OpenGL
