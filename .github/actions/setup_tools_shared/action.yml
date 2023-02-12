@@ -56,4 +56,4 @@ runs:
       uses: GabrielBB/xvfb-action@v1.6
       if: inputs.platform == 'ubuntu-latest'
       with:
-        run: glxinfo | grep OpenGL
+        run: glxinfo
