@@ -53,6 +53,7 @@ runs:
       working-directory: build/test/${{ inputs.build_type }}
 
     - name: Output glxinfo - Ubuntu
+      uses: GabrielBB/xvfb-action@v1.6
       if: inputs.platform == 'ubuntu-latest'
-      shell: bash
-      run: glxinfo | grep OpenGL
+      with:
+        run: glxinfo | grep OpenGL
