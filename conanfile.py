@@ -34,7 +34,7 @@ class Recipe(ConanFile):
         "glad*:fPIC": False,
         "glad*:no_loader": True,
         "glad*:gl_profile": "core",
-        "glad*:gl_version": "4.6",
+        "glad*:gl_version": "4.5",
         "tracy*:shared": True,
         "tracy*:callstack": True,
     }
