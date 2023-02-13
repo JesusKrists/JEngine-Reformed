@@ -47,9 +47,6 @@ jobs:
       run: conan install . -b missing -pr .github/gcc-12.profile -o jengine-reformed*:coverage_build=True
 
     - name: Configure
-      env:
-        CC: gcc-12
-        CXX: g++-12
       run: cmake --preset=ci-coverage
 
     - name: Build
@@ -91,7 +88,7 @@ jobs:
         platform: ubuntu-latest
         build_type: Debug
 
-    - name: Install clang-15
+    - name: Install clang
       if: matrix.compiler != 'gcc-12'
       env:
         LLVM_URL: http://apt.llvm.org/focal/
@@ -107,10 +104,17 @@ jobs:
     - name: Install dependencies
       run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -o jengine-reformed*:sanitize_build=True
       
-    - name: Configure 
+    - name: Configure - clang
+      if: matrix.compiler != 'gcc-12'
       env: 
-        C: ${{ matrix.compiler }}
-        CXX: ${{ matrix.compiler }}
+        C: clang-15
+        CXX: clang++-15
+      run: cmake --preset=ci-sanitize
+
+    - name: Configure - gcc
+      env: 
+        C: gcc-12
+        CXX: g++-12
       run: cmake --preset=ci-sanitize
 
     - name: Build
