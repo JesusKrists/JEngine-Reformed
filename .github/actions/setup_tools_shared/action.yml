@@ -45,20 +45,11 @@ runs:
         && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
         && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev mesa-utils
 
-    - name: Create test directory - Windows
-      if: inputs.platform == 'windows-latest'
-      shell: cmd
-      run: |
-        mkdir build\test\${{ inputs.build_type }}\x64
-
     - name: Install Mesa3D - Windows
       if: inputs.platform == 'windows-latest'
-      shell: cmd
-      run: |
-        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.3.5/mesa3d-22.3.5-release-msvc.7z
-        "C:\Program Files\7-Zip\7z.exe" x mesa.7z
-        move x64\* .
-      working-directory: build/test/${{ inputs.build_type }}
+      uses: ssciwr/setup-mesa-dist-win@v1
+      with:
+        version: '22.1.7'
 
     - name: Output glxinfo - Ubuntu
       uses: GabrielBB/xvfb-action@v1.6

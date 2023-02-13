@@ -74,7 +74,7 @@ struct SDLOpenGLGraphicsContext
     static constexpr auto OPENGL_MINOR_VERSION = 5;
 
     static constexpr auto BITS_PER_COLOR = 8;
-    static constexpr auto DEPTH_BUFFER_BITS = 16;
+    static constexpr auto DEPTH_BUFFER_BITS = 24;
 
     SDLOpenGLGraphicsContext(const SDLOpenGLGraphicsContext& other) = delete;
     SDLOpenGLGraphicsContext(SDLOpenGLGraphicsContext&& other) = delete;

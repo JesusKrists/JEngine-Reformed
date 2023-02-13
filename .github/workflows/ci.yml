@@ -44,12 +44,9 @@ jobs:
         build_type: Debug
 
     - name: Install dependencies
-      run: conan install . -b missing -pr .github/gcc-12.profile -o jengine-reformed*:coverage_build=True
+      run: conan install . -b missing -pr .github/gcc.profile -o jengine-reformed*:coverage_build=True
 
     - name: Configure
-      env:
-        CC: gcc-12
-        CXX: g++-12
       run: cmake --preset=ci-coverage
 
     - name: Build
@@ -201,11 +198,6 @@ jobs:
 
     - name: Install
       run: cmake --install build --config ${{ matrix.configuration }} --prefix install
-
-    - name: Output directory structure - Windows
-      if: matrix.os == 'windows-latest'
-      working-directory: build/test/${{ matrix.configuration }}
-      run: dir
 
     - name: Test
       uses: GabrielBB/xvfb-action@v1.6
