@@ -65,4 +65,6 @@ runs:
     - name: Output wglinfo - Windows
       if: inputs.platform == 'windows-latest'
       shell: cmd
+      env:
+        GALLIUM_DRIVER: llvmpipe
       run: wglinfo64
