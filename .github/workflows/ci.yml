@@ -209,7 +209,7 @@ jobs:
         GALLIUM_DRIVER: llvmpipe
       with:
         working-directory: build
-        run: ctest --output-on-failure -C ${{ matrix.configuration }}
+        run: ctest --output-on-failure -C ${{ matrix.configuration }} -j 2
 
   docs:
     # Deploy docs only when builds succeed
