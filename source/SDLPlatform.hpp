@@ -94,8 +94,8 @@ struct SDLOpenGLGraphicsContext
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS,
                             static_cast<std::int32_t>(flags));
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-                            SDL_GL_CONTEXT_PROFILE_CORE);
+        // SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+        //                     SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, OPENGL_MAJOR_VERSION);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, OPENGL_MINOR_VERSION);
         SDL_GL_SetAttribute(SDL_GL_RED_SIZE, BITS_PER_COLOR);

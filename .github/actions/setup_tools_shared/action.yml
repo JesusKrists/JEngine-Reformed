@@ -49,10 +49,20 @@ runs:
       if: inputs.platform == 'windows-latest'
       uses: ssciwr/setup-mesa-dist-win@v1
       with:
-        version: "21.3.7"
+        version: "22.3.5"
+
+    - name: Install wglinfo - Windows
+      if: inputs.platform == 'windows-latest'
+      shell: cmd
+      run: curl.exe -L --output wglinfo64.exe --url https://github.com/gkv311/wglinfo/releases/download/22_03/wglinfo64.exe
 
     - name: Output glxinfo - Ubuntu
       uses: GabrielBB/xvfb-action@v1.6
       if: inputs.platform == 'ubuntu-latest'
       with:
         run: glxinfo
+
+    - name: Output wglinfo - Windows
+      if: inputs.platform == 'windows-latest'
+      shell: cmd
+      run: wglinfo64
