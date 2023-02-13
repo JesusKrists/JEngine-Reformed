@@ -61,15 +61,13 @@ the project:
     "buildPresets": [
         {
             "name": "dev",
-            "configurePreset": "dev",
-            "configuration": "Debug"
+            "configurePreset": "dev"
         }
     ],
     "testPresets": [
         {
             "name": "dev",
             "configurePreset": "dev",
-            "configuration": "Debug",
             "output": {
                 "outputOnFailure": true
             }

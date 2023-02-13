@@ -49,7 +49,7 @@ runs:
       if: inputs.platform == 'windows-latest'
       uses: ssciwr/setup-mesa-dist-win@v1
       with:
-        version: '22.1.7'
+        version: "20.3.2"
 
     - name: Output glxinfo - Ubuntu
       uses: GabrielBB/xvfb-action@v1.6
