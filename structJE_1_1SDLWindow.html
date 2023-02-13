@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JE::detail namespace | JEngine-Reformed</title>
+  <title>JE::SDLWindow struct | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,7 +49,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span>detail <span class="m-thin">namespace</span>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span>SDLWindow <span class="m-thin">struct</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="SDLPlatform_8hpp.html">&lt;SDLPlatform.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -58,75 +59,70 @@
             <li>
               Reference
               <ul>
-                <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#func-members">Functions</a></li>
-                <li><a href="#var-members">Variables</a></li>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
           <dl class="m-doc">
-            <dt>
-              struct <a href="structJE_1_1detail_1_1JEngineLoggers.html" class="m-doc">JEngineLoggers</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              struct <a href="structJE_1_1detail_1_1SDLPlatform.html" class="m-doc">SDLPlatform</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              struct <a href="structJE_1_1detail_1_1SDLOpenGLGraphicsContext.html" class="m-doc">SDLOpenGLGraphicsContext</a>
+            <dt id="a5e5610e360ec03b0d5972a94e43a6253">
+              static auto <a href="#a5e5610e360ec03b0d5972a94e43a6253" class="m-doc-self">DEFAULT_WINDOW_SIZE</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="func-members">
-          <h2><a href="#func-members">Functions</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;bool ENABLED = false, bool BREAK = true&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a90dda050928d5ed8f0d43b625e1dd420" class="m-doc">Assert</a>(</span><span class="m-doc-wrap">const bool CHECK,
-              const std::string_view ASSERTION,
-              const std::source_location LOCATION = std::source_location::current()) -&gt; bool</span>
+            <dt id="abb17831da964709b01433b27566c63c5">
+              <span class="m-doc-wrap-bumper"><a href="#abb17831da964709b01433b27566c63c5" class="m-doc-self">SDLWindow</a>(</span><span class="m-doc-wrap">const <a href="structJE_1_1SDLWindow.html" class="m-doc">SDLWindow</a>&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a7199cf63182e7dbdd419859c3ec9eb73">
+              <span class="m-doc-wrap-bumper"><a href="#a7199cf63182e7dbdd419859c3ec9eb73" class="m-doc-self">SDLWindow</a>(</span><span class="m-doc-wrap"><a href="structJE_1_1SDLWindow.html" class="m-doc">SDLWindow</a>&amp;&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a158baf4d78ed9fc6da81a96c84a284c1">
+              <span class="m-doc-wrap-bumper"><a href="#a158baf4d78ed9fc6da81a96c84a284c1" class="m-doc-self">SDLWindow</a>(</span><span class="m-doc-wrap">const std::string&amp; title,
+              const <a href="structJE_1_1Size2D.html" class="m-doc">Size2D</a>&amp; size = <a href="structJE_1_1SDLWindow.html#a5e5610e360ec03b0d5972a94e43a6253" class="m-doc">DEFAULT_<wbr />WINDOW_<wbr />SIZE</a>) <span class="m-label m-flat m-info">explicit</span> </span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a1691d4ed665040feae5aaed78ef30a97">
+              <span class="m-doc-wrap-bumper"><a href="#a1691d4ed665040feae5aaed78ef30a97" class="m-doc-self">~SDLWindow</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="var-members">
-          <h2><a href="#var-members">Variables</a></h2>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              const <a href="structJE_1_1detail_1_1JEngineLoggers.html" class="m-doc">JEngineLoggers</a> <a href="#affac4f1da90666ba9d262f29a8c18f42" class="m-doc">LOGGERS</a>
+            <dt id="af42f93e84dff93cc6d9cc13528ed8164">
+              <span class="m-doc-wrap-bumper">auto <a href="#af42f93e84dff93cc6d9cc13528ed8164" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="structJE_1_1SDLWindow.html" class="m-doc">SDLWindow</a>&amp; other) -&gt; SDLWindow &amp; <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aff7b73c4ac1d662b000e44979c295c48">
+              <span class="m-doc-wrap-bumper">auto <a href="#aff7b73c4ac1d662b000e44979c295c48" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="structJE_1_1SDLWindow.html" class="m-doc">SDLWindow</a>&amp;&amp; other) -&gt; SDLWindow &amp; <span class="m-label m-flat m-danger">deleted</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a90dda050928d5ed8f0d43b625e1dd420"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Assert_8hpp.html">&lt;source/Assert.hpp&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;bool ENABLED = false, bool BREAK = true&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">auto JE::<wbr />detail::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a90dda050928d5ed8f0d43b625e1dd420" class="m-doc-self">Assert</a>(</span><span class="m-doc-wrap">const bool CHECK,
-              const std::string_view ASSERTION,
-              const std::source_location LOCATION = std::source_location::current()) -&gt; bool</span></span>
-            </h3>
-            <p><span></span></p>
-          </div></section>
-        </section>
-        <section>
-          <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="affac4f1da90666ba9d262f29a8c18f42"><div>
-            <h3>
-              const <a href="structJE_1_1detail_1_1JEngineLoggers.html" class="m-doc">JEngineLoggers</a> JE::<wbr />detail::<wbr /><a href="#affac4f1da90666ba9d262f29a8c18f42" class="m-doc-self">LOGGERS</a>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Logger_8hpp.html">&lt;source/Logger.hpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a194f6b7b180b84d62c5db8dc259532e9">
+              SDL_Window* <a href="#a194f6b7b180b84d62c5db8dc259532e9" class="m-doc-self">mWindow</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aeaf8b18eff045f4ba33aba28727c9150">
+              <a href="structJE_1_1detail_1_1SDLOpenGLGraphicsContext.html" class="m-doc">detail::<wbr />SDLOpenGLGraphicsContext</a> <a href="#aeaf8b18eff045f4ba33aba28727c9150" class="m-doc-self">mGraphicsContext</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
         </section>
       </div>
     </div>
