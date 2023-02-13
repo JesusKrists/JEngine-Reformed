@@ -5,8 +5,7 @@
 #include <cstdint>
 #include <string>
 
-#include <SDL.h>
-#include <SDL_video.h>
+#include <SDL2/SDL.h>
 #include <fmt/core.h>
 
 #define JE_ASSERT_BREAK_ON_FAIL false

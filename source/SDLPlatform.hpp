@@ -1,11 +1,11 @@
 #pragma once
 
-#include <SDL_events.h>
 #include <glad/glad.h>
 
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
+#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_main.h>
 #include <SDL2/SDL_video.h>
 
@@ -71,7 +71,7 @@ struct SDLPlatform
 struct SDLOpenGLGraphicsContext
 {
     static constexpr auto OPENGL_MAJOR_VERSION = 4;
-    static constexpr auto OPENGL_MINOR_VERSION = 6;
+    static constexpr auto OPENGL_MINOR_VERSION = 5;
 
     static constexpr auto BITS_PER_COLOR = 8;
     static constexpr auto DEPTH_BUFFER_BITS = 24;
@@ -85,10 +85,8 @@ struct SDLOpenGLGraphicsContext
 
     SDLOpenGLGraphicsContext() = default;
 
-    inline void Initialize(SDL_Window* window)
+    static inline void InitializeOpenGLParameters()
     {
-        ASSERT(SDLPlatform::sPlatformInitialized);
-
         std::uint32_t flags = SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG;
         if constexpr (!RELEASE_BUILD) {
             flags |= SDL_GL_CONTEXT_DEBUG_FLAG;
@@ -107,6 +105,12 @@ struct SDLOpenGLGraphicsContext
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, DEPTH_BUFFER_BITS);
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, BITS_PER_COLOR);
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    }
+
+    inline void Initialize(SDL_Window* window)
+    {
+        ASSERT(SDLPlatform::sPlatformInitialized);
+
         SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
 
         auto* previousContext = SDL_GL_GetCurrentContext();
@@ -180,6 +184,12 @@ struct SDLWindow
                        const Size2D& size = DEFAULT_WINDOW_SIZE)
     {
         ASSERT(detail::SDLPlatform::sPlatformInitialized);
+
+        // cppcheck-suppress knownConditionTrueFalse
+        if (!detail::SDLOpenGLGraphicsContext::sGraphicsContextInitialized) {
+            detail::SDLOpenGLGraphicsContext::InitializeOpenGLParameters();
+        }
+
         mWindow = SDL_CreateWindow(
             title.c_str(),
             SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)

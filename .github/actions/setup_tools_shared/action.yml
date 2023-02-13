@@ -16,6 +16,7 @@ runs:
     - shell: bash
       if: inputs.platform == 'ubuntu-latest'
       run: sudo apt-get update -q
+
     - uses: actions/setup-python@v4.5.0
       with: 
         python-version: "3.8"
@@ -23,11 +24,15 @@ runs:
 
     - shell: bash
       run: pip install -r requirements.txt
+
     - uses: seanmiddleditch/gha-setup-ninja@v3
+
     - uses: jwlawson/actions-setup-cmake@v1.13.1
+
     - name: Setup VS Dev Environment - Windows
       if: inputs.platform == 'windows-latest'
       uses: seanmiddleditch/gha-setup-vsdevenv@v4
+      
     - name: Install SDL2 dependencies - Ubuntu
       if: inputs.platform == 'ubuntu-latest'
       shell: bash
@@ -46,10 +51,9 @@ runs:
       if: inputs.platform == 'windows-latest'
       shell: cmd
       run: |
-        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/20.3.2/mesa3d-20.3.2-release-msvc.7z
+        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.3.5/mesa3d-22.3.5-release-msvc.7z
         "C:\Program Files\7-Zip\7z.exe" x mesa.7z
-        mklink opengl32.dll "x64\opengl32.dll"
-        mklink libglapi.dll "x64\libglapi.dll"
+        move x64\* .
       working-directory: build/test/${{ inputs.build_type }}
 
     - name: Output glxinfo - Ubuntu

@@ -211,7 +211,7 @@ jobs:
         TRACY_NO_INVARIANT_CHECK: "1"
       with:
         working-directory: build
-        run: ctest --output-on-failure -C ${{ matrix.configuration }} -j 2
+        run: ctest --output-on-failure -C ${{ matrix.configuration }}
 
   docs:
     # Deploy docs only when builds succeed
