@@ -206,6 +206,7 @@ jobs:
       uses: GabrielBB/xvfb-action@v1.6
       env:
         TRACY_NO_INVARIANT_CHECK: "1"
+        GALLIUM_DRIVER: llvmpipe
       with:
         working-directory: build
         run: ctest --output-on-failure -C ${{ matrix.configuration }}
