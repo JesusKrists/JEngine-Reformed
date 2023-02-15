@@ -3,6 +3,8 @@
 - Add ThreadSanitizer when applicable
 - Add fuzz testing
 - Add benchmarking
+- Enable sanitizer for debug build and release builds
+- Add conan caching
 - _GLIBCXX_DEBUG ???
 - Tracy heap profiling ???
 - LTO

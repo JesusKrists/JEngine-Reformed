@@ -1,26 +1,18 @@
 name: Setup tools shared
 description: Setup platform tools
 
-inputs:
-  platform:
-    description: "Runner platform"
-    required: true
-  build_type:
-    description: "Release or Debug"
-    required: true
-
 runs:
-  using: "composite"
+  using: 'composite'
 
   steps:
     - shell: bash
-      if: inputs.platform == 'ubuntu-latest'
+      if: runner.os == 'Linux'
       run: sudo apt-get update -q
 
     - uses: actions/setup-python@v4.5.0
-      with: 
-        python-version: "3.8"
-        cache: "pip"
+      with:
+        python-version: '3.8'
+        cache: 'pip'
 
     - shell: bash
       run: pip install -r requirements.txt
@@ -34,11 +26,11 @@ runs:
     - uses: jwlawson/actions-setup-cmake@v1.13.1
 
     - name: Setup VS Dev Environment - Windows
-      if: inputs.platform == 'windows-latest'
+      if: runner.os == 'Windows'
       uses: seanmiddleditch/gha-setup-vsdevenv@v4
-      
+
     - name: Install SDL2 dependencies - Ubuntu
-      if: inputs.platform == 'ubuntu-latest'
+      if: runner.os == 'Linux'
       shell: bash
       run: sudo apt-get install -y -q xorg-dev libudev-dev libts-dev libgl1-mesa-dev libegl-dev libegl1-mesa-dev
         && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
@@ -46,24 +38,24 @@ runs:
         && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev libx11-dev mesa-utils
 
     - name: Install Mesa3D - Windows
-      if: inputs.platform == 'windows-latest'
+      if: runner.os == 'Windows'
       uses: ssciwr/setup-mesa-dist-win@v1
       with:
-        version: "22.3.5"
+        version: '22.3.5'
 
     - name: Install wglinfo - Windows
-      if: inputs.platform == 'windows-latest'
+      if: runner.os == 'Windows'
       shell: cmd
       run: curl.exe -L --output wglinfo64.exe --url https://github.com/gkv311/wglinfo/releases/download/22_03/wglinfo64.exe
 
     - name: Output glxinfo - Ubuntu
       uses: GabrielBB/xvfb-action@v1.6
-      if: inputs.platform == 'ubuntu-latest'
+      if: runner.os == 'Linux'
       with:
         run: glxinfo
 
     - name: Output wglinfo - Windows
-      if: inputs.platform == 'windows-latest'
+      if: runner.os == 'Windows'
       shell: cmd
       env:
         GALLIUM_DRIVER: llvmpipe

@@ -3,11 +3,11 @@ name: Continuous Integration
 on:
   push:
     branches:
-    - master
+      - master
 
   pull_request:
     branches:
-    - master
+      - master
 
 # TODO: Add sonarcloud job
 jobs:
@@ -15,18 +15,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4.5.0
-      with: 
-        python-version: "3.8"
-        cache: "pip"
-    - run: pip install codespell
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4.5.0
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install codespell
 
-    - run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
+      - run: cmake -D FORMAT_COMMAND=clang-format-14 -P cmake/lint.cmake
 
-    - name: Spell check
-      if: always()
-      run: cmake -P cmake/spell.cmake
+      - name: Spell check
+        if: always()
+        run: cmake -P cmake/spell.cmake
 
   coverage:
     needs: [lint]
@@ -34,43 +34,40 @@ jobs:
     if: github.repository_owner == 'JesusKrists'
 
     steps:
-    - uses: actions/checkout@v3
-    - run: sudo apt-get update -q
-        && sudo apt-get install lcov -q -y
+      - uses: actions/checkout@v3
+      - run: sudo apt-get update -q
+          && sudo apt-get install lcov -q -y
 
-    - uses: ./.github/actions/setup_tools_shared
-      with:
-        platform: ubuntu-latest
-        build_type: Debug
+      - uses: ./.github/actions/setup_tools_shared
 
-    - name: Install dependencies
-      run: conan install . -b missing -pr .github/gcc.profile -o jengine-reformed*:coverage_build=True
+      - name: Install dependencies
+        run: conan install . -b missing -pr .github/gcc.profile -o jengine-reformed*:coverage_build=True
 
-    - name: Configure
-      run: cmake --preset=ci-coverage
+      - name: Configure
+        run: cmake --preset=ci-coverage
 
-    - name: Build
-      env:
-        TRACY_NO_INVARIANT_CHECK: "1"
-      run: cmake --build build/coverage -j 2
+      - name: Build
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+        run: cmake --build build/coverage -j 2
 
-    - name: Test
-      uses: GabrielBB/xvfb-action@v1.6
-      env:
-        TRACY_NO_INVARIANT_CHECK: "1"
-      with:
-        working-directory: build/coverage
-        run: ctest --output-on-failure -j 2
+      - name: Test
+        uses: GabrielBB/xvfb-action@v1.6
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+        with:
+          working-directory: build/coverage
+          run: ctest --output-on-failure -j 2
 
-    - name: Process coverage info
-      run: cmake --build build/coverage -t coverage
+      - name: Process coverage info
+        run: cmake --build build/coverage -t coverage
 
-    - name: Submit to codecov.io
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        fail_ci_if_error: true
-        file: build/coverage/coverage.info
+      - name: Submit to codecov.io
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          file: build/coverage/coverage.info
 
   sanitize:
     needs: [lint]
@@ -81,64 +78,61 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - uses: ./.github/actions/setup_tools_shared
-      with:
-        platform: ubuntu-latest
-        build_type: Debug
+      - uses: ./.github/actions/setup_tools_shared
 
-    - name: Install clang
-      if: matrix.compiler != 'gcc-12'
-      env:
-        LLVM_URL: http://apt.llvm.org/focal/
-        LLVM_PKG: llvm-toolchain-focal
-      run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - 2>/dev/null
-        && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
-        && sudo apt-get update -q
-        && sudo apt-get install -y -q ${{ matrix.compiler }}
+      - name: Install clang
+        if: matrix.compiler != 'gcc-12'
+        env:
+          LLVM_URL: http://apt.llvm.org/focal/
+          LLVM_PKG: llvm-toolchain-focal
+        run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - 2>/dev/null
+          && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
+          && sudo apt-get update -q
+          && sudo apt-get install -y -q ${{ matrix.compiler }}
 
-    - name: Install conan config
-      run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
+      - name: Install conan config
+        run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
 
-    - name: Install dependencies
-      run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -o jengine-reformed*:sanitize_build=True
-      
-    - name: Configure - clang
-      if: matrix.compiler != 'gcc-12'
-      env: 
-        C: clang-15
-        CXX: clang++-15
-      run: cmake --preset=ci-sanitize
+      - name: Install dependencies
+        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -o jengine-reformed*:sanitize_build=True
 
-    - name: Configure - gcc
-      env: 
-        C: gcc-12
-        CXX: g++-12
-      run: cmake --preset=ci-sanitize
+      - name: Configure - clang
+        if: matrix.compiler != 'gcc-12'
+        env:
+          C: clang-15
+          CXX: clang++-15
+        run: cmake --preset=ci-sanitize
 
-    - name: Build
-      env:
-        TRACY_NO_INVARIANT_CHECK: "1"
-      run: cmake --build build/sanitize -j 2
+      - name: Configure - gcc
+        env:
+          C: gcc-12
+          CXX: g++-12
+        run: cmake --preset=ci-sanitize
 
-    - name: Test
-      uses: GabrielBB/xvfb-action@v1.6
-      env:
-        ASAN_OPTIONS: "detect_invalid_pointer_pairs=1:\
-          strict_string_checks=1:\
-          detect_stack_use_after_return=1:\
-          check_initialization_order=1:\
-          strict_init_order=1:\
-          detect_leaks=1:\
-          fast_unwind_on_malloc=0:\
-          suppressions=${{ github.workspace }}/ASAN.supp"
-        LSAN_OPTIONS: "suppressions=${{ github.workspace }}/LSAN.supp"
-        UBSAN_OPTIONS: print_stacktrace=1
-        TRACY_NO_INVARIANT_CHECK: "1"
-      with:
-        working-directory: build/sanitize
-        run: ctest --output-on-failure -j 2
+      - name: Build
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+        run: cmake --build build/sanitize -j 2
+
+      - name: Test
+        uses: GabrielBB/xvfb-action@v1.6
+        env:
+          ASAN_OPTIONS: "detect_invalid_pointer_pairs=1:\
+            strict_string_checks=1:\
+            detect_stack_use_after_return=1:\
+            check_initialization_order=1:\
+            strict_init_order=1:\
+            detect_leaks=1:\
+            fast_unwind_on_malloc=0:\
+            suppressions=${{ github.workspace }}/ASAN.supp"
+          LSAN_OPTIONS: 'suppressions=${{ github.workspace }}/LSAN.supp'
+          UBSAN_OPTIONS: print_stacktrace=1
+          TRACY_NO_INVARIANT_CHECK: '1'
+        with:
+          working-directory: build/sanitize
+          run: ctest --output-on-failure -j 2
 
   test:
     needs: [lint]
@@ -150,66 +144,63 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - uses: ./.github/actions/setup_tools_shared
-      with:
-        platform: ${{ matrix.os }}
-        build_type: ${{ matrix.configuration }}
+      - uses: ./.github/actions/setup_tools_shared
 
-    - name: Install clang-tidy-15
-      if: matrix.os == 'ubuntu-latest'
-      env:
-        LLVM_URL: http://apt.llvm.org/focal/
-        LLVM_PKG: llvm-toolchain-focal
-      run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - 2>/dev/null
-        && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
-        && sudo apt-get update -q
-        && sudo apt-get install -y -q clang-tidy-15
-        && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-15 200
+      - name: Install clang-tidy-15
+        if: runner.os == 'Linux'
+        env:
+          LLVM_URL: http://apt.llvm.org/focal/
+          LLVM_PKG: llvm-toolchain-focal-15
+        run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - 2>/dev/null
+          && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
+          && sudo apt-get update -q
+          && sudo apt-get install -y -q clang-tidy-15
+          && sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-15 200
 
-    - name: Build cppcheck 2.10 - Linux
-      if: matrix.os == 'ubuntu-latest'
-      env:
-        CPPCHECK_BUILD: /home/cppcheck/build
-        CPPCHECK_SRC: /home/cppcheck/cppcheck-src
-      run: sudo apt-get purge --auto-remove cppcheck
-        && sudo apt-get install -y -q libxml2-utils libz3-dev libtinyxml2-dev libpcre3-dev
-        && sudo mkdir -p ${{ env.CPPCHECK_BUILD }}
-        && git clone --branch 2.10 https://github.com/danmar/cppcheck.git ${{ env.CPPCHECK_SRC }}
-        && cmake -S ${{ env.CPPCHECK_SRC }} -B ${{ env.CPPCHECK_BUILD }} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release -DHAVE_RULES=On -DBUILD_GUI=Off
-        && cmake --build ${{ env.CPPCHECK_BUILD }} -j
-        && sudo cmake --install ${{ env.CPPCHECK_BUILD }}
+      - name: Build cppcheck 2.10 - Linux
+        if: runner.os == 'Linux'
+        env:
+          CPPCHECK_BUILD: /home/cppcheck/build
+          CPPCHECK_SRC: /home/cppcheck/cppcheck-src
+        run: sudo apt-get purge --auto-remove cppcheck
+          && sudo apt-get install -y -q libxml2-utils libz3-dev libtinyxml2-dev libpcre3-dev
+          && sudo mkdir -p ${{ env.CPPCHECK_BUILD }}
+          && git clone --branch 2.10 https://github.com/danmar/cppcheck.git ${{ env.CPPCHECK_SRC }}
+          && cmake -S ${{ env.CPPCHECK_SRC }} -B ${{ env.CPPCHECK_BUILD }} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release -DHAVE_RULES=On -DBUILD_GUI=Off
+          && cmake --build ${{ env.CPPCHECK_BUILD }} -j
+          && sudo cmake --install ${{ env.CPPCHECK_BUILD }}
 
-    - name: Install dependencies
-      shell: bash
-      run: |
-        conan profile new default --detect
-        if [ ${{ matrix.os }} = ubuntu-latest ]; then
-          conan profile update settings.compiler.libcxx=libstdc++11 default
-        fi
-        conan install . -b missing -s build_type=${{ matrix.configuration }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+      - name: Install dependencies
+        shell: bash
+        run: |
+          conan profile new default --detect
+          if [ ${{ runner.os }} = Linux ]; then
+            conan profile update settings.compiler.libcxx=libstdc++11 default
+          fi
+          conan install . -b missing -s build_type=${{ matrix.configuration }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
-    - name: Configure
-      shell: pwsh
-      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+      - name: Configure
+        shell: pwsh
+        run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
-    - name: Build
-      env:
-        TRACY_NO_INVARIANT_CHECK: "1"
-      run: cmake --build build --config ${{ matrix.configuration }} -j 2
+      - name: Build
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+        run: cmake --build build --config ${{ matrix.configuration }} -j 2
 
-    - name: Install
-      run: cmake --install build --config ${{ matrix.configuration }} --prefix install
+      - name: Install
+        run: cmake --install build --config ${{ matrix.configuration }} --prefix install
 
-    - name: Test
-      uses: GabrielBB/xvfb-action@v1.6
-      env:
-        TRACY_NO_INVARIANT_CHECK: "1"
-        GALLIUM_DRIVER: llvmpipe
-      with:
-        working-directory: build
-        run: ctest --output-on-failure -C ${{ matrix.configuration }} -j 2
+      - name: Test
+        uses: GabrielBB/xvfb-action@v1.6
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+          GALLIUM_DRIVER: llvmpipe
+        with:
+          working-directory: build
+          run: ctest --output-on-failure -C ${{ matrix.configuration }} -j 2
 
   docs:
     # Deploy docs only when builds succeed
@@ -220,23 +211,23 @@ jobs:
       && github.repository_owner == 'JesusKrists'
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4.5.0
-      with: 
-        python-version: "3.8"
-        cache: "pip"
-    - run: pip install -r requirements.txt
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4.5.0
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
 
-    - name: Install Doxygen
-      run: sudo apt-get update -q
-        && sudo apt-get install doxygen -q -y
+      - name: Install Doxygen
+        run: sudo apt-get update -q
+          && sudo apt-get install doxygen -q -y
 
-    - name: Build docs
-      run: cmake "-DPROJECT_SOURCE_DIR=$PWD" "-DPROJECT_BINARY_DIR=$PWD/build"
-        -P cmake/docs-ci.cmake
+      - name: Build docs
+        run: cmake "-DPROJECT_SOURCE_DIR=$PWD" "-DPROJECT_BINARY_DIR=$PWD/build"
+          -P cmake/docs-ci.cmake
 
-    - name: Deploy docs
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: build/docs/html
+      - name: Deploy docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/docs/html
