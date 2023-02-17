@@ -4,6 +4,7 @@
 - Add fuzz testing
 - Add benchmarking
 - Enable sanitizer for debug build and release builds
+- Add MacOS support again
 - Add conan caching
 - _GLIBCXX_DEBUG ???
 - Tracy heap profiling ???
