@@ -3,8 +3,10 @@ if(ENABLE_FORTIFY_SOURCE)
 endif()
 
 if(ENABLE_SANITIZERS)
-  add_compile_options(-fsanitize=address,undefined -fno-omit-frame-pointer
+  add_compile_options(-g -fsanitize=address,undefined -fno-omit-frame-pointer
                       -fno-common)
+
+  add_link_options(-fsanitize=address,undefined)
 endif()
 
 if(MSVC)
