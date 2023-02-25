@@ -97,6 +97,9 @@ class Recipe(ConanFile):
             if self.settings.os == "Linux":
                 dirs = dep.cpp_info.libdirs
                 extension_pattern = "*.so*"
+            if self.settings.os == "Macos":
+                dirs = dep.cpp_info.libdirs
+                extension_pattern = "*.dylib"
 
             for dir in dirs:
                 for i, _ in enumerate(build_folders):
@@ -120,8 +123,6 @@ class Recipe(ConanFile):
         self.import_shared_libraries()
 
     def validate(self):
-        if self.settings.os == "Macos":
-            raise ConanInvalidConfiguration("Macos not supported")
         if self.settings.get_safe("compiler.cppstd"):
             check_min_cppstd(self, 20)
 
