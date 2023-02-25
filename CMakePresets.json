@@ -49,7 +49,7 @@
       "name": "clang-tidy",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;--header-filter=^${sourceDir}/;-extra-arg=-Wno-unknown-warning-option"
+        "CMAKE_CXX_CLANG_TIDY": "clang-tidy;--header-filter=^${sourceDir}/;-extra-arg=-Wno-unknown-warning-option;-extra-arg=-Wno-error=unused-command-line-argument"
       }
     },
     {
@@ -63,7 +63,7 @@
       "name": "iwyu",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_INCLUDE_WHAT_YOU_USE": "include-what-you-use;-Xiwyu;--cxx17ns;-Xiwyu;--error=4;-Xiwyu;--no_comments;-Wno-unknown-warning-option"
+        "CMAKE_CXX_INCLUDE_WHAT_YOU_USE": "include-what-you-use;-Xiwyu;--cxx17ns;-Xiwyu;--error=4;-Xiwyu;--no_comments;-Wno-unknown-warning-option;-Wno-error=unused-command-line-argument"
       }
     },
     {
