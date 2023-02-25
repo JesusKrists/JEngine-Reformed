@@ -336,7 +336,7 @@ jobs:
 
   docs:
     # Deploy docs only when builds succeed
-    needs: [sanitize, test]
+    needs: [sanitize, test, test-mingw, coverage, sonarcloud]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
       && github.event_name == 'push'
