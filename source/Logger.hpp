@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <iomanip>
+#include <sstream>
 #include <string>
 
 #ifdef _MSC_VER
