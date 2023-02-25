@@ -257,6 +257,7 @@ jobs:
             mesa:p
             cmake:p
             ninja:p
+            make:p
 
       - uses: actions/checkout@v3.3.0
 
