@@ -195,7 +195,7 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
-          conan profile new default --detect
+          conan profile new default --detect --force
           if [ ${{ runner.os }} = Linux ]; then
             conan profile update settings.compiler.libcxx=libstdc++11 default
           fi
