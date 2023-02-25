@@ -6,6 +6,7 @@
 #include <string>
 
 #include <SDL2/SDL.h>
+#include <SDL_video.h>
 #include <fmt/core.h>
 
 #define JE_ASSERT_BREAK_ON_FAIL false
