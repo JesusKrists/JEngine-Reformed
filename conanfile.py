@@ -50,7 +50,7 @@ class Recipe(ConanFile):
         self.test_requires("catch2/3.3.1")
 
     def config_options(self):
-        if not is_msvc(self):
+        if not is_msvc(self) and not self.settings.os == "Macos":
             self.options["sdl"].iconv = False
         if self.settings.os == "Linux":
             self.options["sdl"].pulse = False
