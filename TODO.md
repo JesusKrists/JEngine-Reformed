@@ -4,7 +4,6 @@
 - Add fuzz testing
 - Add benchmarking
 - Enable sanitizer for debug build and release builds
-- Add conan caching
 - _GLIBCXX_DEBUG ???
 - debug checked itertators _ITERATOR_DEBUG_LEVEL
 - Tracy heap profiling ???
