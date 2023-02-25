@@ -241,8 +241,6 @@ jobs:
         shell: msys2 {0}
 
     steps:
-      - uses: actions/checkout@v3.3.0
-
       - uses: msys2/setup-msys2@v2
         with:
           update: true
@@ -254,10 +252,13 @@ jobs:
             include-what-you-use:p
             clang-tools-extra:p
             python:p
+            python-pip:p
             mesa:p
 
+      - uses: actions/checkout@v3.3.0
+
       - name: Install python deps
-        run: python3 -m pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Cache conan dependencies
         uses: actions/cache@v3.2.6
@@ -267,12 +268,9 @@ jobs:
           key: ${{ runner.os }}-msys-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
-        run: conan install . -b missing -pr .github/gcc-12.profile -s build_type=${{ matrix.configuration }} -s os=Windows
+        run: conan install . -b missing -pr .github/gcc-12.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=gcc -e CXX=g++
 
       - name: Configure
-        env:
-          CC: gcc-12
-          CXX: g++-12
         run: cmake "--preset=ci-windows-msys" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
       - name: Build
