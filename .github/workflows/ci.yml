@@ -245,6 +245,7 @@ jobs:
         with:
           update: true
           msystem: UCRT64
+          install: base-devel
           pacboy: >
             base-devel:p
             gcc:p
