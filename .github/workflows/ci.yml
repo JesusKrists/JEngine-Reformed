@@ -42,6 +42,13 @@ jobs:
 
       - uses: ./.github/actions/setup_tools_shared
 
+      - name: Cache conan dependencies
+        uses: actions/cache@v3.2.6
+        with:
+          path: |
+            ~/.conan
+          key: ${{ runner.os }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/gcc.profile') }}
+
       - name: Install dependencies
         run: conan install . -b missing -pr .github/gcc.profile -o jengine-reformed*:coverage_build=True
 
@@ -93,6 +100,13 @@ jobs:
           && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
           && sudo apt-get update -q
           && sudo apt-get install -y -q ${{ matrix.compiler }}
+
+      - name: Cache conan dependencies
+        uses: actions/cache@v3.2.6
+        with:
+          path: |
+            ~/.conan
+          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
         run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -o jengine-reformed*:sanitize_build=True
@@ -170,6 +184,13 @@ jobs:
           && cmake -S ${{ env.CPPCHECK_SRC }} -B ${{ env.CPPCHECK_BUILD }} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release -DHAVE_RULES=On -DBUILD_GUI=Off
           && cmake --build ${{ env.CPPCHECK_BUILD }} -j
           && sudo cmake --install ${{ env.CPPCHECK_BUILD }}
+
+      - name: Cache conan dependencies
+        uses: actions/cache@v3.2.6
+        with:
+          path: |
+            ~/.conan
+          key: ${{ runner.os }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
         shell: bash
