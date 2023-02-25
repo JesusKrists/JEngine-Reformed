@@ -254,6 +254,8 @@ jobs:
             python:p
             python-pip:p
             mesa:p
+            cmake:p
+            ninja:p
 
       - uses: actions/checkout@v3.3.0
 
