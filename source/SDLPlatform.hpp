@@ -71,7 +71,11 @@ struct SDLPlatform
 struct SDLOpenGLGraphicsContext
 {
     static constexpr auto OPENGL_MAJOR_VERSION = 4;
+#if !JE_PLATFORM_APPLE_VALUE
     static constexpr auto OPENGL_MINOR_VERSION = 5;
+#else
+    static constexpr auto OPENGL_MINOR_VERSION = 1;
+#endif
 
     static constexpr auto BITS_PER_COLOR = 8;
     static constexpr auto DEPTH_BUFFER_BITS = 24;

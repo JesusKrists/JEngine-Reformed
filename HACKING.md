@@ -39,45 +39,94 @@ the project:
     },
     "configurePresets": [
         {
-            "name": "dev",
-            "binaryDir": "${sourceDir}/build/dev",
+            "name": "dev-common",
+            "hidden": true,
             "generator": "Ninja",
-            "architecture": "",
             "inherits": [
                 "dev-mode",
                 "conan",
-                "Ccache",
                 "clang-tidy",
                 "cppcheck",
-                "iwyu",
-                "ci-ubuntu"
+                "Ccache",
+                "iwyu"
             ],
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
+                "BUILD_MCSS_DOCS": "ON",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "dev-linux",
+            "binaryDir": "${sourceDir}/build/dev-linux",
+            "inherits": [
+                "dev-common",
+                "ci-ubuntu"
+            ]
+        },
+        {
+            "name": "dev-darwin",
+            "binaryDir": "${sourceDir}/build/dev-darwin",
+            "inherits": [
+                "dev-common",
+                "ci-macos"
+            ]
+        },
+        {
+            "name": "dev-win64",
+            "binaryDir": "${sourceDir}/build/dev-win64",
+            "inherits": [
+                "dev-common",
+                "ci-windows"
+            ],
+            "environment": {
+                "UseMultiToolTask": "true",
+                "EnforceProcessCountAcrossBuilds": "true"
+            }
+        },
+        {
+            "name": "dev",
+            "binaryDir": "${sourceDir}/build/dev",
+            "inherits": "dev-linux",
+            "cacheVariables": {
                 "CMAKE_CXX_COMPILER": "g++-12"
             }
+        },
+        {
+            "name": "dev-coverage",
+            "binaryDir": "${sourceDir}/build/coverage",
+            "inherits": [
+                "dev-mode",
+                "coverage-linux",
+                "conan"
+            ]
         }
     ],
     "buildPresets": [
         {
             "name": "dev",
-            "configurePreset": "dev"
+            "configurePreset": "dev",
+            "configuration": "Debug",
+            "jobs": 12
         }
     ],
     "testPresets": [
         {
             "name": "dev",
             "configurePreset": "dev",
+            "configuration": "Debug",
             "output": {
                 "outputOnFailure": true
+            },
+            "execution": {
+                "jobs": 12,
+                "noTestsAction": "error"
             }
         }
     ]
 }
 ```
 
-You should replace `<os>` in your newly created presets file with the name of
-the operating system you have, which may be `win64` or `unix`. You can see what
+You should replace `dev` presets inherit in your newly created presets file with the name of the operating system you have, which may be `win64` or `linux` or `darwin`. You can see what
 these correspond to in the [`CMakePresets.json`](CMakePresets.json) file.
 
 `CMakeUserPresets.json` is also the perfect place in which you can put all

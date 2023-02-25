@@ -47,7 +47,7 @@ if(index EQUAL "-1")
 endif()
 string(SUBSTRING "${content}" "${index}" -1 content)
 
-string(FIND "${content}" ")\n" index)
+string(FIND "${content}" "\n)\n" index)
 if(index EQUAL "-1")
   message(FATAL_ERROR "Could not find \"\\n)\\n\"")
 endif()

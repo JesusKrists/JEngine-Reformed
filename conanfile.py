@@ -54,6 +54,8 @@ class Recipe(ConanFile):
             self.options["sdl"].iconv = False
         if self.settings.os == "Linux":
             self.options["sdl"].pulse = False
+        if self.settings.os == "Macos":
+            self.options["glad"].gl_version = "4.1"
 
     def source(self):
         self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git src")

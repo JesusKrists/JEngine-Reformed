@@ -77,10 +77,19 @@
       }
     },
     {
-      "name": "flags-unix",
+      "name": "flags-linux",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast -Wmisleading-indentation -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast -Werror"
+        "CMAKE_CXX_FLAGS": "-D_FORTIFY_SOURCE=3 -fstack-protector-strong -fcf-protection=full -fstack-clash-protection -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast -Wmisleading-indentation -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast -Werror",
+        "CMAKE_EXE_LINKER_FLAGS": "-Wl,--allow-shlib-undefined,--as-needed,-z,noexecstack,-z,relro,-z,now",
+        "CMAKE_SHARED_LINKER_FLAGS": "-Wl,--allow-shlib-undefined,--as-needed,-z,noexecstack,-z,relro,-z,now"
+      }
+    },
+    {
+      "name": "flags-darwin",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-fstack-protector-strong -fcf-protection=full -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wformat=2 -Wundef -Werror=float-equal -Wshadow -Wcast-align -Wunused -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough -Wextra-semi -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast"
       }
     },
     {
@@ -88,35 +97,42 @@
       "description": "Note that all the flags after /W4 are required for MSVC to conform to the language standard",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "/utf-8 /w14640 /w14826 /w14619 /w14311 /w14296 /we4289 /w14287 /w14265 /w14263 /w14242 /w14254 /w14165 /w44242 /w44254 /w44263 /w34265 /w34287 /w44296 /w44365 /w44388 /w44464 /w14545 /w14546 /w14547 /w14549 /w14555 /w34619 /w34640 /w24826 /w14905 /w14906 /w14928 /w45038 /W4 /permissive- /volatile:iso /Zc:preprocessor /Zc:__cplusplus /Zc:externConstexpr /Zc:throwingNew /EHsc /WX"
+        "CMAKE_CXX_FLAGS": "/sdl /analyze /analyze:external- /guard:cf /utf-8 /w14640 /w14826 /w14619 /w14311 /w14296 /we4289 /w14287 /w14265 /w14263 /w14242 /w14254 /w14165 /w44242 /w44254 /w44263 /w34265 /w34287 /w44296 /w44365 /w44388 /w44464 /w14545 /w14546 /w14547 /w14549 /w14555 /w34619 /w34640 /w24826 /w14905 /w14906 /w14928 /w45038 /W4 /permissive- /volatile:iso /Zc:preprocessor /Zc:__cplusplus /Zc:externConstexpr /Zc:throwingNew /EHsc /WX",
+        "CMAKE_EXE_LINKER_FLAGS": "/machine:x64 /guard:cf"
       }
     },
     {
-      "name": "ci-unix",
+      "name": "ci-linux",
       "generator": "Ninja",
       "hidden": true,
       "inherits": [
-        "flags-unix",
+        "flags-linux",
         "ci-std"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
+      ]
+    },
+    {
+      "name": "ci-darwin",
+      "generator": "Ninja",
+      "hidden": true,
+      "inherits": [
+        "flags-darwin",
+        "ci-std"
+      ]
     },
     {
       "name": "ci-win64",
-      "generator": "Visual Studio 17 2022",
-      "architecture": "x64",
       "inherits": [
         "flags-windows",
         "ci-std"
       ],
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
       "hidden": true
     },
     {
-      "name": "coverage-unix",
+      "name": "coverage-linux",
       "binaryDir": "${sourceDir}/build/coverage",
-      "inherits": "ci-unix",
+      "inherits": "ci-linux",
       "hidden": true,
       "cacheVariables": {
         "ENABLE_COVERAGE": "ON",
@@ -130,7 +146,7 @@
     {
       "name": "ci-coverage",
       "inherits": [
-        "coverage-unix",
+        "coverage-linux",
         "dev-mode",
         "conan"
       ],
@@ -142,7 +158,7 @@
       "name": "ci-sanitize",
       "binaryDir": "${sourceDir}/build/sanitize",
       "inherits": [
-        "ci-unix",
+        "ci-linux",
         "dev-mode",
         "conan"
       ],
@@ -164,7 +180,7 @@
       "name": "ci-macos",
       "inherits": [
         "ci-build",
-        "ci-unix",
+        "ci-darwin",
         "dev-mode",
         "conan"
       ]
@@ -173,7 +189,7 @@
       "name": "ci-ubuntu",
       "inherits": [
         "ci-build",
-        "ci-unix",
+        "ci-linux",
         "clang-tidy",
         "conan",
         "cppcheck",
