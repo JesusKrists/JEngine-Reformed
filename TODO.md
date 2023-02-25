@@ -12,3 +12,6 @@
 - Build time measurements (-ftime-trace) ???
 - clang-cl in CI
 - clazy if using Qt 
+- LGTM
+- CodeQL
+- Coverity scan?

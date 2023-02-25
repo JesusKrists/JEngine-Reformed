@@ -160,6 +160,7 @@ jobs:
         run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
       - name: Configure - gcc
+        if: matrix.compiler == 'gcc-12'
         env:
           C: gcc-12
           CXX: g++-12
@@ -202,7 +203,7 @@ jobs:
 
       - uses: ./.github/actions/setup_tools_shared
 
-      - name: Install clang-tidy-15
+      - name: Install clang-tidy-15 - Linux
         if: runner.os == 'Linux'
         env:
           LLVM_URL: http://apt.llvm.org/focal/
