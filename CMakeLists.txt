@@ -9,6 +9,10 @@ project(
   HOMEPAGE_URL "https://github.com/JesusKrists/JEngine-Reformed"
   LANGUAGES CXX)
 
+if(ENABLE_FORTIFY_SOURCE)
+  add_compile_definitions(_FORTIFY_SOURCE=3)
+endif()
+
 if(MSVC)
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 endif()

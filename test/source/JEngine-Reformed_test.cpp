@@ -45,7 +45,7 @@ TEST_CASE(  // NOLINT(cert-err58-cpp,
 
 TEST_CASE("Test Assert", "[Assert]")
 {
-    const auto LIB = Library{};
+    const Library LIB{};
 
     REQUIRE(ASSERT(LIB.mName == "JEngine-Reformed") == true);
     REQUIRE(ASSERT(LIB.mName == "JEngine-Old") == false);
