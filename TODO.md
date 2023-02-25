@@ -2,7 +2,6 @@
 - Add ThreadSanitizer when applicable
 - Add fuzz testing
 - Add benchmarking
-- Enable sanitizer for debug build and release builds
 - _GLIBCXX_DEBUG ???
 - debug checked itertators _ITERATOR_DEBUG_LEVEL
 - Tracy heap profiling ???

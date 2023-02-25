@@ -140,7 +140,7 @@
         "CMAKE_CXX_FLAGS_COVERAGE": "-Og -g --coverage -fkeep-inline-functions -fkeep-static-functions",
         "CMAKE_EXE_LINKER_FLAGS_COVERAGE": "--coverage",
         "CMAKE_SHARED_LINKER_FLAGS_COVERAGE": "--coverage",
-        "CMAKE_MAP_IMPORTED_CONFIG_COVERAGE": "Coverage;RelWithDebInfo;Release;Debug;"
+        "CMAKE_MAP_IMPORTED_CONFIG_COVERAGE": "Coverage;Release;RelWithDebInfo;Debug;"
       }
     },
     {
@@ -163,9 +163,8 @@
         "conan"
       ],
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Sanitize",
-        "CMAKE_CXX_FLAGS_SANITIZE": "-O2 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-common",
-        "CMAKE_MAP_IMPORTED_CONFIG_SANITIZE": "Sanitize;RelWithDebInfo;Release;Debug;"
+        "ENABLE_SANITIZERS": "True",
+        "CMAKE_MAP_IMPORTED_CONFIG_DEBUG": "Release;RelWithDebInfo;Debug;"
       }
     },
     {

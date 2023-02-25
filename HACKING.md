@@ -89,7 +89,7 @@ the project:
             "inherits": "dev-linux",
             "cacheVariables": {
                 "CMAKE_CXX_COMPILER": "g++-12",
-                "ENABLE_FORTIFY_SOURCE": "True"
+                "ENABLE_FORTIFY_SOURCE": "ON"
             }
         },
         {

@@ -123,6 +123,7 @@ jobs:
     strategy:
       matrix:
         compiler: [gcc-12, clang-15]
+        configuration: [Debug, Release]
 
     runs-on: ubuntu-latest
 
@@ -146,28 +147,28 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
-        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -o jengine-reformed*:sanitize_build=True
+        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -o jengine-reformed*:sanitize_build=True
 
       - name: Configure - clang
         if: matrix.compiler != 'gcc-12'
         env:
           C: clang-15
           CXX: clang++-15
-        run: cmake --preset=ci-sanitize
+        run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
       - name: Configure - gcc
         env:
           C: gcc-12
           CXX: g++-12
-        run: cmake --preset=ci-sanitize
+        run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
       - name: Build
         env:
           TRACY_NO_INVARIANT_CHECK: '1'
-        run: cmake --build build/sanitize -j 2
+        run: cmake --build build/sanitize --config ${{ matrix.configuration }} -j 2
 
       - name: Test
         uses: GabrielBB/xvfb-action@v1.6
@@ -185,7 +186,7 @@ jobs:
           TRACY_NO_INVARIANT_CHECK: '1'
         with:
           working-directory: build/sanitize
-          run: ctest --output-on-failure --no-tests=error -j 2
+          run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
   test:
     needs: [lint]

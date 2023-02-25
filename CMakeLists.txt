@@ -9,19 +9,7 @@ project(
   HOMEPAGE_URL "https://github.com/JesusKrists/JEngine-Reformed"
   LANGUAGES CXX)
 
-if(ENABLE_FORTIFY_SOURCE)
-  add_compile_definitions(_FORTIFY_SOURCE=3)
-endif()
-
-if(MSVC)
-  set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
-endif()
-
-# We have extra warnings enabled, which clang does not support
-if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-  set(CMAKE_CXX_FLAGS "-Wno-unknown-warning-option ${CMAKE_CXX_FLAGS}")
-endif()
-
+include(cmake/custom-options.cmake)
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 
