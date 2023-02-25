@@ -191,9 +191,18 @@
         "ci-build",
         "ci-linux",
         "clang-tidy",
-        "conan",
         "cppcheck",
-        "dev-mode"
+        "dev-mode",
+        "conan"
+      ]
+    },
+    {
+      "name": "ci-ubuntu-noanalysis",
+      "inherits": [
+        "ci-build",
+        "ci-linux",
+        "dev-mode",
+        "conan"
       ]
     },
     {

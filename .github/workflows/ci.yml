@@ -78,6 +78,46 @@ jobs:
           fail_ci_if_error: true
           file: build/coverage/coverage.info
 
+  sonarcloud:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    env:
+      BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
+
+    steps:
+      - uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - uses: ./.github/actions/setup_tools_shared
+
+      - name: Install sonar-scanner and build-wrapper
+        uses: SonarSource/sonarcloud-github-c-cpp@v1
+
+      - name: Cache conan dependencies
+        uses: actions/cache@v3.2.6
+        with:
+          path: |
+            ~/.conan
+          key: ${{ runner.os }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/gcc.profile') }}
+
+      - name: Install dependencies
+        run: conan install . -b missing -pr .github/gcc.profile
+
+      - name: Configure
+        run: cmake --preset=ci-ubuntu-noanalysis
+
+      - name: Build
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+        run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build -j 2
+
+      - name: Run sonar-scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }} # Put the name of your token here
+        run: sonar-scanner --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+
   sanitize:
     needs: [lint]
     strategy:

@@ -1,4 +1,3 @@
-- Add sonarcloud job
 - Add valgrind and dr. memory in CI
 - Add ThreadSanitizer when applicable
 - Add fuzz testing

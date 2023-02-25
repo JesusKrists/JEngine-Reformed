@@ -6,7 +6,7 @@
 #include <string>
 
 #include <SDL2/SDL.h>
-#include <SDL_video.h>
+#include <SDL_video.h>  // IWYU pragma: keep
 #include <fmt/core.h>
 
 #define JE_ASSERT_BREAK_ON_FAIL false
