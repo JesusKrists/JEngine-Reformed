@@ -257,7 +257,7 @@ jobs:
             mesa:p
 
       - name: Install python deps
-        run: pip install -r requirements.txt
+        run: python3 -m pip install -r requirements.txt
 
       - name: Cache conan dependencies
         uses: actions/cache@v3.2.6
