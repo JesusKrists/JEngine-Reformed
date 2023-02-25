@@ -246,6 +246,7 @@ jobs:
           update: true
           msystem: UCRT64
           pacboy: >
+            base-devel:p
             gcc:p
             clang:p
             cppcheck:p
