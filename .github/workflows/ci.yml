@@ -105,7 +105,7 @@ jobs:
         run: conan install . -b missing -pr .github/gcc.profile
 
       - name: Configure
-        run: cmake --preset=ci-ubuntu-noanalysis
+        run: cmake --preset=ci-ubuntu-noanalysis -DCMAKE_BUILD_TYPE:STRING=Debug
 
       - name: Build
         env:
