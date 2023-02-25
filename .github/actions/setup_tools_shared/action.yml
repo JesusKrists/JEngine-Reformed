@@ -36,7 +36,7 @@ runs:
         && sudo apt-get install -y -q libglu1-mesa-dev libasound2-dev libpulse-dev libopenal-dev libogg-dev libxinerama-dev
         && sudo apt-get install -y -q libvorbis-dev libaudiofile-dev libfreetype6-dev libusb-dev libxrandr-dev
         && sudo apt-get install -y -q libdbus-1-dev zlib1g-dev libdirectfb-dev libgles-dev libibus-1.0-dev mesa-utils
-        && sudo apt-get install -y -q libx11-dev libx11-xcb-dev libxcb-xkb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev
+        && sudo apt-get install -y -q libx11-dev libx11-xcb-dev libxcb1-dev libxcb-xkb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev
         && sudo apt-get install -y -q libxcb-randr0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-sync-dev libxcb-xfixes0-dev
 
     - name: Install Mesa3D - Windows
