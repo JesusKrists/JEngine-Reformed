@@ -13,5 +13,4 @@
 - Native optimizations ???
 - Build time measurements (-ftime-trace) ???
 - clang-cl in CI
-- mingw in CI
 - clazy if using Qt 

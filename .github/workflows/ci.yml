@@ -228,6 +228,59 @@ jobs:
           working-directory: build
           run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
+  test-mingw:
+    needs: [lint]
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3.3.0
+
+      - uses: ./.github/actions/setup_tools_shared
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          msystem: UCRT64
+          pacboy: >
+            gcc:p
+            clang:p
+            cppcheck:p
+            include-what-you-use:p
+
+      - name: Cache conan dependencies
+        uses: actions/cache@v3.2.6
+        with:
+          path: |
+            ~/.conan
+          key: ${{ runner.os }}-msys-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+
+      - name: Install dependencies
+        shell: msys2 {0}
+        run: conan install . -b missing -pr .github/gcc-12.profile -s build_type=${{ matrix.configuration }} -s os=Windows
+
+      - name: Configure
+        shell: pwsh
+        run: cmake "--preset=ci-windows-msys" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+
+      - name: Build
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+        run: cmake --build build --config ${{ matrix.configuration }} -j 2
+
+      - name: Install
+        run: cmake --install build --config ${{ matrix.configuration }} --prefix install
+
+      - name: Test
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+          GALLIUM_DRIVER: llvmpipe
+        working-directory: build
+        run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
+
   docs:
     # Deploy docs only when builds succeed
     needs: [sanitize, test]

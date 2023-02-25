@@ -204,6 +204,18 @@
         "dev-mode",
         "conan"
       ]
+    },
+    {
+      "name": "ci-windows-msys",
+      "inherits": [
+        "ci-build",
+        "ci-linux",
+        "dev-mode",
+        "clang-tidy",
+        "cppcheck",
+        "iwyu",
+        "conan"
+      ]
     }
   ]
 }
