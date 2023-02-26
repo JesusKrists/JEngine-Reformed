@@ -441,8 +441,8 @@ jobs:
             strict_init_order=1:\
             detect_leaks=1:\
             fast_unwind_on_malloc=0:\
-            suppressions=${{ github.workspace }}/ASAN.supp"
-          LSAN_OPTIONS: 'suppressions=${{ github.workspace }}/LSAN.supp'
+            suppressions=\"${{ github.workspace }}\\ASAN.supp\""
+          LSAN_OPTIONS: 'suppressions="${{ github.workspace }}\LSAN.supp"'
           UBSAN_OPTIONS: print_stacktrace=1
           TRACY_NO_INVARIANT_CHECK: '1'
           GALLIUM_DRIVER: llvmpipe
