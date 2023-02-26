@@ -310,6 +310,7 @@ jobs:
             cmake:p
             ninja:p
             make:p
+            git:p
 
       - uses: actions/checkout@v3.3.0
 
@@ -394,6 +395,7 @@ jobs:
             cmake:p
             ninja:p
             make:p
+            git:p
 
       - uses: actions/checkout@v3.3.0
 
