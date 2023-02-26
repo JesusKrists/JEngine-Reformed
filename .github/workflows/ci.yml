@@ -324,7 +324,8 @@ jobs:
           key: ${{ runner.os }}-msys-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Add conan remote
-        run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
+        run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
+          && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
 
       - name: Install dependencies - gcc
         if: matrix.compiler == 'gcc-12'
@@ -407,7 +408,8 @@ jobs:
           key: ${{ runner.os }}-msys-clang-15-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Add conan remote
-        run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
+        run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
+          && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
 
       - name: Install dependencies - clang
         run: conan install . -b missing -pr .github/clang-15.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=clang -e CXX=clang++ -o jengine-reformed*:sanitize_build=True
