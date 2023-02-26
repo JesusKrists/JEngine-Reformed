@@ -237,6 +237,12 @@
         "iwyu",
         "conan"
       ]
+    },
+    {
+      "name": "ci-msys-sanitize",
+      "inherits": [
+        "ci-sanitize"
+      ]
     }
   ]
 }
