@@ -1,6 +1,3 @@
-if(ENABLE_FORTIFY_SOURCE)
-  add_compile_definitions(_FORTIFY_SOURCE=3)
-endif()
 
 if(ENABLE_SANITIZERS)
   add_compile_options(-g -fsanitize=address,undefined -fno-omit-frame-pointer

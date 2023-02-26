@@ -88,8 +88,7 @@ the project:
             "binaryDir": "${sourceDir}/build/dev",
             "inherits": "dev-linux",
             "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "g++-12",
-                "ENABLE_FORTIFY_SOURCE": "ON"
+                "CMAKE_CXX_COMPILER": "g++-12"
             }
         },
         {
