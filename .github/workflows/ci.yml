@@ -152,18 +152,18 @@ jobs:
       - name: Install dependencies
         run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -o jengine-reformed*:sanitize_build=True
 
-      - name: Configure - clang
-        if: matrix.compiler != 'gcc-12'
-        env:
-          C: clang-15
-          CXX: clang++-15
-        run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
-
       - name: Configure - gcc
         if: matrix.compiler == 'gcc-12'
         env:
           C: gcc-12
           CXX: g++-12
+        run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+
+      - name: Configure - clang
+        if: matrix.compiler != 'gcc-12'
+        env:
+          C: clang-15
+          CXX: clang++-15
         run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
       - name: Build
@@ -275,6 +275,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
+        compiler: [clang-15, gcc-12]
 
     runs-on: windows-latest
 
@@ -311,12 +312,28 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-msys-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-msys-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
-      - name: Install dependencies
-        run: conan install . -b missing -pr .github/gcc-12.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=gcc -e CXX=g++
+      - name: Install dependencies - gcc
+        if: matrix.compiler == 'gcc-12'
+        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=gcc -e CXX=g++
 
-      - name: Configure
+      - name: Install dependencies - clang
+        if: matrix.compiler != 'gcc-12'
+        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=clang -e CXX=clang++
+
+      - name: Configure - gcc
+        if: matrix.compiler == 'gcc-12'
+        env:
+          CC: gcc
+          CXX: g++
+        run: cmake "--preset=ci-windows-msys" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+
+      - name: Configure - clang
+        if: matrix.compiler != 'gcc-12'
+        env:
+          CC: clang
+          CXX: clang++
         run: cmake "--preset=ci-windows-msys" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
       - name: Build
@@ -334,9 +351,60 @@ jobs:
         working-directory: build
         run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
+  test-clangcl:
+    needs: [lint]
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3.3.0
+
+      - uses: ./.github/actions/setup_tools_shared
+
+      - name: Cache conan dependencies
+        uses: actions/cache@v3.2.6
+        with:
+          path: |
+            ~/.conan
+          key: ${{ runner.os }}-clangcl-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+
+      - name: Install dependencies
+        shell: bash
+        run: conan install . -b missing -pr .github/clang-cl.profile -s build_type=${{ matrix.configuration }}
+
+      - name: Setup MultiToolTask
+        if: runner.os == 'Windows'
+        run: |
+          Add-Content "$env:GITHUB_ENV" 'UseMultiToolTask=true'
+          Add-Content "$env:GITHUB_ENV" 'EnforceProcessCountAcrossBuilds=true'
+
+      - name: Configure
+        shell: pwsh
+        run: cmake "--preset=ci-windows-clangcl" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+
+      - name: Build
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+        run: cmake --build build --config ${{ matrix.configuration }} -j 2
+
+      - name: Install
+        run: cmake --install build --config ${{ matrix.configuration }} --prefix install
+
+      - name: Test
+        uses: GabrielBB/xvfb-action@v1.6
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+          GALLIUM_DRIVER: llvmpipe
+        with:
+          working-directory: build
+          run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
+
   docs:
     # Deploy docs only when builds succeed
-    needs: [sanitize, test, test-mingw, coverage, sonarcloud]
+    needs: [sanitize, test, test-mingw, test-clangcl, coverage, sonarcloud]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
       && github.event_name == 'push'

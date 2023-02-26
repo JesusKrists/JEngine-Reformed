@@ -214,6 +214,16 @@
       ]
     },
     {
+      "name": "ci-windows-clangcl",
+      "toolset": "ClangCL",
+      "inherits": [
+        "ci-build",
+        "ci-win64",
+        "dev-mode",
+        "conan"
+      ]
+    },
+    {
       "name": "ci-windows-msys",
       "inherits": [
         "ci-build",

@@ -1,3 +1,4 @@
 leak:*GLX_nvidia*
 leak:*GLX_mesa*
 leak:SDL_VideoInit*
+leak:SDL_GL_*
