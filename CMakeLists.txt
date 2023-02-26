@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.14)
 
 include(cmake/prelude.cmake)
 
+if(CLANGCL_COMPILER)
+  set(CMAKE_CXX_FLAGS
+      "-Wno-unknown-warning-option -Wno-unused-command-line-argument ${CMAKE_CXX_FLAGS}"
+  )
+endif()
+
 project(
   JEngine-Reformed
   VERSION 0.0.1

@@ -221,7 +221,10 @@
         "ci-win64",
         "dev-mode",
         "conan"
-      ]
+      ],
+      "cacheVariables": {
+        "CLANGCL_COMPILER": "ON"
+      }
     },
     {
       "name": "ci-windows-msys",

@@ -275,7 +275,10 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        compiler: [clang-15, gcc-12]
+        compiler: [
+            #clang-15 - Tracy currently cannot be built with clang on windows as it doesn't link ws2_32
+            gcc-12,
+          ]
 
     runs-on: windows-latest
 
