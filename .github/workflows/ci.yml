@@ -387,6 +387,7 @@ jobs:
             base-devel
             git
           pacboy: >
+            gcc:p
             clang:p
             cppcheck:p
             include-what-you-use:p
