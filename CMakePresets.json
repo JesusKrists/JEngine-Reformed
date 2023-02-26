@@ -242,7 +242,10 @@
       "name": "ci-msys-sanitize",
       "inherits": [
         "ci-sanitize"
-      ]
+      ],
+      "cacheVariables": {
+        "CLANG64_MSYS_ENV": "ON"
+      }
     }
   ]
 }

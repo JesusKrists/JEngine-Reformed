@@ -14,7 +14,7 @@ if(MSVC)
 endif()
 
 # We have extra warnings enabled, which clang does not support
-if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang" AND NOT CLANGCL_COMPILER)
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang" AND NOT CLANG64_MSYS_ENV)
   set(CMAKE_CXX_FLAGS
       "-Wno-unknown-warning-option -Wno-unused-command-line-argument ${CMAKE_CXX_FLAGS}"
   )
