@@ -297,7 +297,9 @@ jobs:
         with:
           update: true
           msystem: UCRT64
-          install: base-devel
+          install: >
+            base-devel
+            git
           pacboy: >
             gcc:p
             clang:p
@@ -310,7 +312,6 @@ jobs:
             cmake:p
             ninja:p
             make:p
-            git:p
 
       - uses: actions/checkout@v3.3.0
 
@@ -382,7 +383,9 @@ jobs:
         with:
           update: true
           msystem: UCRT64
-          install: base-devel
+          install: >
+            base-devel
+            git
           pacboy: >
             gcc:p
             clang:p
@@ -395,7 +398,6 @@ jobs:
             cmake:p
             ninja:p
             make:p
-            git:p
 
       - uses: actions/checkout@v3.3.0
 
