@@ -20,6 +20,7 @@ target_link_libraries(
 default(JE_PLATFORM_WINDOWS_VALUE 0)
 default(JE_PLATFORM_UNIX_VALUE 0)
 default(JE_PLATFORM_APPLE_VALUE 0)
+default(JE_PLATFORM_CLANG_ENV_VALUE 0)
 
 if(WIN32)
   set(JE_PLATFORM_WINDOWS_VALUE 1)
@@ -28,6 +29,10 @@ elseif(UNIX)
   if(APPLE)
     set(JE_PLATFORM_APPLE_VALUE 1)
   endif()
+endif()
+
+if(CLANG_ENV)
+  set(JE_PLATFORM_CLANG_ENV_VALUE 1)
 endif()
 
 if(MSVC)
@@ -45,6 +50,10 @@ target_compile_definitions(
 target_compile_definitions(
   JEngine-Reformed_lib
   PUBLIC JE_PLATFORM_APPLE_VALUE=${JE_PLATFORM_APPLE_VALUE})
+
+target_compile_definitions(
+  JEngine-Reformed_lib
+  PUBLIC JE_PLATFORM_CLANG_ENV_VALUE=${JE_PLATFORM_CLANG_ENV_VALUE})
 
 target_compile_definitions(
   JEngine-Reformed_lib

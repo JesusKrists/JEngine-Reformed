@@ -6,7 +6,7 @@
 #    define JE_ASSERT_BREAK_ON_FAIL true
 #endif
 
-#if !JE_PLATFORM_APPLE_VALUE
+#if !JE_PLATFORM_APPLE_VALUE && !JE_PLATFORM_CLANG_ENV_VALUE
 #    include <source_location>
 
 namespace JE::detail
