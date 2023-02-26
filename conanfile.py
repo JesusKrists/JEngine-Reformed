@@ -58,7 +58,7 @@ class Recipe(ConanFile):
             self.options["glad"].gl_version = "4.1"
 
     def source(self):
-        self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git src")
+        self.run("git clone https://github.com/JesusKrists/JEngine-Reformed.git .")
 
     def layout(self):
         cmake_layout(self)

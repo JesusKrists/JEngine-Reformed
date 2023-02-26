@@ -9,6 +9,11 @@ on:
     branches:
       - master
 
+env:
+  CONAN_NON_INTERACTIVE: 1
+  CONAN_LOGIN_USERNAME: github-workflows-user
+  CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+
 # TODO: Add sonarcloud job
 jobs:
   lint:
@@ -50,7 +55,8 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/gcc.profile') }}
 
       - name: Install dependencies
-        run: conan install . -b missing -pr .github/gcc.profile -o jengine-reformed*:coverage_build=True
+        run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
+          && conan install . -b missing -pr .github/gcc.profile -o jengine-reformed*:coverage_build=True
 
       - name: Configure
         run: cmake --preset=ci-coverage
@@ -102,7 +108,8 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/gcc.profile') }}
 
       - name: Install dependencies
-        run: conan install . -b missing -pr .github/gcc.profile
+        run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
+          && conan install . -b missing -pr .github/gcc.profile
 
       - name: Configure
         run: cmake --preset=ci-ubuntu-noanalysis -DCMAKE_BUILD_TYPE:STRING=Debug
@@ -150,7 +157,8 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
-        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -o jengine-reformed*:sanitize_build=True
+        run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
+          && conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -o jengine-reformed*:sanitize_build=True
 
       - name: Configure - gcc
         if: matrix.compiler == 'gcc-12'
@@ -237,6 +245,7 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
+          conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
           conan profile new default --detect --force
           if [ ${{ runner.os }} = Linux ]; then
             conan profile update settings.compiler.libcxx=libstdc++11 default
@@ -270,15 +279,12 @@ jobs:
           working-directory: build
           run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
-  test-mingw:
+  test-msys:
     needs: [lint]
     strategy:
       matrix:
         configuration: [Debug, Release]
-        compiler: [
-            #clang-15 - Tracy currently cannot be built with clang on windows as it doesn't link ws2_32
-            gcc-12,
-          ]
+        compiler: [clang-15, gcc-12]
 
     runs-on: windows-latest
 
@@ -317,6 +323,9 @@ jobs:
             ~/.conan
           key: ${{ runner.os }}-msys-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
+      - name: Add conan remote
+        run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
+
       - name: Install dependencies - gcc
         if: matrix.compiler == 'gcc-12'
         run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=gcc -e CXX=g++
@@ -354,100 +363,85 @@ jobs:
         working-directory: build
         run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
-  # Sanitizers are not supported by gcc on windows
-  # mingw-sanitize:
-  #   needs: [lint]
-  #   strategy:
-  #     matrix:
-  #       configuration: [Debug, Release]
-  #       compiler: [
-  #           #clang-15 - Tracy currently cannot be built with clang on windows as it doesn't link ws2_32
-  #           gcc-12,
-  #         ]
+  msys-sanitize:
+    needs: [lint]
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
 
-  #   runs-on: windows-latest
+    runs-on: windows-latest
 
-  #   defaults:
-  #     run:
-  #       shell: msys2 {0}
+    defaults:
+      run:
+        shell: msys2 {0}
 
-  #   steps:
-  #     - uses: msys2/setup-msys2@v2
-  #       with:
-  #         update: true
-  #         msystem: UCRT64
-  #         install: base-devel
-  #         pacboy: >
-  #           gcc:p
-  #           clang:p
-  #           cppcheck:p
-  #           include-what-you-use:p
-  #           clang-tools-extra:p
-  #           python:p
-  #           python-pip:p
-  #           mesa:p
-  #           cmake:p
-  #           ninja:p
-  #           make:p
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          msystem: UCRT64
+          install: base-devel
+          pacboy: >
+            gcc:p
+            clang:p
+            cppcheck:p
+            include-what-you-use:p
+            clang-tools-extra:p
+            python:p
+            python-pip:p
+            mesa:p
+            cmake:p
+            ninja:p
+            make:p
 
-  #     - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v3.3.0
 
-  #     - name: Install python deps
-  #       run: pip install -r requirements.txt
+      - name: Install python deps
+        run: pip install -r requirements.txt
 
-  #     - name: Cache conan dependencies
-  #       uses: actions/cache@v3.2.6
-  #       with:
-  #         path: |
-  #           ~/.conan
-  #         key: ${{ runner.os }}-msys-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+      - name: Cache conan dependencies
+        uses: actions/cache@v3.2.6
+        with:
+          path: |
+            ~/.conan
+          key: ${{ runner.os }}-msys-clang-15-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
-  #     - name: Install dependencies - gcc
-  #       if: matrix.compiler == 'gcc-12'
-  #       run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=gcc -e CXX=g++ -o jengine-reformed*:sanitize_build=True
+      - name: Add conan remote
+        run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --insert 0
 
-  #     - name: Install dependencies - clang
-  #       if: matrix.compiler != 'gcc-12'
-  #       run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=clang -e CXX=clang++ -o jengine-reformed*:sanitize_build=True
+      - name: Install dependencies - clang
+        run: conan install . -b missing -pr .github/clang-15.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=clang -e CXX=clang++ -o jengine-reformed*:sanitize_build=True
 
-  #     - name: Configure - gcc
-  #       if: matrix.compiler == 'gcc-12'
-  #       env:
-  #         CC: gcc
-  #         CXX: g++
-  #       run: cmake "--preset=ci-msys-sanitize" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+      - name: Configure - clang
+        env:
+          CC: clang
+          CXX: clang++
+        run: cmake "--preset=ci-msys-sanitize" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
-  #     - name: Configure - clang
-  #       if: matrix.compiler != 'gcc-12'
-  #       env:
-  #         CC: clang
-  #         CXX: clang++
-  #       run: cmake "--preset=ci-msys-sanitize" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+      - name: Build
+        env:
+          TRACY_NO_INVARIANT_CHECK: '1'
+        run: cmake --build build/sanitize --config ${{ matrix.configuration }} -j 2
 
-  #     - name: Build
-  #       env:
-  #         TRACY_NO_INVARIANT_CHECK: '1'
-  #       run: cmake --build build/sanitize --config ${{ matrix.configuration }} -j 2
+      - name: Install
+        run: cmake --install build/sanitize --config ${{ matrix.configuration }} --prefix install
 
-  #     - name: Install
-  #       run: cmake --install build/sanitize --config ${{ matrix.configuration }} --prefix install
-
-  #     - name: Test
-  #       env:
-  #         ASAN_OPTIONS: "detect_invalid_pointer_pairs=1:\
-  #           strict_string_checks=1:\
-  #           detect_stack_use_after_return=1:\
-  #           check_initialization_order=1:\
-  #           strict_init_order=1:\
-  #           detect_leaks=1:\
-  #           fast_unwind_on_malloc=0:\
-  #           suppressions=${{ github.workspace }}/ASAN.supp"
-  #         LSAN_OPTIONS: 'suppressions=${{ github.workspace }}/LSAN.supp'
-  #         UBSAN_OPTIONS: print_stacktrace=1
-  #         TRACY_NO_INVARIANT_CHECK: '1'
-  #         GALLIUM_DRIVER: llvmpipe
-  #       working-directory: build/sanitize
-  #       run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
+      - name: Test
+        env:
+          ASAN_OPTIONS: "detect_invalid_pointer_pairs=1:\
+            strict_string_checks=1:\
+            detect_stack_use_after_return=1:\
+            check_initialization_order=1:\
+            strict_init_order=1:\
+            detect_leaks=1:\
+            fast_unwind_on_malloc=0:\
+            suppressions=${{ github.workspace }}/ASAN.supp"
+          LSAN_OPTIONS: 'suppressions=${{ github.workspace }}/LSAN.supp'
+          UBSAN_OPTIONS: print_stacktrace=1
+          TRACY_NO_INVARIANT_CHECK: '1'
+          GALLIUM_DRIVER: llvmpipe
+        working-directory: build/sanitize
+        run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
   # ClangCL currently doesn't support source_location
   # test-clangcl:
@@ -503,7 +497,7 @@ jobs:
 
   docs:
     # Deploy docs only when builds succeed
-    needs: [sanitize, test, test-mingw, coverage, sonarcloud]
+    needs: [sanitize, test, test-msys, msys-sanitize, coverage, sonarcloud]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
       && github.event_name == 'push'

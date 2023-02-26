@@ -16,37 +16,37 @@
         {
             "label": "Install conan dependencies for development - Windows debug",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Debug -o jengine-reformed*:dev_build=True"
+            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Debug -o jengine-reformed*:dev_build=True -r jesuskrists-conan"
         },
         {
             "label": "Install conan dependencies for development - Windows release",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Release -o jengine-reformed*:dev_build=True"
+            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Release -o jengine-reformed*:dev_build=True -r jesuskrists-conan"
         },
         {
             "label": "Install conan dependencies for development - Windows release, debug runtime",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Release -s compiler.runtime_type=Debug -o jengine-reformed*:dev_build=True"
+            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Release -s compiler.runtime_type=Debug -o jengine-reformed*:dev_build=True -r jesuskrists-conan"
         },
         {
             "label": "Install conan dependencies for development - Windows gcc debug",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug -s os=Windows -o jengine-reformed*:dev_build=True"
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug -s os=Windows -o jengine-reformed*:dev_build=True -r jesuskrists-conan"
         },
         {
             "label": "Install conan dependencies for development - Windows gcc release",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Release -s os=Windows -o jengine-reformed*:dev_build=True"
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Release -s os=Windows -o jengine-reformed*:dev_build=True -r jesuskrists-conan"
         },
         {
             "label": "Install conan dependencies for development - Linux debug",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug -o jengine-reformed*:dev_build=True"
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Debug -o jengine-reformed*:dev_build=True -r jesuskrists-conan"
         },
         {
             "label": "Install conan dependencies for development - Linux release",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Release -o jengine-reformed*:dev_build=True"
+            "command": "conan install . -b missing -pr .github/gcc-12.profile -s build_type=Release -o jengine-reformed*:dev_build=True -r jesuskrists-conan"
         },
         {
             "label": "Run JEngine-Reformed with Dr. Memory",
