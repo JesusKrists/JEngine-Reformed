@@ -5,8 +5,6 @@
 #include <cstdint>
 #include <string>
 
-#include <SDL2/SDL.h>
-#include <SDL_video.h>  // IWYU pragma: keep
 #include <fmt/core.h>
 
 #define JE_ASSERT_BREAK_ON_FAIL false
@@ -14,14 +12,14 @@
 #include "Base.hpp"
 #include "Logger.hpp"
 #include "Memory.hpp"
-#include "SDLPlatform.hpp"
+#include "Platform.hpp"
 
 struct Library
 {
-    std::string mName = fmt::format("{}", "JEngine-Reformed");
+    std::string m_Name = fmt::format("{}", "JEngine-Reformed");
 };
 
-enum struct TestEnum
+enum class TestEnum
 {
     ZERO,
     ONE,
@@ -48,8 +46,8 @@ TEST_CASE("Test Assert", "[Assert]")
 {
     const Library LIB{};
 
-    REQUIRE(ASSERT(LIB.mName == "JEngine-Reformed") == true);
-    REQUIRE(ASSERT(LIB.mName == "JEngine-Old") == false);
+    REQUIRE(ASSERT(LIB.m_Name == "JEngine-Reformed") == true);
+    REQUIRE(ASSERT(LIB.m_Name == "JEngine-Old") == false);
 }
 
 TEST_CASE("Test Loggers", "[Logger]")
@@ -58,29 +56,15 @@ TEST_CASE("Test Loggers", "[Logger]")
     REQUIRE(JE::AppLogger() != nullptr);
 }
 
-TEST_CASE("Test SDL initialization", "[SDL]")
+TEST_CASE(
+    "Test Platform initialization, window creation and OpenGL context creation",
+    "[Platform][OpenGL]")
 {
-    JE::EnginePlatform().Initialize();
-    REQUIRE(JE::detail::SDLPlatform::sPlatformInitialized != 0);
-    REQUIRE(SDL_WasInit(0) != 0);
-}
+    REQUIRE(JE::EnginePlatform().Initialize());
 
-TEST_CASE("Test SDL window creation", "[SDL]")
-{
-    JE::EnginePlatform().Initialize();
-
-    const JE::SDLWindow WINDOW{"TestWindow"};
-    REQUIRE(WINDOW.mWindow != nullptr);
-}
-
-TEST_CASE("Test SDL OpenGL context creation", "[SDL][OpenGL]")
-{
-    JE::EnginePlatform().Initialize();
-
-    const JE::SDLWindow WINDOW{"TestWindow"};
-
-    REQUIRE(JE::detail::SDLOpenGLGraphicsContext::sGraphicsContextInitialized);
-    REQUIRE(WINDOW.mGraphicsContext.mContext != nullptr);
+    auto window = JE::CreateWindow("TestWindow");
+    REQUIRE(window->Created());
+    REQUIRE(window->GraphicsContext().Created());
 }
 
 namespace JE
@@ -96,8 +80,16 @@ struct App
 
     App()
     {
-        EnginePlatform().Initialize();
-        mMainWindow = CreateScope<SDLWindow>(MAINWINDOW_DEFAULT_TITLE);
+        if (!EnginePlatform().Initialize()) {
+            return;
+        }
+
+        m_MainWindow = CreateWindow(MAINWINDOW_DEFAULT_TITLE);
+        if (!m_MainWindow->Created()) {
+            return;
+        }
+
+        m_Initialized = true;
     }
 
     inline void ProcessEvents()
@@ -105,22 +97,24 @@ struct App
         auto onEvent = []() {};
 
         while (EnginePlatform().PollEvents(onEvent)) {
-            ++mEventsProcessed;
+            ++m_EventsProcessed;
         }
     }
 
     inline void Loop(std::int64_t loopCount = -1)
     {
-        while (mLoopCount != loopCount) {
+        while (m_LoopCount != loopCount) {
             ProcessEvents();
 
-            ++mLoopCount;
+            ++m_LoopCount;
         }
     }
 
-    Scope<SDLWindow> mMainWindow;
-    std::int64_t mLoopCount = 0;
-    std::uint64_t mEventsProcessed = 0;
+    bool m_Initialized = false;
+
+    Scope<IWindow> m_MainWindow;
+    std::int64_t m_LoopCount = 0;
+    std::uint64_t m_EventsProcessed = 0;
 };
 
 }  // namespace detail
@@ -135,11 +129,11 @@ inline auto Application() -> detail::App&
 
 TEST_CASE("Test Application creation and main loop", "[Application]")
 {
-    REQUIRE(JE::Application().mMainWindow->mWindow != nullptr);
-    REQUIRE(JE::Application().mLoopCount == 0);
+    REQUIRE(JE::Application().m_Initialized);
+    REQUIRE(JE::Application().m_LoopCount == 0);
 
     JE::Application().Loop(1);
 
-    REQUIRE(JE::Application().mLoopCount == 1);
-    REQUIRE(JE::Application().mEventsProcessed != 0);
+    REQUIRE(JE::Application().m_LoopCount == 1);
+    REQUIRE(JE::Application().m_EventsProcessed != 0);
 }

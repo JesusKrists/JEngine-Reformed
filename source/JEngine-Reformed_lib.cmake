@@ -4,7 +4,7 @@ macro(default name)
   endif()
 endmacro()
 
-add_library(JEngine-Reformed_lib OBJECT source/lib.cpp)
+add_library(JEngine-Reformed_lib OBJECT source/Platform.cpp)
 add_library(JEngine-Reformed::lib ALIAS JEngine-Reformed_lib)
 
 target_include_directories(

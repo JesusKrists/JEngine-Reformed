@@ -4,7 +4,7 @@
 
 #include "Base.hpp"
 
-enum struct TestEnum
+enum class TestEnum
 {
     ZERO,
     ONE,
