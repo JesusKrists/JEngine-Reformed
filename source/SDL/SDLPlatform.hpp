@@ -92,7 +92,7 @@ class SDLOpenGLGraphicsContext : public IGraphicsContext
     auto operator=(SDLOpenGLGraphicsContext&& other)
         -> SDLOpenGLGraphicsContext& = delete;
 
-    SDLOpenGLGraphicsContext() 
+    SDLOpenGLGraphicsContext()
     {
         InitializeOpenGLParameters();
     }
