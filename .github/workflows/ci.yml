@@ -240,7 +240,7 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
         shell: bash
@@ -250,7 +250,7 @@ jobs:
           if [ ${{ runner.os }} = Linux ]; then
             conan profile update settings.compiler.libcxx=libstdc++11 default
           fi
-          conan install . -b missing -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+          conan install . -b missing -s build_type=${{ matrix.configuration }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
       - name: Setup MultiToolTask
         if: runner.os == 'Windows'
@@ -363,6 +363,7 @@ jobs:
         env:
           TRACY_NO_INVARIANT_CHECK: '1'
           GALLIUM_DRIVER: llvmpipe
+          MESA_GL_VERSION_OVERRIDE: '4.5'
         working-directory: build
         run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
@@ -444,6 +445,7 @@ jobs:
           UBSAN_OPTIONS: print_stacktrace=1
           TRACY_NO_INVARIANT_CHECK: '1'
           GALLIUM_DRIVER: llvmpipe
+          MESA_GL_VERSION_OVERRIDE: '4.5'
         working-directory: build/sanitize
         run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
@@ -465,12 +467,12 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-clangcl-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-clangcl-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
         shell: bash
         run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-          && conan install . -b missing -pr .github/clang-cl.profile
+          && conan install . -b missing -pr .github/clang-cl.profile -s build_type=${{ matrix.configuration }}
 
       - name: Setup MultiToolTask
         if: runner.os == 'Windows'
