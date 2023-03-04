@@ -92,10 +92,7 @@ class SDLOpenGLGraphicsContext : public IGraphicsContext
     auto operator=(SDLOpenGLGraphicsContext&& other)
         -> SDLOpenGLGraphicsContext& = delete;
 
-    SDLOpenGLGraphicsContext()
-    {
-        InitializeOpenGLParameters();
-    }
+    SDLOpenGLGraphicsContext() { InitializeOpenGLParameters(); }
 
     inline void Initialize(SDL_Window* window)
     {
@@ -113,6 +110,7 @@ class SDLOpenGLGraphicsContext : public IGraphicsContext
             EngineLogger()->error(
                 "Failed to make SDL OpenGL context current: {}",
                 SDL_GetError());
+            return;
         }
 
         // cppcheck-suppress knownConditionTrueFalse
@@ -121,6 +119,14 @@ class SDLOpenGLGraphicsContext : public IGraphicsContext
                 EngineLogger()->error("Failed to initialize GLAD");
                 return;
             }
+
+            EngineLogger()->debug("Requested OpenGL version: {}.{}",
+                                  OPENGL_MAJOR_VERSION,
+                                  OPENGL_MINOR_VERSION);
+
+            EngineLogger()->debug("Created OpenGL version: {}.{}",
+                                  GLVersion.major,
+                                  GLVersion.minor);
 
             ASSERT(GLVersion.major == OPENGL_MAJOR_VERSION);
             ASSERT(GLVersion.minor == OPENGL_MINOR_VERSION);
@@ -132,6 +138,7 @@ class SDLOpenGLGraphicsContext : public IGraphicsContext
                 EngineLogger()->error(
                     "Failed to make previous SDL OpenGL context current: {}",
                     SDL_GetError());
+                return;
             }
         }
     }
@@ -187,14 +194,13 @@ class SDLWindow final : public IWindow
     auto operator=(SDLWindow&& other) -> SDLWindow& = delete;
 
     SDLWindow(const std::string& title, const Size2D& size)
-        : m_GraphicsContext(CreateScope<SDLOpenGLGraphicsContext>())
-        , m_Window(SDL_CreateWindow(
-              title.c_str(),
-              SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
-              SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
-              size.x,
-              size.y,
-              SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE))
+        : m_Window(SDL_CreateWindow(
+            title.c_str(),
+            SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
+            SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
+            size.x,
+            size.y,
+            SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE))
     {
         if (m_Window == nullptr) {
             EngineLogger()->error("Failed to create SDL window: {}",
@@ -221,7 +227,8 @@ class SDLWindow final : public IWindow
     }
 
   private:
-    Scope<SDLOpenGLGraphicsContext> m_GraphicsContext;
+    Scope<SDLOpenGLGraphicsContext> m_GraphicsContext =
+        CreateScope<SDLOpenGLGraphicsContext>();
     SDL_Window* m_Window = nullptr;
 };
 
