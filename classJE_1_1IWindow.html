@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JE::detail::SDLOpenGLGraphicsContext struct | JEngine-Reformed</title>
+  <title>JE::IWindow class | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,8 +49,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceJE_1_1detail.html">detail</a>::<wbr/></span>SDLOpenGLGraphicsContext <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="SDLPlatform_8hpp.html">&lt;SDLPlatform.hpp&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span>IWindow <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Platform_8hpp.html">&lt;Platform.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -59,45 +59,28 @@
             <li>
               Reference
               <ul>
+                <li><a href="#derived-classes">Derived classes</a></li>
                 <li><a href="#pub-static-attribs">Public static variables</a></li>
-                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="pub-static-attribs">
-          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
-            <dt id="a2db08add589bea810083959f32732a2b">
-              static auto <a href="#a2db08add589bea810083959f32732a2b" class="m-doc-self">OPENGL_MAJOR_VERSION</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a013574a8303f2fcbf3d20cb720821a38">
-              static auto <a href="#a013574a8303f2fcbf3d20cb720821a38" class="m-doc-self">OPENGL_MINOR_VERSION</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="aa17917cea1a0871e1c015caa7081a4db">
-              static auto <a href="#aa17917cea1a0871e1c015caa7081a4db" class="m-doc-self">BITS_PER_COLOR</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a2d30e6b167d06cf271b4a705ee34da01">
-              static auto <a href="#a2d30e6b167d06cf271b4a705ee34da01" class="m-doc-self">DEPTH_BUFFER_BITS</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="ae083be24f6484943bcf297313aaf7ff7">
-              static bool <a href="#ae083be24f6484943bcf297313aaf7ff7" class="m-doc-self">sGraphicsContextInitialized</a>
+            <dt>
+              class <a href="classJE_1_1detail_1_1SDLWindow.html" class="m-doc">SDLWindow</a> <span class="m-label m-flat m-warning">final</span>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="pub-static-methods">
-          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
           <dl class="m-doc">
-            <dt id="adfbf779005fa6c3f445f7acaa63f1099">
-              <span class="m-doc-wrap-bumper">static void <a href="#adfbf779005fa6c3f445f7acaa63f1099" class="m-doc-self">InitializeOpenGLParameters</a>(</span><span class="m-doc-wrap">)</span>
+            <dt id="aef611032806baabcdca255850abe78f2">
+              static auto <a href="#aef611032806baabcdca255850abe78f2" class="m-doc-self">DEFAULT_WINDOW_SIZE</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -105,20 +88,20 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="ac9b7cf2b3d6baec7b7f6232b6dda4d77">
-              <span class="m-doc-wrap-bumper"><a href="#ac9b7cf2b3d6baec7b7f6232b6dda4d77" class="m-doc-self">SDLOpenGLGraphicsContext</a>(</span><span class="m-doc-wrap">const <a href="structJE_1_1detail_1_1SDLOpenGLGraphicsContext.html" class="m-doc">SDLOpenGLGraphicsContext</a>&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            <dt id="aa98502ede0017c05a2aa8715ab205105">
+              <span class="m-doc-wrap-bumper"><a href="#aa98502ede0017c05a2aa8715ab205105" class="m-doc-self">IWindow</a>(</span><span class="m-doc-wrap">const <a href="classJE_1_1IWindow.html" class="m-doc">IWindow</a>&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="ace56a8619cf620c257d0b37c160dbd98">
-              <span class="m-doc-wrap-bumper"><a href="#ace56a8619cf620c257d0b37c160dbd98" class="m-doc-self">SDLOpenGLGraphicsContext</a>(</span><span class="m-doc-wrap"><a href="structJE_1_1detail_1_1SDLOpenGLGraphicsContext.html" class="m-doc">SDLOpenGLGraphicsContext</a>&amp;&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            <dt id="a02804fe034e161ce5838f47180d17e77">
+              <span class="m-doc-wrap-bumper"><a href="#a02804fe034e161ce5838f47180d17e77" class="m-doc-self">IWindow</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IWindow.html" class="m-doc">IWindow</a>&amp;&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a9ec6a373f11e32eb19961c68fdd9ee9d">
-              <span class="m-doc-wrap-bumper"><a href="#a9ec6a373f11e32eb19961c68fdd9ee9d" class="m-doc-self">SDLOpenGLGraphicsContext</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
+            <dt id="a543310ef70a742e5692201277615146e">
+              <span class="m-doc-wrap-bumper"><a href="#a543310ef70a742e5692201277615146e" class="m-doc-self">IWindow</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="aacc2e28c22dc410a3885afb8c7c2ef9a">
-              <span class="m-doc-wrap-bumper"><a href="#aacc2e28c22dc410a3885afb8c7c2ef9a" class="m-doc-self">~SDLOpenGLGraphicsContext</a>(</span><span class="m-doc-wrap">)</span>
+            <dt id="abfd4c19a70285369f29f39eb0bdaa88f">
+              <span class="m-doc-wrap-bumper"><a href="#abfd4c19a70285369f29f39eb0bdaa88f" class="m-doc-self">~IWindow</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -126,25 +109,20 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="ad27e88f15ad82e7d41b62488efff13be">
-              <span class="m-doc-wrap-bumper">auto <a href="#ad27e88f15ad82e7d41b62488efff13be" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="structJE_1_1detail_1_1SDLOpenGLGraphicsContext.html" class="m-doc">SDLOpenGLGraphicsContext</a>&amp; other) -&gt; SDLOpenGLGraphicsContext &amp; <span class="m-label m-flat m-danger">deleted</span></span>
+            <dt id="a197db5933fdf0716970110707e6af1b9">
+              <span class="m-doc-wrap-bumper">auto <a href="#a197db5933fdf0716970110707e6af1b9" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classJE_1_1IWindow.html" class="m-doc">IWindow</a>&amp; other) -&gt; IWindow &amp; <span class="m-label m-flat m-danger">deleted</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a0a446334a6cfefa9b3bd3c03e129d937">
-              <span class="m-doc-wrap-bumper">auto <a href="#a0a446334a6cfefa9b3bd3c03e129d937" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="structJE_1_1detail_1_1SDLOpenGLGraphicsContext.html" class="m-doc">SDLOpenGLGraphicsContext</a>&amp;&amp; other) -&gt; SDLOpenGLGraphicsContext &amp; <span class="m-label m-flat m-danger">deleted</span></span>
+            <dt id="a8ae9ac7809a6368bbea3759adb224b24">
+              <span class="m-doc-wrap-bumper">auto <a href="#a8ae9ac7809a6368bbea3759adb224b24" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IWindow.html" class="m-doc">IWindow</a>&amp;&amp; other) -&gt; IWindow &amp; <span class="m-label m-flat m-danger">deleted</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a587c843ad086d260293e664756142c41">
-              <span class="m-doc-wrap-bumper">void <a href="#a587c843ad086d260293e664756142c41" class="m-doc-self">Initialize</a>(</span><span class="m-doc-wrap">SDL_Window* window)</span>
+            <dt id="aa6d19f764c61595faca48782cc17d0b5">
+              <span class="m-doc-wrap-bumper">auto <a href="#aa6d19f764c61595faca48782cc17d0b5" class="m-doc-self">Created</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
-          <dl class="m-doc">
-            <dt id="aaaef13febff5799ba443b2e1dc71abf1">
-              SDL_GLContext <a href="#aaaef13febff5799ba443b2e1dc71abf1" class="m-doc-self">mContext</a>
+            <dt id="a5945d417b25a3a612941538e13833c35">
+              <span class="m-doc-wrap-bumper">auto <a href="#a5945d417b25a3a612941538e13833c35" class="m-doc-self">GraphicsContext</a>(</span><span class="m-doc-wrap">) -&gt; IGraphicsContext &amp; <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>

@@ -64,6 +64,7 @@
 <span class="w">            </span><span class="nt">&quot;hidden&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;generator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ninja&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;inherits&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;ci-sanitize&quot;</span><span class="p">,</span>
 <span class="w">                </span><span class="s2">&quot;dev-mode&quot;</span><span class="p">,</span>
 <span class="w">                </span><span class="s2">&quot;conan&quot;</span><span class="p">,</span>
 <span class="w">                </span><span class="s2">&quot;clang-tidy&quot;</span><span class="p">,</span>
@@ -141,6 +142,11 @@
 <span class="w">            </span><span class="nt">&quot;execution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="nt">&quot;jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
 <span class="w">                </span><span class="nt">&quot;noTestsAction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;error&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;ASAN_OPTIONS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;detect_invalid_pointer_pairs=1:strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:detect_leaks=1:fast_unwind_on_malloc=0:suppressions=${sourceDir}/ASAN.supp&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;LSAN_OPTIONS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;suppressions=${sourceDir}/LSAN.supp&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;UBSAN_OPTIONS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;print_stacktrace=1&quot;</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">]</span>

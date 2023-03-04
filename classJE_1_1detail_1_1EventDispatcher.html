@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>source/ directory | JEngine-Reformed</title>
+  <title>JE::detail::EventDispatcher class | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,7 +49,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          source<span class="m-breadcrumb">/</span> <span class="m-thin">directory</span>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceJE_1_1detail.html">detail</a>::<wbr/></span>EventDispatcher <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Events_8hpp.html">&lt;Events.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -58,41 +59,28 @@
             <li>
               Reference
               <ul>
-                <li><a href="#subdirs">Directories</a></li>
-                <li><a href="#files">Files</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="subdirs">
-          <h2><a href="#subdirs">Directories</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt>directory <a href="dir_d3586fa1f8ea9c0ce111055dea3cadb9.html" class="m-doc">SDL</a>/</dt>
+            <dt id="a286e71a14280096d424a20b2d7bec7e8">
+              <span class="m-doc-wrap-bumper"><a href="#a286e71a14280096d424a20b2d7bec7e8" class="m-doc-self">EventDispatcher</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp; event) <span class="m-label m-flat m-info">explicit</span> </span>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="files">
-          <h2><a href="#files">Files</a></h2>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>file <a href="Application_8hpp.html" class="m-doc">Application.hpp</a></dt>
-            <dd><span></span></dd>
-            <dt>file <a href="Assert_8hpp.html" class="m-doc">Assert.hpp</a></dt>
-            <dd><span></span></dd>
-            <dt>file <a href="Base_8hpp.html" class="m-doc">Base.hpp</a></dt>
-            <dd><span></span></dd>
-            <dt>file <a href="Events_8hpp.html" class="m-doc">Events.hpp</a></dt>
-            <dd><span></span></dd>
-            <dt>file <a href="Logger_8hpp.html" class="m-doc">Logger.hpp</a></dt>
-            <dd><span></span></dd>
-            <dt>file <a href="main_8cpp.html" class="m-doc">main.cpp</a></dt>
-            <dd><span></span></dd>
-            <dt>file <a href="Memory_8hpp.html" class="m-doc">Memory.hpp</a></dt>
-            <dd><span></span></dd>
-            <dt>file <a href="Platform_8cpp.html" class="m-doc">Platform.cpp</a></dt>
-            <dd><span></span></dd>
-            <dt>file <a href="Platform_8hpp.html" class="m-doc">Platform.hpp</a></dt>
-            <dd><span></span></dd>
-            <dt>file <a href="Types_8hpp.html" class="m-doc">Types.hpp</a></dt>
+            <dt id="a907c03cfdaa9885d78a51ab494e5b78d">
+              <div class="m-doc-template">template&lt;typename EventType, typename Func&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a907c03cfdaa9885d78a51ab494e5b78d" class="m-doc-self">Dispatch</a>(</span><span class="m-doc-wrap">Func func) -&gt; bool</span>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>

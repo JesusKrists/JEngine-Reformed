@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JE::SDLWindow struct | JEngine-Reformed</title>
+  <title>JE::detail::QuitEvent class | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,8 +49,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span>SDLWindow <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="SDLPlatform_8hpp.html">&lt;SDLPlatform.hpp&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceJE_1_1detail.html">detail</a>::<wbr/></span>QuitEvent <span class="m-thin">class</span> <span class="m-label m-flat m-warning">final</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Events_8hpp.html">&lt;Events.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -59,19 +59,28 @@
             <li>
               Reference
               <ul>
-                <li><a href="#pub-static-attribs">Public static variables</a></li>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="pub-static-attribs">
-          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
-            <dt id="a5e5610e360ec03b0d5972a94e43a6253">
-              static auto <a href="#a5e5610e360ec03b0d5972a94e43a6253" class="m-doc-self">DEFAULT_WINDOW_SIZE</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt>
+              class <a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a3545508cfcbc7bb1c328b01cf45f3962">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a3545508cfcbc7bb1c328b01cf45f3962" class="m-doc-self">StaticType</a>(</span><span class="m-doc-wrap">) -&gt; EventType</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -79,21 +88,16 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="abb17831da964709b01433b27566c63c5">
-              <span class="m-doc-wrap-bumper"><a href="#abb17831da964709b01433b27566c63c5" class="m-doc-self">SDLWindow</a>(</span><span class="m-doc-wrap">const <a href="structJE_1_1SDLWindow.html" class="m-doc">SDLWindow</a>&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            <dt id="a8377a9a0e0569866e67b7d512f7ea9fd">
+              <span class="m-doc-wrap-bumper"><a href="#a8377a9a0e0569866e67b7d512f7ea9fd" class="m-doc-self">IEvent</a>(</span><span class="m-doc-wrap">const <a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a7199cf63182e7dbdd419859c3ec9eb73">
-              <span class="m-doc-wrap-bumper"><a href="#a7199cf63182e7dbdd419859c3ec9eb73" class="m-doc-self">SDLWindow</a>(</span><span class="m-doc-wrap"><a href="structJE_1_1SDLWindow.html" class="m-doc">SDLWindow</a>&amp;&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            <dt id="afb0d1b64e7419655c3f2140a110bfac7">
+              <span class="m-doc-wrap-bumper"><a href="#afb0d1b64e7419655c3f2140a110bfac7" class="m-doc-self">IEvent</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp;&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a158baf4d78ed9fc6da81a96c84a284c1">
-              <span class="m-doc-wrap-bumper"><a href="#a158baf4d78ed9fc6da81a96c84a284c1" class="m-doc-self">SDLWindow</a>(</span><span class="m-doc-wrap">const std::string&amp; title,
-              const <a href="structJE_1_1Size2D.html" class="m-doc">Size2D</a>&amp; size = <a href="structJE_1_1SDLWindow.html#a5e5610e360ec03b0d5972a94e43a6253" class="m-doc">DEFAULT_<wbr />WINDOW_<wbr />SIZE</a>) <span class="m-label m-flat m-info">explicit</span> </span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a1691d4ed665040feae5aaed78ef30a97">
-              <span class="m-doc-wrap-bumper"><a href="#a1691d4ed665040feae5aaed78ef30a97" class="m-doc-self">~SDLWindow</a>(</span><span class="m-doc-wrap">)</span>
+            <dt id="a5ef7a7108f565dbb74eedcade09597ed">
+              <span class="m-doc-wrap-bumper"><a href="#a5ef7a7108f565dbb74eedcade09597ed" class="m-doc-self">IEvent</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -101,25 +105,12 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="af42f93e84dff93cc6d9cc13528ed8164">
-              <span class="m-doc-wrap-bumper">auto <a href="#af42f93e84dff93cc6d9cc13528ed8164" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="structJE_1_1SDLWindow.html" class="m-doc">SDLWindow</a>&amp; other) -&gt; SDLWindow &amp; <span class="m-label m-flat m-danger">deleted</span></span>
+            <dt id="a4e3963be1ea6cdcd8ca0104f51bd226a">
+              <span class="m-doc-wrap-bumper">auto <a href="#a4e3963be1ea6cdcd8ca0104f51bd226a" class="m-doc-self">Category</a>(</span><span class="m-doc-wrap">) const -&gt; EventCategory <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="aff7b73c4ac1d662b000e44979c295c48">
-              <span class="m-doc-wrap-bumper">auto <a href="#aff7b73c4ac1d662b000e44979c295c48" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="structJE_1_1SDLWindow.html" class="m-doc">SDLWindow</a>&amp;&amp; other) -&gt; SDLWindow &amp; <span class="m-label m-flat m-danger">deleted</span></span>
-            </dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
-          <dl class="m-doc">
-            <dt id="a194f6b7b180b84d62c5db8dc259532e9">
-              SDL_Window* <a href="#a194f6b7b180b84d62c5db8dc259532e9" class="m-doc-self">mWindow</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="aeaf8b18eff045f4ba33aba28727c9150">
-              <a href="structJE_1_1detail_1_1SDLOpenGLGraphicsContext.html" class="m-doc">detail::<wbr />SDLOpenGLGraphicsContext</a> <a href="#aeaf8b18eff045f4ba33aba28727c9150" class="m-doc-self">mGraphicsContext</a>
+            <dt id="a41370c5ecbc9e7478ce4865a969fb3df">
+              <span class="m-doc-wrap-bumper">auto <a href="#a41370c5ecbc9e7478ce4865a969fb3df" class="m-doc-self">Type</a>(</span><span class="m-doc-wrap">) const -&gt; EventType <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>

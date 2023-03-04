@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Library struct | JEngine-Reformed</title>
+  <title>JE::detail::App class | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,37 +49,76 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          Library <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="lib_8hpp.html">&lt;lib.hpp&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceJE_1_1detail.html">detail</a>::<wbr/></span>App <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Application_8hpp.html">&lt;Application.hpp&gt;</a></div>
         </h1>
-        <p>The core implementation of the executable.</p>
+        <p><span></span></p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<p>This class makes up the library part of the executable, which means that the main logic is implemented here. This kind of separation makes it easy to test the implementation for the executable, because the logic is nicely separated from the command-line logic implemented in the main function.</p>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              class <a href="classJE_1_1detail_1_1IEventProcessor.html" class="m-doc">IEventProcessor</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a3809552d7ec95fff46165466720131d5">
+              static auto <a href="#a3809552d7ec95fff46165466720131d5" class="m-doc-self">MAINWINDOW_DEFAULT_TITLE</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a82338219d8bf51962ff5f60a0db21b19">
-              <span class="m-doc-wrap-bumper"><a href="#a82338219d8bf51962ff5f60a0db21b19" class="m-doc-self">Library</a>(</span><span class="m-doc-wrap">)</span>
+            <dt id="a9eb7bdda3090e707b80ab60924ad6979">
+              <span class="m-doc-wrap-bumper"><a href="#a9eb7bdda3090e707b80ab60924ad6979" class="m-doc-self">App</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
-            <dd>Simply initializes the name member to the name of the project.</dd>
+            <dd><span></span></dd>
           </dl>
         </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a1654f801e3d173a61e978d0bcf7a6458">
-              std::string <a href="#a1654f801e3d173a61e978d0bcf7a6458" class="m-doc-self">mName</a>
+            <dt id="a9c547db2a196d5da1a9f1c5ba818f068">
+              <span class="m-doc-wrap-bumper">void <a href="#a9c547db2a196d5da1a9f1c5ba818f068" class="m-doc-self">ProcessEvent</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp; event) <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a7aa13000e529598bf9370b4922f91f94">
+              <span class="m-doc-wrap-bumper">void <a href="#a7aa13000e529598bf9370b4922f91f94" class="m-doc-self">ProcessEvents</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a4e61fee98fa433229f9cda54c9198993">
+              <span class="m-doc-wrap-bumper">void <a href="#a4e61fee98fa433229f9cda54c9198993" class="m-doc-self">Loop</a>(</span><span class="m-doc-wrap">std::int64_t loopCount = -1)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a7ec3d9e1b4acfb4561834e61c800f421">
+              <span class="m-doc-wrap-bumper">auto <a href="#a7ec3d9e1b4acfb4561834e61c800f421" class="m-doc-self">LoopCount</a>(</span><span class="m-doc-wrap">) const</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a26d20a82b36b8e259e6791b7170b8f77">
+              <span class="m-doc-wrap-bumper">auto <a href="#a26d20a82b36b8e259e6791b7170b8f77" class="m-doc-self">EventsProcessed</a>(</span><span class="m-doc-wrap">) const</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ae0b9c1b5e60369c0172de020f69395e9">
+              <span class="m-doc-wrap-bumper">auto <a href="#ae0b9c1b5e60369c0172de020f69395e9" class="m-doc-self">Initialized</a>(</span><span class="m-doc-wrap">) const</span>
             </dt>
             <dd><span></span></dd>
           </dl>

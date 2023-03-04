@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>source/ directory | JEngine-Reformed</title>
+  <title>JE::detail::IEvent class | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,7 +49,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          source<span class="m-breadcrumb">/</span> <span class="m-thin">directory</span>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceJE_1_1detail.html">detail</a>::<wbr/></span>IEvent <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Events_8hpp.html">&lt;Events.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -58,41 +59,85 @@
             <li>
               Reference
               <ul>
-                <li><a href="#subdirs">Directories</a></li>
-                <li><a href="#files">Files</a></li>
+                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="subdirs">
-          <h2><a href="#subdirs">Directories</a></h2>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
-            <dt>directory <a href="dir_d3586fa1f8ea9c0ce111055dea3cadb9.html" class="m-doc">SDL</a>/</dt>
+            <dt>
+              class <a href="classJE_1_1detail_1_1QuitEvent.html" class="m-doc">QuitEvent</a> <span class="m-label m-flat m-warning">final</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classJE_1_1detail_1_1UnknownEvent.html" class="m-doc">UnknownEvent</a>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="files">
-          <h2><a href="#files">Files</a></h2>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt>file <a href="Application_8hpp.html" class="m-doc">Application.hpp</a></dt>
+            <dt id="a3257b136610604949c27dec97e185fb2">
+              <span class="m-doc-wrap-bumper">enum class <a href="#a3257b136610604949c27dec97e185fb2" class="m-doc-self">EventCategory</a> { </span><span class="m-doc-wrap"><a href="#a3257b136610604949c27dec97e185fb2a696b031073e74bf2cb98e5ef201d4aa3" class="m-doc">UNKNOWN</a>,
+              <a href="#a3257b136610604949c27dec97e185fb2a0bdbb2c325525e986d55ef50ca66d056" class="m-doc">APP</a> }</span>
+            </dt>
             <dd><span></span></dd>
-            <dt>file <a href="Assert_8hpp.html" class="m-doc">Assert.hpp</a></dt>
+            <dt id="a2e479a861e982da34606e72f68b678f0">
+              <span class="m-doc-wrap-bumper">enum class <a href="#a2e479a861e982da34606e72f68b678f0" class="m-doc-self">EventType</a> { </span><span class="m-doc-wrap"><a href="#a2e479a861e982da34606e72f68b678f0a696b031073e74bf2cb98e5ef201d4aa3" class="m-doc">UNKNOWN</a>,
+              <a href="#a2e479a861e982da34606e72f68b678f0a5dfd352dd6b7a5d118237fcf1e19fcc1" class="m-doc">QUIT</a> }</span>
+            </dt>
             <dd><span></span></dd>
-            <dt>file <a href="Base_8hpp.html" class="m-doc">Base.hpp</a></dt>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="a8377a9a0e0569866e67b7d512f7ea9fd">
+              <span class="m-doc-wrap-bumper"><a href="#a8377a9a0e0569866e67b7d512f7ea9fd" class="m-doc-self">IEvent</a>(</span><span class="m-doc-wrap">const <a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
             <dd><span></span></dd>
-            <dt>file <a href="Events_8hpp.html" class="m-doc">Events.hpp</a></dt>
+            <dt id="afb0d1b64e7419655c3f2140a110bfac7">
+              <span class="m-doc-wrap-bumper"><a href="#afb0d1b64e7419655c3f2140a110bfac7" class="m-doc-self">IEvent</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp;&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
             <dd><span></span></dd>
-            <dt>file <a href="Logger_8hpp.html" class="m-doc">Logger.hpp</a></dt>
+            <dt id="a5ef7a7108f565dbb74eedcade09597ed">
+              <span class="m-doc-wrap-bumper"><a href="#a5ef7a7108f565dbb74eedcade09597ed" class="m-doc-self">IEvent</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
+            </dt>
             <dd><span></span></dd>
-            <dt>file <a href="main_8cpp.html" class="m-doc">main.cpp</a></dt>
+            <dt id="acd0645b2411b02a5470d5f6ef7439273">
+              <span class="m-doc-wrap-bumper"><a href="#acd0645b2411b02a5470d5f6ef7439273" class="m-doc-self">~IEvent</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
             <dd><span></span></dd>
-            <dt>file <a href="Memory_8hpp.html" class="m-doc">Memory.hpp</a></dt>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a1e1094822f4a5932e47a984d41ff7b87">
+              <span class="m-doc-wrap-bumper">auto <a href="#a1e1094822f4a5932e47a984d41ff7b87" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp; other) -&gt; IEvent &amp; <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
             <dd><span></span></dd>
-            <dt>file <a href="Platform_8cpp.html" class="m-doc">Platform.cpp</a></dt>
+            <dt id="a8f12e285755a0b4804cfa37230685164">
+              <span class="m-doc-wrap-bumper">auto <a href="#a8f12e285755a0b4804cfa37230685164" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp;&amp; other) -&gt; IEvent &amp; <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
             <dd><span></span></dd>
-            <dt>file <a href="Platform_8hpp.html" class="m-doc">Platform.hpp</a></dt>
+            <dt id="a591cc2325cf2c75c0b815b607f355227">
+              <span class="m-doc-wrap-bumper">auto <a href="#a591cc2325cf2c75c0b815b607f355227" class="m-doc-self">Category</a>(</span><span class="m-doc-wrap">) const -&gt; EventCategory <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
             <dd><span></span></dd>
-            <dt>file <a href="Types_8hpp.html" class="m-doc">Types.hpp</a></dt>
+            <dt id="a59c1c0943cb20d4c59d7254449760157">
+              <span class="m-doc-wrap-bumper">auto <a href="#a59c1c0943cb20d4c59d7254449760157" class="m-doc-self">Type</a>(</span><span class="m-doc-wrap">) const -&gt; EventType <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a87fcc82a1c56fe22f5e0da211b300dab">
+              <span class="m-doc-wrap-bumper">auto <a href="#a87fcc82a1c56fe22f5e0da211b300dab" class="m-doc-self">Handled</a>(</span><span class="m-doc-wrap">) const</span>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
