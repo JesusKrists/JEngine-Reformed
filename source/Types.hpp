@@ -2,8 +2,17 @@
 
 #include <cstdint>
 
+#ifdef _MSC_VER
+#    pragma warning(push)
+#    pragma warning(disable : 4365)
+#endif
+
 #include <fmt/core.h>
 #include <fmt/format.h>
+
+#ifdef _MSC_VER
+#    pragma warning(pop)
+#endif
 
 namespace JE
 {
@@ -31,6 +40,7 @@ struct fmt::formatter<JE::Size2D>
     auto format(const JE::Size2D& size, FormatContext& ctx)  // NOLINT
         -> decltype(ctx.out())
     {
-        return format_to(ctx.out(), "Size2D{{ X:{} Y:{} }}", size.x, size.y);
+        return fmt::format_to(
+            ctx.out(), "Size2D{{ X:{} Y:{} }}", size.x, size.y);
     }
 };

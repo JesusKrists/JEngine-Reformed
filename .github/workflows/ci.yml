@@ -158,7 +158,7 @@ jobs:
 
       - name: Install dependencies
         run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-          && conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -o jengine-reformed*:sanitize_build=True
+          && conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -o jengine-reformed*:sanitize_build=True
 
       - name: Configure - gcc
         if: matrix.compiler == 'gcc-12'
@@ -250,7 +250,7 @@ jobs:
           if [ ${{ runner.os }} = Linux ]; then
             conan profile update settings.compiler.libcxx=libstdc++11 default
           fi
-          conan install . -b missing -s build_type=${{ matrix.configuration }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+          conan install . -b missing -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
       - name: Setup MultiToolTask
         if: runner.os == 'Windows'
@@ -331,11 +331,11 @@ jobs:
 
       - name: Install dependencies - gcc
         if: matrix.compiler == 'gcc-12'
-        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=gcc -e CXX=g++
+        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s os=Windows -e CC=gcc -e CXX=g++
 
       - name: Install dependencies - clang
         if: matrix.compiler != 'gcc-12'
-        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=clang -e CXX=clang++
+        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s os=Windows -e CC=clang -e CXX=clang++
 
       - name: Configure - gcc
         if: matrix.compiler == 'gcc-12'
@@ -416,7 +416,7 @@ jobs:
           && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
 
       - name: Install dependencies - clang
-        run: conan install . -b missing -pr .github/clang-15.profile -s build_type=${{ matrix.configuration }} -s os=Windows -s compiler.libcxx=libc++ -e CC=clang -e CXX=clang++ -o jengine-reformed*:sanitize_build=True
+        run: conan install . -b missing -pr .github/clang-15.profile -s os=Windows -s compiler.libcxx=libc++ -e CC=clang -e CXX=clang++ -o jengine-reformed*:sanitize_build=True
 
       - name: Configure - clang
         env:
@@ -470,7 +470,7 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-          && conan install . -b missing -pr .github/clang-cl.profile -s build_type=${{ matrix.configuration }}
+          && conan install . -b missing -pr .github/clang-cl.profile
 
       - name: Setup MultiToolTask
         if: runner.os == 'Windows'
