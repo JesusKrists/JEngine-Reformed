@@ -5,6 +5,7 @@
 
 #include <fmt/core.h>
 
+#include "Assert.hpp"
 #include "Logger.hpp"
 #include "Memory.hpp"
 #include "SDL/SDLPlatform.hpp"
@@ -22,6 +23,7 @@ auto EnginePlatform() -> IPlatform&
 // cppcheck-suppress unusedFunction
 auto CreateWindow(std::string_view title, const Size2D& size) -> Scope<IWindow>
 {
+    ASSERT(EnginePlatform().Initialized());
     EngineLogger()->debug("Creating SDL Window ({}) of size: {}", title, size);
     return CreateScope<detail::SDLWindow>(std::string{title}, size);
 }

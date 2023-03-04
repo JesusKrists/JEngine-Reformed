@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 
+#include "Events.hpp"
 #include "Memory.hpp"
 
 #define SDL_MAIN_HANDLED
@@ -43,19 +44,30 @@ class SDLPlatform final : public IPlatform
         return m_PlatformInitialized;
     }
 
+    inline auto Initialized() const -> bool override
+    {
+        return m_PlatformInitialized;
+    }
+
     inline auto GetLastError() const -> std::string_view override
     {
         return SDL_GetError();
     }
 
-    inline auto PollEvents(EventHandler eventHandler) -> bool override
+    inline auto PollEvents(IEventProcessor& eventProcessor) -> bool override
     {
         ASSERT(m_PlatformInitialized);
 
         SDL_Event event;
         const bool EVENTS_PENDING = SDL_PollEvent(&event) == 1;
         if (EVENTS_PENDING) {
-            eventHandler();
+            if (event.type == SDL_QUIT) {
+                QuitEvent evnt{};
+                eventProcessor.ProcessEvent(evnt);
+            } else {
+                UnknownEvent evnt{};
+                eventProcessor.ProcessEvent(evnt);
+            }
         }
 
         return EVENTS_PENDING;

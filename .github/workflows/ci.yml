@@ -154,7 +154,7 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
         run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
@@ -240,7 +240,7 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
         shell: bash
@@ -323,7 +323,7 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-msys-UCRT64-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-msys-UCRT64-${{ matrix.compiler }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Add conan remote
         run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
@@ -409,7 +409,7 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-msys-CLANG64-clang-15-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-msys-CLANG64-clang-15-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Add conan remote
         run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
@@ -465,7 +465,7 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-clangcl-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-clangcl-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
         shell: bash

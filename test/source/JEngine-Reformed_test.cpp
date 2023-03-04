@@ -2,12 +2,12 @@
 
 ////////////////////////////////////////
 
-#include <cstdint>
 #include <string>
 
 #include <fmt/core.h>
 
 #define JE_ASSERT_BREAK_ON_FAIL false
+#include "Application.hpp"
 #include "Assert.hpp"
 #include "Base.hpp"
 #include "Logger.hpp"
@@ -67,73 +67,13 @@ TEST_CASE(
     REQUIRE(window->GraphicsContext().Created());
 }
 
-namespace JE
-{
-
-namespace detail
-{
-
-struct App
-{
-    static constexpr auto MAINWINDOW_DEFAULT_TITLE =
-        "JEngine-Reformed Application";
-
-    App()
-    {
-        if (!EnginePlatform().Initialize()) {
-            return;
-        }
-
-        m_MainWindow = CreateWindow(MAINWINDOW_DEFAULT_TITLE);
-        if (!m_MainWindow->Created()) {
-            return;
-        }
-
-        m_Initialized = true;
-    }
-
-    inline void ProcessEvents()
-    {
-        auto onEvent = []() {};
-
-        while (EnginePlatform().PollEvents(onEvent)) {
-            ++m_EventsProcessed;
-        }
-    }
-
-    inline void Loop(std::int64_t loopCount = -1)
-    {
-        while (m_LoopCount != loopCount) {
-            ProcessEvents();
-
-            ++m_LoopCount;
-        }
-    }
-
-    bool m_Initialized = false;
-
-    Scope<IWindow> m_MainWindow;
-    std::int64_t m_LoopCount = 0;
-    std::uint64_t m_EventsProcessed = 0;
-};
-
-}  // namespace detail
-
-inline auto Application() -> detail::App&
-{
-    static detail::App s_Application;
-    return s_Application;
-}
-
-}  // namespace JE
-
 TEST_CASE("Test Application creation and main loop", "[Application]")
 {
-    REQUIRE(JE::Application().m_Initialized);
-    REQUIRE(JE::Application().m_LoopCount == 0);
+    REQUIRE(JE::Application().Initialized());
+    REQUIRE(JE::Application().LoopCount() == 0);
 
     JE::Application().Loop(1);
 
-    REQUIRE(JE::Application().m_LoopCount == 1);
-    REQUIRE(JE::Application().m_EventsProcessed != 0);
+    REQUIRE(JE::Application().LoopCount() == 1);
+    REQUIRE(JE::Application().EventsProcessed() != 0);
 }

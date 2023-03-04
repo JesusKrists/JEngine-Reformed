@@ -7,6 +7,10 @@
 
 namespace JE
 {
+namespace detail  // NOLINT(readability-identifier-naming)
+{
+class IEventProcessor;
+}  // namespace detail
 
 class IPlatform
 {
@@ -20,10 +24,11 @@ class IPlatform
     virtual ~IPlatform() = default;
 
     virtual auto Initialize() -> bool = 0;
+    virtual auto Initialized() const -> bool = 0;
     virtual auto GetLastError() const -> std::string_view = 0;
 
-    using EventHandler = void (*)();
-    virtual auto PollEvents(EventHandler eventHandler) -> bool = 0;
+    virtual auto PollEvents(detail::IEventProcessor& eventProcessor)
+        -> bool = 0;
 };
 
 class IGraphicsContext

@@ -1,3 +1,12 @@
 #include <cstdint>
 
-auto main() -> std::int32_t { return 0; }
+#include "Application.hpp"
+
+auto main() -> std::int32_t
+{
+    if (!JE::Application().Initialized()) {
+        return -1;
+    }
+
+    JE::Application().Loop();
+}
