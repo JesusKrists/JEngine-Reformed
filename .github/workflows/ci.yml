@@ -154,11 +154,11 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Install dependencies
         run: conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-          && conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -o jengine-reformed*:sanitize_build=True
+          && conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -o jengine-reformed*:sanitize_build=True
 
       - name: Configure - gcc
         if: matrix.compiler == 'gcc-12'
@@ -308,12 +308,16 @@ jobs:
             clang-tools-extra:p
             python:p
             python-pip:p
-            mesa:p
             cmake:p
             ninja:p
             make:p
 
       - uses: actions/checkout@v3.3.0
+
+      - name: Install Mesa3D - Windows
+        uses: ssciwr/setup-mesa-dist-win@v1
+        with:
+          version: '23.0.0'
 
       - name: Install python deps
         run: pip install -r requirements.txt
@@ -323,7 +327,7 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-msys-UCRT64-${{ matrix.compiler }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-msys-UCRT64-${{ matrix.compiler }}-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Add conan remote
         run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
@@ -331,11 +335,11 @@ jobs:
 
       - name: Install dependencies - gcc
         if: matrix.compiler == 'gcc-12'
-        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s os=Windows -e CC=gcc -e CXX=g++
+        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=gcc -e CXX=g++
 
       - name: Install dependencies - clang
         if: matrix.compiler != 'gcc-12'
-        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s os=Windows -e CC=clang -e CXX=clang++
+        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=clang -e CXX=clang++
 
       - name: Configure - gcc
         if: matrix.compiler == 'gcc-12'
@@ -363,7 +367,6 @@ jobs:
         env:
           TRACY_NO_INVARIANT_CHECK: '1'
           GALLIUM_DRIVER: llvmpipe
-          MESA_GL_VERSION_OVERRIDE: '4.5'
         working-directory: build
         run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
@@ -395,12 +398,16 @@ jobs:
             clang-tools-extra:p
             python:p
             python-pip:p
-            mesa:p
             cmake:p
             ninja:p
             make:p
 
       - uses: actions/checkout@v3.3.0
+
+      - name: Install Mesa3D - Windows
+        uses: ssciwr/setup-mesa-dist-win@v1
+        with:
+          version: '23.0.0'
 
       - name: Install python deps
         run: pip install -r requirements.txt
@@ -410,14 +417,14 @@ jobs:
         with:
           path: |
             ~/.conan
-          key: ${{ runner.os }}-msys-CLANG64-clang-15-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+          key: ${{ runner.os }}-msys-CLANG64-clang-15-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
 
       - name: Add conan remote
         run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
           && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
 
       - name: Install dependencies - clang
-        run: conan install . -b missing -pr .github/clang-15.profile -s os=Windows -s compiler.libcxx=libc++ -e CC=clang -e CXX=clang++ -o jengine-reformed*:sanitize_build=True
+        run: conan install . -b missing -pr .github/clang-15.profile -s build_type=${{ matrix.configuration }} -s os=Windows -s compiler.libcxx=libc++ -e CC=clang -e CXX=clang++ -o jengine-reformed*:sanitize_build=True
 
       - name: Configure - clang
         env:
@@ -445,7 +452,6 @@ jobs:
           UBSAN_OPTIONS: print_stacktrace=1
           TRACY_NO_INVARIANT_CHECK: '1'
           GALLIUM_DRIVER: llvmpipe
-          MESA_GL_VERSION_OVERRIDE: '4.5'
         working-directory: build/sanitize
         run: ctest --output-on-failure -C ${{ matrix.configuration }} --no-tests=error -j 2
 
