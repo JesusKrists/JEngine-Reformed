@@ -250,7 +250,7 @@ jobs:
           if [ ${{ runner.os }} = Linux ]; then
             conan profile update settings.compiler.libcxx=libstdc++11 default
           fi
-          conan install . -b missing -s build_type=${{ matrix.configuration }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+          conan install . -b missing -s build_type=${{ matrix.configuration }} -s compiler.cppstd=20 -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
 
       - name: Setup MultiToolTask
         if: runner.os == 'Windows'

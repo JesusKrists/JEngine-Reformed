@@ -225,3 +225,31 @@ TEST_CASE("Test Application QuitEvent handling", "[Application][Events]")
 
     REQUIRE(!JE::Application().Running());
 }
+
+// TEST_CASE("Test ", "[Application][Events]")
+// {
+//     struct QuitEventPlatform : TestPlatform
+//     {
+//         inline auto PollEvents(JE::IEventProcessor& eventProcessor)
+//             -> bool override
+//         {
+//             if (!m_EventProcessed) {
+//                 JE::QuitEvent event;
+//                 eventProcessor.ProcessEvent(event);
+
+//                 m_EventProcessed = true;
+//                 return true;
+//             }
+
+//             return false;
+//         }
+
+//         bool m_EventProcessed = false;
+//     };
+
+//     JE::detail::InjectCustomEnginePlatform<QuitEventPlatform>();
+
+//     JE::Application().Loop();
+
+//     REQUIRE(!JE::Application().Running());
+// }
