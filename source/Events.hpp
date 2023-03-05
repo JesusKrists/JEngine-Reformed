@@ -89,14 +89,15 @@ class EventDispatcher
         static_assert(std::is_base_of_v<IEvent, EventType>,
                       "Events have to derive from IEvent");
 
-        if (!m_Event.Handled() && EventType::StaticType() == m_Event.Type()) {
-            if (func(static_cast<EventType&>(m_Event))) {
-                m_Event.SetEventHandled();
-                return true;
-            }
+        if (m_Event.Handled() || EventType::StaticType() != m_Event.Type()) {
+            return false;
         }
 
-        return false;
+        if (func(static_cast<EventType&>(m_Event))) {
+            m_Event.SetEventHandled();
+        }
+
+        return true;
     }
 
   private:

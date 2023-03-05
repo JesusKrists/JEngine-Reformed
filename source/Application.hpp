@@ -42,7 +42,7 @@ class App final : public IEventProcessor
 
         EventDispatcher dispatcher{event};
         dispatcher.Dispatch<QuitEvent>(
-            [this]([[maybe_unused]] QuitEvent& evnt)
+            [this]([[maybe_unused]] const QuitEvent& evnt)
             {
                 m_Running = false;
                 return true;

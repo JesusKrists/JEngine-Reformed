@@ -80,13 +80,15 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
             sGladInitialized = true;
         }
 
-        if (previousContext != nullptr && previousWindow != nullptr) {
-            if (SDL_GL_MakeCurrent(previousWindow, previousContext) != 0) {
-                EngineLogger()->error(
-                    "Failed to make previous SDL OpenGL context current: {}",
-                    SDL_GetError());
-                return;
-            }
+        if (previousContext == nullptr || previousWindow == nullptr) {
+            EngineLogger()->trace("No previous graphics context available");
+            return;
+        }
+
+        if (SDL_GL_MakeCurrent(previousWindow, previousContext) != 0) {
+            EngineLogger()->error(
+                "Failed to make previous SDL OpenGL context current: {}",
+                SDL_GetError());
         }
     }
 

@@ -130,6 +130,19 @@ TEST_CASE("Test Application creation and main loop", "[Application]")
     REQUIRE(JE::Application().EventsProcessed() != 0);
 }
 
+TEST_CASE("Test StaticType and Category/Type to string", "[Events]")
+{
+    REQUIRE(JE::UnknownEvent::StaticType() == JE::IEvent::EventType::UNKNOWN);
+    REQUIRE(JE::QuitEvent::StaticType() == JE::IEvent::EventType::QUIT);
+
+    REQUIRE(JE::EventCategoryToString(JE::IEvent::EventCategory::UNKNOWN)
+            == "UNKNOWN");
+    REQUIRE(JE::EventCategoryToString(JE::IEvent::EventCategory::APP) == "APP");
+
+    REQUIRE(JE::EventTypeToString(JE::IEvent::EventType::UNKNOWN) == "UNKNOWN");
+    REQUIRE(JE::EventTypeToString(JE::IEvent::EventType::QUIT) == "QUIT");
+}
+
 TEST_CASE("Test EventDispatcher and Event handling", "[Events]")
 {
     JE::UnknownEvent event;
@@ -192,18 +205,18 @@ TEST_CASE("Test Application QuitEvent handling", "[Application][Events]")
         inline auto PollEvents(JE::IEventProcessor& eventProcessor)
             -> bool override
         {
-            if (!m_EvenProcessed) {
+            if (!m_EventProcessed) {
                 JE::QuitEvent event;
                 eventProcessor.ProcessEvent(event);
 
-                m_EvenProcessed = true;
+                m_EventProcessed = true;
                 return true;
             }
 
             return false;
         }
 
-        bool m_EvenProcessed = false;
+        bool m_EventProcessed = false;
     };
 
     JE::detail::InjectCustomEnginePlatform<QuitEventPlatform>();

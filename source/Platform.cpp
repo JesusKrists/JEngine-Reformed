@@ -32,7 +32,7 @@ void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform)
 // cppcheck-suppress unusedFunction
 auto EnginePlatform() -> IPlatform&
 {
-    if (sEnginePlatform.get() == nullptr) {
+    if (!sEnginePlatform) {
         sEnginePlatform = CreateScope<detail::SDLPlatform>();
     }
     return *sEnginePlatform;
