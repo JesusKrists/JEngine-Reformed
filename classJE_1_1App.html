@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JE::detail::EventDispatcher class | JEngine-Reformed</title>
+  <title>JE::App class | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,8 +49,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceJE_1_1detail.html">detail</a>::<wbr/></span>EventDispatcher <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Events_8hpp.html">&lt;Events.hpp&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span>App <span class="m-thin">class</span> <span class="m-label m-flat m-warning">final</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Application_8hpp.html">&lt;Application.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -59,17 +59,37 @@
             <li>
               Reference
               <ul>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              class <a href="classJE_1_1IEventProcessor.html" class="m-doc">IEventProcessor</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+          <dl class="m-doc">
+            <dt id="aaac6391965b4b3cd2bdf4087dc60890b">
+              static auto <a href="#aaac6391965b4b3cd2bdf4087dc60890b" class="m-doc-self">MAINWINDOW_DEFAULT_TITLE</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a286e71a14280096d424a20b2d7bec7e8">
-              <span class="m-doc-wrap-bumper"><a href="#a286e71a14280096d424a20b2d7bec7e8" class="m-doc-self">EventDispatcher</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp; event) <span class="m-label m-flat m-info">explicit</span> </span>
+            <dt id="a8b2a85f26e4c64f6b32136d28d839798">
+              <span class="m-doc-wrap-bumper"><a href="#a8b2a85f26e4c64f6b32136d28d839798" class="m-doc-self">App</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -77,9 +97,32 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a907c03cfdaa9885d78a51ab494e5b78d">
-              <div class="m-doc-template">template&lt;typename EventType, typename Func&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a907c03cfdaa9885d78a51ab494e5b78d" class="m-doc-self">Dispatch</a>(</span><span class="m-doc-wrap">Func func) -&gt; bool</span>
+            <dt id="a9a7494884b335258e57dfd7337260114">
+              <span class="m-doc-wrap-bumper">void <a href="#a9a7494884b335258e57dfd7337260114" class="m-doc-self">ProcessEvent</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IEvent.html" class="m-doc">IEvent</a>&amp; event) <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad9ca899feaf3fa6ca1d7ddbb91e1033a">
+              <span class="m-doc-wrap-bumper">void <a href="#ad9ca899feaf3fa6ca1d7ddbb91e1033a" class="m-doc-self">ProcessEvents</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a8232fd3adb2c8deb930a37a4c0215318">
+              <span class="m-doc-wrap-bumper">void <a href="#a8232fd3adb2c8deb930a37a4c0215318" class="m-doc-self">Loop</a>(</span><span class="m-doc-wrap">std::int64_t loopCount = -1)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a978961c756a904d2ba7fc7da08226bcc">
+              <span class="m-doc-wrap-bumper">auto <a href="#a978961c756a904d2ba7fc7da08226bcc" class="m-doc-self">LoopCount</a>(</span><span class="m-doc-wrap">) const</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a099fab9d63a700cc3b3dd993b8f0f454">
+              <span class="m-doc-wrap-bumper">auto <a href="#a099fab9d63a700cc3b3dd993b8f0f454" class="m-doc-self">Running</a>(</span><span class="m-doc-wrap">) const</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa00627f8148e788fb2421b3182870481">
+              <span class="m-doc-wrap-bumper">auto <a href="#aa00627f8148e788fb2421b3182870481" class="m-doc-self">EventsProcessed</a>(</span><span class="m-doc-wrap">) const</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a4f01b183463a2f0440421af541cedb25">
+              <span class="m-doc-wrap-bumper">auto <a href="#a4f01b183463a2f0440421af541cedb25" class="m-doc-self">Initialized</a>(</span><span class="m-doc-wrap">) const</span>
             </dt>
             <dd><span></span></dd>
           </dl>

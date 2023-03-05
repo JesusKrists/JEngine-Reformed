@@ -78,7 +78,27 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              class <a href="classJE_1_1IPlatform.html" class="m-doc">IPlatform</a>
+              class <a href="classJE_1_1App.html" class="m-doc">App</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classJE_1_1IEvent.html" class="m-doc">IEvent</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classJE_1_1IEventProcessor.html" class="m-doc">IEventProcessor</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classJE_1_1EventDispatcher.html" class="m-doc">EventDispatcher</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classJE_1_1UnknownEvent.html" class="m-doc">UnknownEvent</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classJE_1_1QuitEvent.html" class="m-doc">QuitEvent</a>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -87,6 +107,10 @@
             <dd><span></span></dd>
             <dt>
               class <a href="classJE_1_1IWindow.html" class="m-doc">IWindow</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classJE_1_1IPlatform.html" class="m-doc">IPlatform</a>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -108,13 +132,18 @@
               using <a href="#a7335a0faae7215b460b0c63b1b791146" class="m-doc">Ref</a> = std::shared_ptr&lt;T&gt;
             </dt>
             <dd><span></span></dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a href="#a97bf3a7f31d1793f66909ba1dc5a845f" class="m-doc">Vector</a> = std::vector&lt;T&gt;
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a13c80bb6b963b5cbad9bf08f706476a9" class="m-doc">Application</a>(</span><span class="m-doc-wrap">) -&gt; detail::App &amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a404efcabfe67c68e8a3c25604fa1acaf" class="m-doc">Application</a>(</span><span class="m-doc-wrap">) -&gt; App &amp;</span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -129,6 +158,14 @@
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a href="#a44cd319626a24baec4ef1d1b95d05af1" class="m-doc">EnumToSizeT</a>(</span><span class="m-doc-wrap">const T ENUM_VALUE) -&gt; std::size_t <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a74efe7f2dd8b91081a6d56c4726535d3" class="m-doc">EventCategoryToString</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IEvent.html#a88d281255c8af0c11f0c7aa88f1104ed" class="m-doc">IEvent::<wbr />EventCategory</a> category) -&gt; std::string_view <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#a3f92124558724de4434a064a426d2773" class="m-doc">EventTypeToString</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IEvent.html#a982c74d203dea1be404cf7577ff21b65" class="m-doc">IEvent::<wbr />EventType</a> type) -&gt; std::string_view <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd><span></span></dd>
             <dt>
@@ -150,16 +187,12 @@
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#ac229642f31dcad37b1d8ac43d0b430e8" class="m-doc">SetCustomEnginePlatform</a>(</span><span class="m-doc-wrap"><a href="namespaceJE.html#a3ade3b9ff46734d87eea097f6dfab51b" class="m-doc">Scope</a>&lt;<a href="classJE_1_1IPlatform.html" class="m-doc">IPlatform</a>&gt; enginePlatform)</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a68ea9bcdaf0ef618ffb589b7ef193386" class="m-doc">EnginePlatform</a>(</span><span class="m-doc-wrap">) -&gt; IPlatform &amp;</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a8dbc77ef0e16de12e06f3b9bf91745fa" class="m-doc">CreateWindow</a>(</span><span class="m-doc-wrap">std::string_view title,
-              const <a href="structJE_1_1Size2D.html" class="m-doc">Size2D</a>&amp; size) -&gt; Scope&lt; IWindow &gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9ab5d991dc8d9a019add2c8c925f50b9" class="m-doc">CreateWindow</a>(</span><span class="m-doc-wrap">std::string_view title,
+              const <a href="structJE_1_1Size2D.html" class="m-doc">Size2D</a>&amp; size) -&gt; IWindow *</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -219,12 +252,22 @@
             </h3>
             <p><span></span></p>
           </div></section>
+          <section class="m-doc-details" id="a97bf3a7f31d1793f66909ba1dc5a845f"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="Memory_8hpp.html">&lt;source/Memory.hpp&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using JE::<wbr /><a href="#a97bf3a7f31d1793f66909ba1dc5a845f" class="m-doc-self">Vector</a> = std::vector&lt;T&gt;
+            </h3>
+            <p><span></span></p>
+          </div></section>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a13c80bb6b963b5cbad9bf08f706476a9"><div>
+          <section class="m-doc-details" id="a404efcabfe67c68e8a3c25604fa1acaf"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a13c80bb6b963b5cbad9bf08f706476a9" class="m-doc-self">Application</a>(</span><span class="m-doc-wrap">) -&gt; detail::App &amp;</span></span>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a404efcabfe67c68e8a3c25604fa1acaf" class="m-doc-self">Application</a>(</span><span class="m-doc-wrap">) -&gt; App &amp;</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Application_8hpp.html">&lt;source/Application.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
@@ -253,6 +296,20 @@
                 template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a44cd319626a24baec4ef1d1b95d05af1" class="m-doc-self">EnumToSizeT</a>(</span><span class="m-doc-wrap">const T ENUM_VALUE) -&gt; std::size_t <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a74efe7f2dd8b91081a6d56c4726535d3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a74efe7f2dd8b91081a6d56c4726535d3" class="m-doc-self">EventCategoryToString</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IEvent.html#a88d281255c8af0c11f0c7aa88f1104ed" class="m-doc">IEvent::<wbr />EventCategory</a> category) -&gt; std::string_view <span class="m-label m-primary">constexpr</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Events_8hpp.html">&lt;source/Events.hpp&gt;</a></div>
+            </h3>
+            <p><span></span></p>
+          </div></section>
+          <section class="m-doc-details" id="a3f92124558724de4434a064a426d2773"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3f92124558724de4434a064a426d2773" class="m-doc-self">EventTypeToString</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IEvent.html#a982c74d203dea1be404cf7577ff21b65" class="m-doc">IEvent::<wbr />EventType</a> type) -&gt; std::string_view <span class="m-label m-primary">constexpr</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Events_8hpp.html">&lt;source/Events.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>
           </div></section>
@@ -290,13 +347,6 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="ac229642f31dcad37b1d8ac43d0b430e8"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">void JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac229642f31dcad37b1d8ac43d0b430e8" class="m-doc-self">SetCustomEnginePlatform</a>(</span><span class="m-doc-wrap"><a href="namespaceJE.html#a3ade3b9ff46734d87eea097f6dfab51b" class="m-doc">Scope</a>&lt;<a href="classJE_1_1IPlatform.html" class="m-doc">IPlatform</a>&gt; enginePlatform)</span></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Platform_8cpp.html">&lt;source/Platform.cpp&gt;</a></div>
-            </h3>
-            <p><span></span></p>
-          </div></section>
           <section class="m-doc-details" id="a68ea9bcdaf0ef618ffb589b7ef193386"><div>
             <h3>
               <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a68ea9bcdaf0ef618ffb589b7ef193386" class="m-doc-self">EnginePlatform</a>(</span><span class="m-doc-wrap">) -&gt; IPlatform &amp;</span></span>
@@ -304,10 +354,10 @@
             </h3>
             <p><span></span></p>
           </div></section>
-          <section class="m-doc-details" id="a8dbc77ef0e16de12e06f3b9bf91745fa"><div>
+          <section class="m-doc-details" id="a9ab5d991dc8d9a019add2c8c925f50b9"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a8dbc77ef0e16de12e06f3b9bf91745fa" class="m-doc-self">CreateWindow</a>(</span><span class="m-doc-wrap">std::string_view title,
-              const <a href="structJE_1_1Size2D.html" class="m-doc">Size2D</a>&amp; size) -&gt; Scope&lt; IWindow &gt;</span></span>
+              <span class="m-doc-wrap-bumper">auto JE::<wbr /></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a9ab5d991dc8d9a019add2c8c925f50b9" class="m-doc-self">CreateWindow</a>(</span><span class="m-doc-wrap">std::string_view title,
+              const <a href="structJE_1_1Size2D.html" class="m-doc">Size2D</a>&amp; size) -&gt; IWindow *</span></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Platform_8hpp.html">&lt;source/Platform.hpp&gt;</a></div>
             </h3>
             <p><span></span></p>

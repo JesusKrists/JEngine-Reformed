@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>JE::detail::App class | JEngine-Reformed</title>
+  <title>JE::IEvent class | JEngine-Reformed</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -49,8 +49,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceJE_1_1detail.html">detail</a>::<wbr/></span>App <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Application_8hpp.html">&lt;Application.hpp&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span>IEvent <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="Events_8hpp.html">&lt;Events.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -59,28 +59,38 @@
             <li>
               Reference
               <ul>
-                <li><a href="#base-classes">Base classes</a></li>
-                <li><a href="#pub-static-attribs">Public static variables</a></li>
+                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="base-classes">
-          <h2><a href="#base-classes">Base classes</a></h2>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
             <dt>
-              class <a href="classJE_1_1detail_1_1IEventProcessor.html" class="m-doc">IEventProcessor</a>
+              class <a href="classJE_1_1QuitEvent.html" class="m-doc">QuitEvent</a> <span class="m-label m-flat m-warning">final</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt>
+              class <a href="classJE_1_1UnknownEvent.html" class="m-doc">UnknownEvent</a> <span class="m-label m-flat m-warning">final</span>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="pub-static-attribs">
-          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="a3809552d7ec95fff46165466720131d5">
-              static auto <a href="#a3809552d7ec95fff46165466720131d5" class="m-doc-self">MAINWINDOW_DEFAULT_TITLE</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a88d281255c8af0c11f0c7aa88f1104ed">
+              <span class="m-doc-wrap-bumper">enum class <a href="#a88d281255c8af0c11f0c7aa88f1104ed" class="m-doc-self">EventCategory</a> { </span><span class="m-doc-wrap"><a href="#a88d281255c8af0c11f0c7aa88f1104eda696b031073e74bf2cb98e5ef201d4aa3" class="m-doc">UNKNOWN</a>,
+              <a href="#a88d281255c8af0c11f0c7aa88f1104eda0bdbb2c325525e986d55ef50ca66d056" class="m-doc">APP</a> }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a982c74d203dea1be404cf7577ff21b65">
+              <span class="m-doc-wrap-bumper">enum class <a href="#a982c74d203dea1be404cf7577ff21b65" class="m-doc-self">EventType</a> { </span><span class="m-doc-wrap"><a href="#a982c74d203dea1be404cf7577ff21b65a696b031073e74bf2cb98e5ef201d4aa3" class="m-doc">UNKNOWN</a>,
+              <a href="#a982c74d203dea1be404cf7577ff21b65a5dfd352dd6b7a5d118237fcf1e19fcc1" class="m-doc">QUIT</a> }</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -88,8 +98,20 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a9eb7bdda3090e707b80ab60924ad6979">
-              <span class="m-doc-wrap-bumper"><a href="#a9eb7bdda3090e707b80ab60924ad6979" class="m-doc-self">App</a>(</span><span class="m-doc-wrap">)</span>
+            <dt id="ab79ded5bf81585eafd19a36659045572">
+              <span class="m-doc-wrap-bumper"><a href="#ab79ded5bf81585eafd19a36659045572" class="m-doc-self">IEvent</a>(</span><span class="m-doc-wrap">const <a href="classJE_1_1IEvent.html" class="m-doc">IEvent</a>&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a5d9be5c2783683db79a915baee3364fe">
+              <span class="m-doc-wrap-bumper"><a href="#a5d9be5c2783683db79a915baee3364fe" class="m-doc-self">IEvent</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IEvent.html" class="m-doc">IEvent</a>&amp;&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a4b15ad92e590734af54f33db810da4ef">
+              <span class="m-doc-wrap-bumper"><a href="#a4b15ad92e590734af54f33db810da4ef" class="m-doc-self">IEvent</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a73355f737cc12d64f36a175d07a2e736">
+              <span class="m-doc-wrap-bumper"><a href="#a73355f737cc12d64f36a175d07a2e736" class="m-doc-self">~IEvent</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -97,28 +119,24 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a9c547db2a196d5da1a9f1c5ba818f068">
-              <span class="m-doc-wrap-bumper">void <a href="#a9c547db2a196d5da1a9f1c5ba818f068" class="m-doc-self">ProcessEvent</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1detail_1_1IEvent.html" class="m-doc">IEvent</a>&amp; event) <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="abcd83cd14abe9cee9beee661d08f25fc">
+              <span class="m-doc-wrap-bumper">auto <a href="#abcd83cd14abe9cee9beee661d08f25fc" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classJE_1_1IEvent.html" class="m-doc">IEvent</a>&amp; other) -&gt; IEvent &amp; <span class="m-label m-flat m-danger">deleted</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a7aa13000e529598bf9370b4922f91f94">
-              <span class="m-doc-wrap-bumper">void <a href="#a7aa13000e529598bf9370b4922f91f94" class="m-doc-self">ProcessEvents</a>(</span><span class="m-doc-wrap">)</span>
+            <dt id="a48d6a58460212ec51187a4a9169de20f">
+              <span class="m-doc-wrap-bumper">auto <a href="#a48d6a58460212ec51187a4a9169de20f" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IEvent.html" class="m-doc">IEvent</a>&amp;&amp; other) -&gt; IEvent &amp; <span class="m-label m-flat m-danger">deleted</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a4e61fee98fa433229f9cda54c9198993">
-              <span class="m-doc-wrap-bumper">void <a href="#a4e61fee98fa433229f9cda54c9198993" class="m-doc-self">Loop</a>(</span><span class="m-doc-wrap">std::int64_t loopCount = -1)</span>
+            <dt id="af594207769e875c81c26e09ae98cd2ac">
+              <span class="m-doc-wrap-bumper">auto <a href="#af594207769e875c81c26e09ae98cd2ac" class="m-doc-self">Category</a>(</span><span class="m-doc-wrap">) const -&gt; EventCategory <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a7ec3d9e1b4acfb4561834e61c800f421">
-              <span class="m-doc-wrap-bumper">auto <a href="#a7ec3d9e1b4acfb4561834e61c800f421" class="m-doc-self">LoopCount</a>(</span><span class="m-doc-wrap">) const</span>
+            <dt id="a8517d34006c7899ca00855c178eab63a">
+              <span class="m-doc-wrap-bumper">auto <a href="#a8517d34006c7899ca00855c178eab63a" class="m-doc-self">Type</a>(</span><span class="m-doc-wrap">) const -&gt; EventType <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a26d20a82b36b8e259e6791b7170b8f77">
-              <span class="m-doc-wrap-bumper">auto <a href="#a26d20a82b36b8e259e6791b7170b8f77" class="m-doc-self">EventsProcessed</a>(</span><span class="m-doc-wrap">) const</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="ae0b9c1b5e60369c0172de020f69395e9">
-              <span class="m-doc-wrap-bumper">auto <a href="#ae0b9c1b5e60369c0172de020f69395e9" class="m-doc-self">Initialized</a>(</span><span class="m-doc-wrap">) const</span>
+            <dt id="a584e0c0a0adb94d6b1480e5c10042b98">
+              <span class="m-doc-wrap-bumper">auto <a href="#a584e0c0a0adb94d6b1480e5c10042b98" class="m-doc-self">Handled</a>(</span><span class="m-doc-wrap">) const</span>
             </dt>
             <dd><span></span></dd>
           </dl>
