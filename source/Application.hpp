@@ -7,10 +7,7 @@
 namespace JE
 {
 
-namespace detail
-{
-
-class App : public IEventProcessor
+class App final : public IEventProcessor
 {
   public:
     static constexpr auto MAINWINDOW_DEFAULT_TITLE =
@@ -39,7 +36,7 @@ class App : public IEventProcessor
     // cppcheck-suppress unusedFunction
     inline void ProcessEvent(IEvent& event) override
     {
-        EngineLogger()->debug("Processing event of class - {} | type - {}",
+        EngineLogger()->trace("Processing event of class - {} | type - {}",
                               EventCategoryToString(event.Category()),
                               EventTypeToString(event.Type()));
 
@@ -74,12 +71,14 @@ class App : public IEventProcessor
     }
 
     inline auto LoopCount() const { return m_LoopCount; }
+    inline auto Running() const { return m_Running; }
     inline auto EventsProcessed() const { return m_EventsProcessed; }
 
     inline auto Initialized() const { return m_Initialized; }
 
   private:
-    Scope<IWindow> m_MainWindow;
+    IWindow* m_MainWindow = nullptr;
+
     std::int64_t m_LoopCount = 0;
     bool m_Running = false;
     std::uint64_t m_EventsProcessed = 0;
@@ -87,11 +86,9 @@ class App : public IEventProcessor
     bool m_Initialized = false;
 };
 
-}  // namespace detail
-
-inline auto Application() -> detail::App&
+inline auto Application() -> App&
 {
-    static detail::App sApplication;
+    static App sApplication;
     return sApplication;
 }
 

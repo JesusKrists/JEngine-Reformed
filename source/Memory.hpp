@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>  // IWYU pragma: export
+#include <vector>
 
 namespace JE
 {
@@ -22,5 +23,8 @@ inline auto CreateRef(Args&&... args) -> Ref<T>
 {
     return std::make_shared<T>(std::forward<Args>(args)...);
 }
+
+template<typename T>
+using Vector = std::vector<T>;
 
 }  // namespace JE

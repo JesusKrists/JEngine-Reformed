@@ -3,7 +3,7 @@
 #include <string_view>
 #include <type_traits>
 
-namespace JE::detail  // NOLINT(readability-identifier-naming)
+namespace JE
 {
 
 class IEvent
@@ -42,7 +42,7 @@ class IEvent
     bool m_Handled = false;
 };
 
-inline auto EventCategoryToString(IEvent::EventCategory category)
+constexpr auto EventCategoryToString(IEvent::EventCategory category)
     -> std::string_view
 {
     if (category == IEvent::EventCategory::APP) {
@@ -52,7 +52,7 @@ inline auto EventCategoryToString(IEvent::EventCategory category)
     return "UNKNOWN";
 }
 
-inline auto EventTypeToString(IEvent::EventType type) -> std::string_view
+constexpr auto EventTypeToString(IEvent::EventType type) -> std::string_view
 {
     if (type == IEvent::EventType::QUIT) {
         return "QUIT";
@@ -103,7 +103,7 @@ class EventDispatcher
     IEvent& m_Event;
 };
 
-class UnknownEvent : public IEvent
+class UnknownEvent final : public IEvent
 {
   public:
     using IEvent::IEvent;
@@ -117,7 +117,10 @@ class UnknownEvent : public IEvent
         return EventType::UNKNOWN;
     }
 
-    static inline auto StaticType() -> EventType { return EventType::UNKNOWN; }
+    static constexpr auto StaticType() -> EventType
+    {
+        return EventType::UNKNOWN;
+    }
 };
 
 class QuitEvent final : public IEvent
@@ -131,7 +134,7 @@ class QuitEvent final : public IEvent
     }
     inline auto Type() const -> EventType override { return EventType::QUIT; }
 
-    static inline auto StaticType() -> EventType { return EventType::QUIT; }
+    static constexpr auto StaticType() -> EventType { return EventType::QUIT; }
 };
 
-}  // namespace JE::detail
+}  // namespace JE

@@ -2,9 +2,6 @@
 
 #include <glad/glad.h>
 
-#include "Events.hpp"
-#include "Memory.hpp"
-
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
@@ -13,83 +10,16 @@
 #include <SDL2/SDL_video.h>
 
 #include "Assert.hpp"
+#include "Events.hpp"
 #include "Logger.hpp"
+#include "Memory.hpp"
 #include "Platform.hpp"
 #include "Types.hpp"
 
 namespace JE::detail
 {
 
-class SDLPlatform final : public IPlatform
-{
-  public:
-    SDLPlatform(const SDLPlatform& other) = delete;
-    SDLPlatform(SDLPlatform&& other) = delete;
-    auto operator=(const SDLPlatform& other) -> SDLPlatform& = delete;
-    auto operator=(SDLPlatform&& other) -> SDLPlatform& = delete;
-
-    SDLPlatform() = default;
-
-    inline auto Name() const -> std::string_view override
-    {
-        return "SDL2 Platform";
-    }
-
-    inline auto Initialize() -> bool override
-    {
-        EngineLogger()->debug("Initializing SDL platform");
-
-        SDL_SetMainReady();
-        m_PlatformInitialized = SDL_Init(SDL_INIT_VIDEO) == 0;
-        if (!m_PlatformInitialized) {
-            EngineLogger()->error("Failed to initialize SDL: {}",
-                                  SDL_GetError());
-        }
-
-        return m_PlatformInitialized;
-    }
-
-    inline auto Initialized() const -> bool override
-    {
-        return m_PlatformInitialized;
-    }
-
-    inline auto GetLastError() const -> std::string_view override
-    {
-        return SDL_GetError();
-    }
-
-    inline auto PollEvents(IEventProcessor& eventProcessor) -> bool override
-    {
-        ASSERT(m_PlatformInitialized);
-
-        SDL_Event event;
-        const bool EVENTS_PENDING = SDL_PollEvent(&event) == 1;
-        if (EVENTS_PENDING) {
-            if (event.type == SDL_QUIT) {
-                QuitEvent evnt{};
-                eventProcessor.ProcessEvent(evnt);
-            } else {
-                UnknownEvent evnt{};
-                eventProcessor.ProcessEvent(evnt);
-            }
-        }
-
-        return EVENTS_PENDING;
-    }
-
-    ~SDLPlatform() override
-    {
-        if (m_PlatformInitialized) {
-            SDL_Quit();
-        }
-    }
-
-  private:
-    bool m_PlatformInitialized = false;
-};
-
-class SDLOpenGLGraphicsContext : public IGraphicsContext
+class SDLOpenGLGraphicsContext final : public IGraphicsContext
 {
   public:
     static constexpr auto OPENGL_MAJOR_VERSION = 4;
@@ -137,13 +67,13 @@ class SDLOpenGLGraphicsContext : public IGraphicsContext
                 return;
             }
 
-            EngineLogger()->debug("Requested OpenGL version: {}.{}",
-                                  OPENGL_MAJOR_VERSION,
-                                  OPENGL_MINOR_VERSION);
-
-            EngineLogger()->debug("Created OpenGL version: {}.{}",
-                                  GLVersion.major,
-                                  GLVersion.minor);
+            EngineLogger()->info(
+                "Requested OpenGL version: {}.{} | Created OpenGL version: "
+                "{}.{}",
+                OPENGL_MAJOR_VERSION,
+                OPENGL_MINOR_VERSION,
+                GLVersion.major,
+                GLVersion.minor);
 
             ASSERT(GLVersion.major == OPENGL_MAJOR_VERSION);
             ASSERT(GLVersion.minor == OPENGL_MINOR_VERSION);
@@ -247,6 +177,84 @@ class SDLWindow final : public IWindow
     Scope<SDLOpenGLGraphicsContext> m_GraphicsContext =
         CreateScope<SDLOpenGLGraphicsContext>();
     SDL_Window* m_Window = nullptr;
+};
+
+class SDLPlatform final : public IPlatform
+{
+  public:
+    SDLPlatform(const SDLPlatform& other) = delete;
+    SDLPlatform(SDLPlatform&& other) = delete;
+    auto operator=(const SDLPlatform& other) -> SDLPlatform& = delete;
+    auto operator=(SDLPlatform&& other) -> SDLPlatform& = delete;
+
+    SDLPlatform() = default;
+
+    inline auto Name() const -> std::string_view override
+    {
+        return "SDL2 Platform";
+    }
+
+    inline auto Initialize() -> bool override
+    {
+        EngineLogger()->debug("Initializing {}", Name());
+
+        SDL_SetMainReady();
+        m_PlatformInitialized = SDL_Init(SDL_INIT_VIDEO) == 0;
+        if (!m_PlatformInitialized) {
+            EngineLogger()->error("Failed to initialize SDL: {}",
+                                  SDL_GetError());
+        }
+
+        return m_PlatformInitialized;
+    }
+
+    inline auto Initialized() const -> bool override
+    {
+        return m_PlatformInitialized;
+    }
+
+    inline auto GetLastError() const -> std::string_view override
+    {
+        return SDL_GetError();
+    }
+
+    inline auto PollEvents(IEventProcessor& eventProcessor) -> bool override
+    {
+        ASSERT(m_PlatformInitialized);
+
+        SDL_Event event;
+        const bool EVENTS_PENDING = SDL_PollEvent(&event) == 1;
+        if (EVENTS_PENDING) {
+            if (event.type == SDL_QUIT) {
+                QuitEvent evnt{};
+                eventProcessor.ProcessEvent(evnt);
+            } else {
+                UnknownEvent evnt{};
+                eventProcessor.ProcessEvent(evnt);
+            }
+        }
+
+        return EVENTS_PENDING;
+    }
+
+    ~SDLPlatform() override
+    {
+        if (m_PlatformInitialized) {
+            SDL_Quit();
+        }
+    }
+
+  private:
+    inline auto CreateWindow(std::string_view title, const Size2D& size)
+        -> IWindow* override
+    {
+        return m_Windows
+            .emplace_back(CreateScope<SDLWindow>(std::string{title}, size))
+            .get();
+    }
+
+    bool m_PlatformInitialized = false;
+    Vector<Scope<SDLWindow>> m_Windows;
 };
 
 }  // namespace JE::detail

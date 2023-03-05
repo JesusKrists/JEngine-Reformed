@@ -8,31 +8,7 @@
 
 namespace JE
 {
-namespace detail  // NOLINT(readability-identifier-naming)
-{
 class IEventProcessor;
-}  // namespace detail
-
-class IPlatform
-{
-  public:
-    IPlatform(const IPlatform& other) = delete;
-    IPlatform(IPlatform&& other) = delete;
-    auto operator=(const IPlatform& other) -> IPlatform& = delete;
-    auto operator=(IPlatform&& other) -> IPlatform& = delete;
-
-    IPlatform() = default;
-    virtual ~IPlatform() = default;
-
-    virtual auto Name() const -> std::string_view = 0;
-
-    virtual auto Initialize() -> bool = 0;
-    virtual auto Initialized() const -> bool = 0;
-    virtual auto GetLastError() const -> std::string_view = 0;
-
-    virtual auto PollEvents(detail::IEventProcessor& eventProcessor)
-        -> bool = 0;
-};
 
 class IGraphicsContext
 {
@@ -51,7 +27,7 @@ class IGraphicsContext
 class IWindow
 {
   public:
-    static constexpr auto DEFAULT_WINDOW_SIZE = Size2D{640, 480};
+    static constexpr auto DEFAULT_WINDOW_SIZE = Size2D{1280, 720};
 
     IWindow(const IWindow& other) = delete;
     IWindow(IWindow&& other) = delete;
@@ -65,8 +41,37 @@ class IWindow
     virtual auto GraphicsContext() -> IGraphicsContext& = 0;
 };
 
-namespace detail
+class IPlatform
 {
+    friend auto CreateWindow(std::string_view title, const Size2D& size)
+        -> IWindow*;
+
+  public:
+    IPlatform(const IPlatform& other) = delete;
+    IPlatform(IPlatform&& other) = delete;
+    auto operator=(const IPlatform& other) -> IPlatform& = delete;
+    auto operator=(IPlatform&& other) -> IPlatform& = delete;
+
+    IPlatform() = default;
+    virtual ~IPlatform() = default;
+
+    virtual auto Name() const -> std::string_view = 0;
+
+    virtual auto Initialize() -> bool = 0;
+    virtual auto Initialized() const -> bool = 0;
+    virtual auto GetLastError() const -> std::string_view = 0;
+
+    virtual auto PollEvents(IEventProcessor& eventProcessor) -> bool = 0;
+
+  private:
+    virtual auto CreateWindow(std::string_view title, const Size2D& size)
+        -> IWindow* = 0;
+};
+
+namespace detail  // NOLINT(readability-identifier-naming)
+{
+
+void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform);
 
 template<typename T, typename... Args>
 void InjectCustomEnginePlatform(Args&&... args)
@@ -76,13 +81,11 @@ void InjectCustomEnginePlatform(Args&&... args)
     SetCustomEnginePlatform(CreateScope<T>(std::forward<Args>(args)...));
 }
 
-void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform);
-
 }  // namespace detail
 
 auto EnginePlatform() -> IPlatform&;
 auto CreateWindow(std::string_view title,
                   const Size2D& size = IWindow::DEFAULT_WINDOW_SIZE)
-    -> Scope<IWindow>;
+    -> IWindow*;
 
 }  // namespace JE

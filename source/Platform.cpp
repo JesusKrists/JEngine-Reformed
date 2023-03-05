@@ -1,5 +1,4 @@
 #include <exception>
-#include <string>
 
 #include "Platform.hpp"
 
@@ -16,6 +15,9 @@ namespace JE
 static Scope<IPlatform>
     sEnginePlatform;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
+namespace detail
+{
+
 void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform)
 {
     ASSERT(!sEnginePlatform);
@@ -24,6 +26,8 @@ void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform)
                           enginePlatform->Name());
     sEnginePlatform = std::move(enginePlatform);
 }
+
+}  // namespace detail
 
 // cppcheck-suppress unusedFunction
 auto EnginePlatform() -> IPlatform&
@@ -35,11 +39,12 @@ auto EnginePlatform() -> IPlatform&
 }
 
 // cppcheck-suppress unusedFunction
-auto CreateWindow(std::string_view title, const Size2D& size) -> Scope<IWindow>
+auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow*
 {
     ASSERT(EnginePlatform().Initialized());
-    EngineLogger()->debug("Creating SDL Window ({}) of size: {}", title, size);
-    return CreateScope<detail::SDLWindow>(std::string{title}, size);
+
+    EngineLogger()->info("Creating Window ({}) of size: {}", title, size);
+    return EnginePlatform().CreateWindow(title, size);
 }
 
 }  // namespace JE
