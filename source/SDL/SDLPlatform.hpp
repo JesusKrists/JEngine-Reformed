@@ -30,6 +30,11 @@ class SDLPlatform final : public IPlatform
 
     SDLPlatform() = default;
 
+    inline auto Name() const -> std::string_view override
+    {
+        return "SDL2 Platform";
+    }
+
     inline auto Initialize() -> bool override
     {
         EngineLogger()->debug("Initializing SDL platform");

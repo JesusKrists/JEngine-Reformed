@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string_view>
+#include <utility>
 
 #include "Memory.hpp"
 #include "Types.hpp"
@@ -22,6 +23,8 @@ class IPlatform
 
     IPlatform() = default;
     virtual ~IPlatform() = default;
+
+    virtual auto Name() const -> std::string_view = 0;
 
     virtual auto Initialize() -> bool = 0;
     virtual auto Initialized() const -> bool = 0;
@@ -61,6 +64,21 @@ class IWindow
     virtual auto Created() const -> bool = 0;
     virtual auto GraphicsContext() -> IGraphicsContext& = 0;
 };
+
+namespace detail
+{
+
+template<typename T, typename... Args>
+void InjectCustomEnginePlatform(Args&&... args)
+{
+    static_assert(std::is_base_of_v<IPlatform, T>,
+                  "Custom Engine Platform has to derive from IPlatform");
+    SetCustomEnginePlatform(CreateScope<T>(std::forward<Args>(args)...));
+}
+
+void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform);
+
+}  // namespace detail
 
 auto EnginePlatform() -> IPlatform&;
 auto CreateWindow(std::string_view title,

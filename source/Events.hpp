@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string_view>
+#include <type_traits>
 
 namespace JE::detail  // NOLINT(readability-identifier-naming)
 {
@@ -85,6 +86,9 @@ class EventDispatcher
     template<typename EventType, typename Func>
     inline auto Dispatch(Func func) -> bool
     {
+        static_assert(std::is_base_of_v<IEvent, EventType>,
+                      "Events have to derive from IEvent");
+
         if (!m_Event.Handled() && EventType::StaticType() == m_Event.Type()) {
             if (func(static_cast<EventType&>(m_Event))) {
                 m_Event.SetEventHandled();

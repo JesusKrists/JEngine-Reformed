@@ -91,8 +91,8 @@ class App : public IEventProcessor
 
 inline auto Application() -> detail::App&
 {
-    static detail::App s_Application;
-    return s_Application;
+    static detail::App sApplication;
+    return sApplication;
 }
 
 }  // namespace JE
