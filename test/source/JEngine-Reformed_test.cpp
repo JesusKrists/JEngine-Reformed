@@ -179,6 +179,8 @@ TEST_CASE("Test Application initialization failure (Window creation failure)", "
 
 TEST_CASE("Test Application QuitEvent handling", "[Application][Events]")
 {
+    static constexpr auto MAX_LOOP_COUNT = 100;
+
     struct QuitEventPlatform : TestPlatform
     {
         inline auto PollEvents(JE::IEventProcessor& eventProcessor) -> bool override
@@ -199,7 +201,9 @@ TEST_CASE("Test Application QuitEvent handling", "[Application][Events]")
 
     JE::detail::InjectCustomEnginePlatform<QuitEventPlatform>();
 
-    JE::Application().Loop();
+    JE::Application().Loop(MAX_LOOP_COUNT);
 
     REQUIRE(!JE::Application().Running());
+    REQUIRE(JE::Application().LoopCount() == 1);
+    REQUIRE(JE::Application().EventsProcessed() == 1);
 }

@@ -210,6 +210,7 @@ class SDLPlatform final : public IPlatform
     ~SDLPlatform() override
     {
         if (m_PlatformInitialized) {
+            m_Windows.clear();
             SDL_Quit();
         }
     }
