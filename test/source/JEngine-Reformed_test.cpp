@@ -95,13 +95,13 @@ TEST_CASE("Test Loggers", "[Logger]")
     REQUIRE(JE::AppLogger() != nullptr);
 }
 
-TEST_CASE("Test Platform initialization, window creation and OpenGL context creation", "[Platform][OpenGL]")
+TEST_CASE("Test Platform initialization, window creation and OpenGL context creation",
+          "[Application][Platform][OpenGL]")
 {
-    REQUIRE(JE::EnginePlatform().Initialize());
+    REQUIRE(JE::Application().Initialized());
 
-    auto* window = JE::CreateWindow("TestWindow");
-    REQUIRE(window->Created());
-    REQUIRE(window->GraphicsContext().Created());
+    REQUIRE(JE::Application().MainWindow().Created());
+    REQUIRE(JE::Application().MainWindow().GraphicsContext().Created());
 }
 
 TEST_CASE("Test Application creation and main loop", "[Application]")

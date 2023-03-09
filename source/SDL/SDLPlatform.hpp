@@ -171,8 +171,23 @@ class SDLPlatform final : public IPlatform
 
     inline auto Name() const -> std::string_view override { return "SDL2 Platform"; }
 
+    inline auto Initialized() const -> bool override { return m_PlatformInitialized; }
+
+    inline auto GetLastError() const -> std::string_view override { return SDL_GetError(); }
+
+    ~SDLPlatform() override
+    {
+        if (m_PlatformInitialized) {
+            m_Windows.clear();
+            SDL_Quit();
+        }
+    }
+
+  private:
     inline auto Initialize() -> bool override
     {
+        ASSERT(!m_PlatformInitialized);
+
         EngineLogger()->debug("Initializing {}", Name());
 
         SDL_SetMainReady();
@@ -183,10 +198,6 @@ class SDLPlatform final : public IPlatform
 
         return m_PlatformInitialized;
     }
-
-    inline auto Initialized() const -> bool override { return m_PlatformInitialized; }
-
-    inline auto GetLastError() const -> std::string_view override { return SDL_GetError(); }
 
     inline auto PollEvents(IEventProcessor& eventProcessor) -> bool override
     {
@@ -207,15 +218,6 @@ class SDLPlatform final : public IPlatform
         return EVENTS_PENDING;
     }
 
-    ~SDLPlatform() override
-    {
-        if (m_PlatformInitialized) {
-            m_Windows.clear();
-            SDL_Quit();
-        }
-    }
-
-  private:
     inline auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow* override
     {
         return m_Windows.emplace_back(CreateScope<SDLWindow>(std::string{title}, size)).get();

@@ -9,24 +9,10 @@ namespace JE
 
 class App final : public IEventProcessor
 {
+    friend auto Application() -> App&;
+
   public:
     static constexpr auto MAINWINDOW_DEFAULT_TITLE = "JEngine-Reformed Application";
-
-    App()
-    {
-        if (!EnginePlatform().Initialize()) {
-            EngineLogger()->error("Failed to create application - EnginePlatform failed to initialize");
-            return;
-        }
-
-        m_MainWindow = CreateWindow(MAINWINDOW_DEFAULT_TITLE);
-        if (!m_MainWindow->Created()) {
-            EngineLogger()->error("Failed to create application - MainWindow could not be created");
-            return;
-        }
-
-        m_Initialized = true;
-    }
 
     // cppcheck-suppress unusedFunction
     inline void ProcessEvent(IEvent& event) override
@@ -65,6 +51,8 @@ class App final : public IEventProcessor
         }
     }
 
+    inline auto MainWindow() -> IWindow& { return *m_MainWindow; }
+
     inline auto LoopCount() const { return m_LoopCount; }
     inline auto Running() const { return m_Running; }
     inline auto EventsProcessed() const { return m_EventsProcessed; }
@@ -72,6 +60,22 @@ class App final : public IEventProcessor
     inline auto Initialized() const { return m_Initialized; }
 
   private:
+    App()
+    {
+        if (!EnginePlatform().Initialize()) {
+            EngineLogger()->error("Failed to create application - EnginePlatform failed to initialize");
+            return;
+        }
+
+        m_MainWindow = CreateWindow(MAINWINDOW_DEFAULT_TITLE);
+        if (!m_MainWindow->Created()) {
+            EngineLogger()->error("Failed to create application - MainWindow could not be created");
+            return;
+        }
+
+        m_Initialized = true;
+    }
+
     IWindow* m_MainWindow = nullptr;
 
     std::int64_t m_LoopCount = 0;

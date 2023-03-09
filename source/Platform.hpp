@@ -43,6 +43,7 @@ class IWindow
 
 class IPlatform
 {
+    friend class App;
     friend auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow*;
 
   public:
@@ -55,14 +56,12 @@ class IPlatform
     virtual ~IPlatform() = default;
 
     virtual auto Name() const -> std::string_view = 0;
-
-    virtual auto Initialize() -> bool = 0;
     virtual auto Initialized() const -> bool = 0;
     virtual auto GetLastError() const -> std::string_view = 0;
 
-    virtual auto PollEvents(IEventProcessor& eventProcessor) -> bool = 0;
-
   private:
+    virtual auto Initialize() -> bool = 0;
+    virtual auto PollEvents(IEventProcessor& eventProcessor) -> bool = 0;
     virtual auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow* = 0;
 };
 
