@@ -12,8 +12,7 @@
 namespace JE
 {
 
-static Scope<IPlatform>
-    sEnginePlatform;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+static Scope<IPlatform> sEnginePlatform;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 namespace detail
 {
@@ -22,8 +21,7 @@ void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform)
 {
     ASSERT(!sEnginePlatform);
 
-    EngineLogger()->debug("Injecting custom engine platform - {}",
-                          enginePlatform->Name());
+    EngineLogger()->debug("Injecting custom engine platform - {}", enginePlatform->Name());
     sEnginePlatform = std::move(enginePlatform);
 }
 

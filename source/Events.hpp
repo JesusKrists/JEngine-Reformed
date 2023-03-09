@@ -42,8 +42,7 @@ class IEvent
     bool m_Handled = false;
 };
 
-constexpr auto EventCategoryToString(IEvent::EventCategory category)
-    -> std::string_view
+constexpr auto EventCategoryToString(IEvent::EventCategory category) -> std::string_view
 {
     if (category == IEvent::EventCategory::APP) {
         return "APP";
@@ -86,8 +85,7 @@ class EventDispatcher
     template<typename EventType, typename Func>
     inline auto Dispatch(Func func) -> bool
     {
-        static_assert(std::is_base_of_v<IEvent, EventType>,
-                      "Events have to derive from IEvent");
+        static_assert(std::is_base_of_v<IEvent, EventType>, "Events have to derive from IEvent");
 
         if (m_Event.Handled() || EventType::StaticType() != m_Event.Type()) {
             return false;
@@ -109,19 +107,10 @@ class UnknownEvent final : public IEvent
   public:
     using IEvent::IEvent;
 
-    inline auto Category() const -> EventCategory override
-    {
-        return EventCategory::UNKNOWN;
-    }
-    inline auto Type() const -> EventType override
-    {
-        return EventType::UNKNOWN;
-    }
+    inline auto Category() const -> EventCategory override { return EventCategory::UNKNOWN; }
+    inline auto Type() const -> EventType override { return EventType::UNKNOWN; }
 
-    static constexpr auto StaticType() -> EventType
-    {
-        return EventType::UNKNOWN;
-    }
+    static constexpr auto StaticType() -> EventType { return EventType::UNKNOWN; }
 };
 
 class QuitEvent final : public IEvent
@@ -129,10 +118,7 @@ class QuitEvent final : public IEvent
   public:
     using IEvent::IEvent;
 
-    inline auto Category() const -> EventCategory override
-    {
-        return EventCategory::APP;
-    }
+    inline auto Category() const -> EventCategory override { return EventCategory::APP; }
     inline auto Type() const -> EventType override { return EventType::QUIT; }
 
     static constexpr auto StaticType() -> EventType { return EventType::QUIT; }

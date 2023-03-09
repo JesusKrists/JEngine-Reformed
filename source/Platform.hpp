@@ -43,8 +43,7 @@ class IWindow
 
 class IPlatform
 {
-    friend auto CreateWindow(std::string_view title, const Size2D& size)
-        -> IWindow*;
+    friend auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow*;
 
   public:
     IPlatform(const IPlatform& other) = delete;
@@ -64,8 +63,7 @@ class IPlatform
     virtual auto PollEvents(IEventProcessor& eventProcessor) -> bool = 0;
 
   private:
-    virtual auto CreateWindow(std::string_view title, const Size2D& size)
-        -> IWindow* = 0;
+    virtual auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow* = 0;
 };
 
 namespace detail  // NOLINT(readability-identifier-naming)
@@ -76,16 +74,13 @@ void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform);
 template<typename T, typename... Args>
 void InjectCustomEnginePlatform(Args&&... args)
 {
-    static_assert(std::is_base_of_v<IPlatform, T>,
-                  "Custom Engine Platform has to derive from IPlatform");
+    static_assert(std::is_base_of_v<IPlatform, T>, "Custom Engine Platform has to derive from IPlatform");
     SetCustomEnginePlatform(CreateScope<T>(std::forward<Args>(args)...));
 }
 
 }  // namespace detail
 
 auto EnginePlatform() -> IPlatform&;
-auto CreateWindow(std::string_view title,
-                  const Size2D& size = IWindow::DEFAULT_WINDOW_SIZE)
-    -> IWindow*;
+auto CreateWindow(std::string_view title, const Size2D& size = IWindow::DEFAULT_WINDOW_SIZE) -> IWindow*;
 
 }  // namespace JE

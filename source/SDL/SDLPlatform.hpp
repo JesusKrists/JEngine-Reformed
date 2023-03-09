@@ -34,10 +34,8 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
 
     SDLOpenGLGraphicsContext(const SDLOpenGLGraphicsContext& other) = delete;
     SDLOpenGLGraphicsContext(SDLOpenGLGraphicsContext&& other) = delete;
-    auto operator=(const SDLOpenGLGraphicsContext& other)
-        -> SDLOpenGLGraphicsContext& = delete;
-    auto operator=(SDLOpenGLGraphicsContext&& other)
-        -> SDLOpenGLGraphicsContext& = delete;
+    auto operator=(const SDLOpenGLGraphicsContext& other) -> SDLOpenGLGraphicsContext& = delete;
+    auto operator=(SDLOpenGLGraphicsContext&& other) -> SDLOpenGLGraphicsContext& = delete;
 
     SDLOpenGLGraphicsContext() { InitializeOpenGLParameters(); }
 
@@ -48,15 +46,12 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
 
         m_Context = SDL_GL_CreateContext(window);
         if (m_Context == nullptr) {
-            EngineLogger()->error("Failed to create SDL OpenGL context: {}",
-                                  SDL_GetError());
+            EngineLogger()->error("Failed to create SDL OpenGL context: {}", SDL_GetError());
             return;
         }
 
         if (SDL_GL_MakeCurrent(window, m_Context) != 0) {
-            EngineLogger()->error(
-                "Failed to make SDL OpenGL context current: {}",
-                SDL_GetError());
+            EngineLogger()->error("Failed to make SDL OpenGL context current: {}", SDL_GetError());
             return;
         }
 
@@ -67,13 +62,11 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
                 return;
             }
 
-            EngineLogger()->info(
-                "Requested OpenGL version: {}.{} | Created OpenGL version: "
-                "{}.{}",
-                OPENGL_MAJOR_VERSION,
-                OPENGL_MINOR_VERSION,
-                GLVersion.major,
-                GLVersion.minor);
+            EngineLogger()->info("Requested OpenGL version: {}.{} | Created OpenGL version: {}.{}",
+                                 OPENGL_MAJOR_VERSION,
+                                 OPENGL_MINOR_VERSION,
+                                 GLVersion.major,
+                                 GLVersion.minor);
 
             ASSERT(GLVersion.major == OPENGL_MAJOR_VERSION);
             ASSERT(GLVersion.minor == OPENGL_MINOR_VERSION);
@@ -86,16 +79,11 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
         }
 
         if (SDL_GL_MakeCurrent(previousWindow, previousContext) != 0) {
-            EngineLogger()->error(
-                "Failed to make previous SDL OpenGL context current: {}",
-                SDL_GetError());
+            EngineLogger()->error("Failed to make previous SDL OpenGL context current: {}", SDL_GetError());
         }
     }
 
-    inline auto Created() const -> bool override
-    {
-        return sGladInitialized && m_Context != nullptr;
-    }
+    inline auto Created() const -> bool override { return sGladInitialized && m_Context != nullptr; }
 
     ~SDLOpenGLGraphicsContext() override
     {
@@ -112,10 +100,8 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
             flags |= SDL_GL_CONTEXT_DEBUG_FLAG;
         }
 
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS,
-                            static_cast<std::int32_t>(flags));
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-                            SDL_GL_CONTEXT_PROFILE_CORE);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, static_cast<std::int32_t>(flags));
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, OPENGL_MAJOR_VERSION);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, OPENGL_MINOR_VERSION);
         SDL_GL_SetAttribute(SDL_GL_RED_SIZE, BITS_PER_COLOR);
@@ -129,9 +115,7 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
     }
 
     SDL_GLContext m_Context = nullptr;
-    static inline bool
-        sGladInitialized =  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
-        false;
+    static inline bool sGladInitialized = false;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
 class SDLWindow final : public IWindow
@@ -143,17 +127,15 @@ class SDLWindow final : public IWindow
     auto operator=(SDLWindow&& other) -> SDLWindow& = delete;
 
     SDLWindow(const std::string& title, const Size2D& size)
-        : m_Window(SDL_CreateWindow(
-            title.c_str(),
-            SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
-            SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
-            size.x,
-            size.y,
-            SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE))
+        : m_Window(SDL_CreateWindow(title.c_str(),
+                                    SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
+                                    SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
+                                    size.x,
+                                    size.y,
+                                    SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE))
     {
         if (m_Window == nullptr) {
-            EngineLogger()->error("Failed to create SDL window: {}",
-                                  SDL_GetError());
+            EngineLogger()->error("Failed to create SDL window: {}", SDL_GetError());
             return;
         }
 
@@ -162,10 +144,7 @@ class SDLWindow final : public IWindow
 
     inline auto Created() const -> bool override { return m_Window != nullptr; }
 
-    inline auto GraphicsContext() -> IGraphicsContext& override
-    {
-        return *m_GraphicsContext;
-    }
+    inline auto GraphicsContext() -> IGraphicsContext& override { return *m_GraphicsContext; }
 
     ~SDLWindow() override
     {
@@ -176,8 +155,7 @@ class SDLWindow final : public IWindow
     }
 
   private:
-    Scope<SDLOpenGLGraphicsContext> m_GraphicsContext =
-        CreateScope<SDLOpenGLGraphicsContext>();
+    Scope<SDLOpenGLGraphicsContext> m_GraphicsContext = CreateScope<SDLOpenGLGraphicsContext>();
     SDL_Window* m_Window = nullptr;
 };
 
@@ -191,10 +169,7 @@ class SDLPlatform final : public IPlatform
 
     SDLPlatform() = default;
 
-    inline auto Name() const -> std::string_view override
-    {
-        return "SDL2 Platform";
-    }
+    inline auto Name() const -> std::string_view override { return "SDL2 Platform"; }
 
     inline auto Initialize() -> bool override
     {
@@ -203,22 +178,15 @@ class SDLPlatform final : public IPlatform
         SDL_SetMainReady();
         m_PlatformInitialized = SDL_Init(SDL_INIT_VIDEO) == 0;
         if (!m_PlatformInitialized) {
-            EngineLogger()->error("Failed to initialize SDL: {}",
-                                  SDL_GetError());
+            EngineLogger()->error("Failed to initialize SDL: {}", SDL_GetError());
         }
 
         return m_PlatformInitialized;
     }
 
-    inline auto Initialized() const -> bool override
-    {
-        return m_PlatformInitialized;
-    }
+    inline auto Initialized() const -> bool override { return m_PlatformInitialized; }
 
-    inline auto GetLastError() const -> std::string_view override
-    {
-        return SDL_GetError();
-    }
+    inline auto GetLastError() const -> std::string_view override { return SDL_GetError(); }
 
     inline auto PollEvents(IEventProcessor& eventProcessor) -> bool override
     {
@@ -247,12 +215,9 @@ class SDLPlatform final : public IPlatform
     }
 
   private:
-    inline auto CreateWindow(std::string_view title, const Size2D& size)
-        -> IWindow* override
+    inline auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow* override
     {
-        return m_Windows
-            .emplace_back(CreateScope<SDLWindow>(std::string{title}, size))
-            .get();
+        return m_Windows.emplace_back(CreateScope<SDLWindow>(std::string{title}, size)).get();
     }
 
     bool m_PlatformInitialized = false;

@@ -10,23 +10,18 @@ namespace JE
 class App final : public IEventProcessor
 {
   public:
-    static constexpr auto MAINWINDOW_DEFAULT_TITLE =
-        "JEngine-Reformed Application";
+    static constexpr auto MAINWINDOW_DEFAULT_TITLE = "JEngine-Reformed Application";
 
     App()
     {
         if (!EnginePlatform().Initialize()) {
-            EngineLogger()->error(
-                "Failed to create application - EnginePlatform failed to "
-                "initialize");
+            EngineLogger()->error("Failed to create application - EnginePlatform failed to initialize");
             return;
         }
 
         m_MainWindow = CreateWindow(MAINWINDOW_DEFAULT_TITLE);
         if (!m_MainWindow->Created()) {
-            EngineLogger()->error(
-                "Failed to create application - MainWindow could not be "
-                "created");
+            EngineLogger()->error("Failed to create application - MainWindow could not be created");
             return;
         }
 

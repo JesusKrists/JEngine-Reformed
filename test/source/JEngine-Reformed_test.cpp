@@ -29,41 +29,29 @@ struct TestGraphicsContext : JE::IGraphicsContext
 struct TestWindow : JE::IWindow
 {
     inline auto Created() const -> bool override { return true; }
-    inline auto GraphicsContext() -> JE::IGraphicsContext& override
-    {
-        return m_GraphicsContext;
-    }
+    inline auto GraphicsContext() -> JE::IGraphicsContext& override { return m_GraphicsContext; }
 
     TestGraphicsContext m_GraphicsContext;
 };
 
 struct TestPlatform : JE::IPlatform
 {
-    inline auto Name() const -> std::string_view override
-    {
-        return "TestPlatform";
-    }
+    inline auto Name() const -> std::string_view override { return "TestPlatform"; }
 
     inline auto Initialize() -> bool override { return true; }
     inline auto Initialized() const -> bool override { return true; }
     inline auto GetLastError() const -> std::string_view override { return ""; }
 
-    inline auto PollEvents([[maybe_unused]] JE::IEventProcessor& eventProcessor)
-        -> bool override
-    {
-        return false;
-    }
+    inline auto PollEvents([[maybe_unused]] JE::IEventProcessor& eventProcessor) -> bool override { return false; }
 
-    inline auto CreateWindow([[maybe_unused]] std::string_view title,
-                             [[maybe_unused]] const JE::Size2D& size)
+    inline auto CreateWindow([[maybe_unused]] std::string_view title, [[maybe_unused]] const JE::Size2D& size)
         -> JE::IWindow* override
     {
         return m_Windows.emplace_back(JE::CreateScope<TestWindow>()).get();
     }
 
-    JE::Vector<JE::Scope<TestWindow>>
-        m_Windows;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes,
-                    // readability-identifier-naming)
+    JE::Vector<JE::Scope<TestWindow>> m_Windows;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes,
+                                                  // readability-identifier-naming)
 };
 
 TEST_CASE(  // NOLINT(cert-err58-cpp,
@@ -79,8 +67,7 @@ TEST_CASE(  // NOLINT(cert-err58-cpp,
         COUNT
     };
 
-    REQUIRE(JE_STRINGIFY_MACRO(test == notest)
-            == std::string("test == notest"));
+    REQUIRE(JE_STRINGIFY_MACRO(test == notest) == std::string("test == notest"));
 
     REQUIRE(JE::EnumToInt(TestEnum::ZERO) == 0);
     REQUIRE(JE::EnumToInt(TestEnum::ONE) == 1);
@@ -108,9 +95,7 @@ TEST_CASE("Test Loggers", "[Logger]")
     REQUIRE(JE::AppLogger() != nullptr);
 }
 
-TEST_CASE(
-    "Test Platform initialization, window creation and OpenGL context creation",
-    "[Platform][OpenGL]")
+TEST_CASE("Test Platform initialization, window creation and OpenGL context creation", "[Platform][OpenGL]")
 {
     REQUIRE(JE::EnginePlatform().Initialize());
 
@@ -135,8 +120,7 @@ TEST_CASE("Test StaticType and Category/Type to string", "[Events]")
     REQUIRE(JE::UnknownEvent::StaticType() == JE::IEvent::EventType::UNKNOWN);
     REQUIRE(JE::QuitEvent::StaticType() == JE::IEvent::EventType::QUIT);
 
-    REQUIRE(JE::EventCategoryToString(JE::IEvent::EventCategory::UNKNOWN)
-            == "UNKNOWN");
+    REQUIRE(JE::EventCategoryToString(JE::IEvent::EventCategory::UNKNOWN) == "UNKNOWN");
     REQUIRE(JE::EventCategoryToString(JE::IEvent::EventCategory::APP) == "APP");
 
     REQUIRE(JE::EventTypeToString(JE::IEvent::EventType::UNKNOWN) == "UNKNOWN");
@@ -150,20 +134,17 @@ TEST_CASE("Test EventDispatcher and Event handling", "[Events]")
     JE::EventDispatcher dispatcher{event};
     REQUIRE(!event.Handled());
 
-    bool dispatched = dispatcher.Dispatch<JE::UnknownEvent>(
-        []([[maybe_unused]] auto& evnt) { return true; });
+    bool dispatched = dispatcher.Dispatch<JE::UnknownEvent>([]([[maybe_unused]] auto& evnt) { return true; });
 
     REQUIRE(dispatched);
     REQUIRE(event.Handled());
 
-    dispatched = dispatcher.Dispatch<JE::UnknownEvent>(
-        []([[maybe_unused]] auto& evnt) { return true; });
+    dispatched = dispatcher.Dispatch<JE::UnknownEvent>([]([[maybe_unused]] auto& evnt) { return true; });
 
     REQUIRE(!dispatched);
 }
 
-TEST_CASE("Test Application initialization failure (Initialization failure)",
-          "[Application]")
+TEST_CASE("Test Application initialization failure (Initialization failure)", "[Application]")
 {
     struct InitFailPlatform : TestPlatform
     {
@@ -175,8 +156,7 @@ TEST_CASE("Test Application initialization failure (Initialization failure)",
     REQUIRE(!JE::Application().Initialized());
 }
 
-TEST_CASE("Test Application initialization failure (Window creation failure)",
-          "[Application]")
+TEST_CASE("Test Application initialization failure (Window creation failure)", "[Application]")
 {
     struct FailWindow : TestWindow
     {
@@ -185,8 +165,7 @@ TEST_CASE("Test Application initialization failure (Window creation failure)",
 
     struct WindowFailPlatform : TestPlatform
     {
-        inline auto CreateWindow([[maybe_unused]] std::string_view title,
-                                 [[maybe_unused]] const JE::Size2D& size)
+        inline auto CreateWindow([[maybe_unused]] std::string_view title, [[maybe_unused]] const JE::Size2D& size)
             -> JE::IWindow* override
         {
             return m_Windows.emplace_back(JE::CreateScope<FailWindow>()).get();
@@ -202,8 +181,7 @@ TEST_CASE("Test Application QuitEvent handling", "[Application][Events]")
 {
     struct QuitEventPlatform : TestPlatform
     {
-        inline auto PollEvents(JE::IEventProcessor& eventProcessor)
-            -> bool override
+        inline auto PollEvents(JE::IEventProcessor& eventProcessor) -> bool override
         {
             if (!m_EventProcessed) {
                 JE::QuitEvent event;

@@ -15,8 +15,7 @@ namespace JE::detail
 template<bool ENABLED = false, bool BREAK = true>
 inline auto Assert(const bool CHECK,
                    const std::string_view ASSERTION,
-                   const std::source_location LOCATION =
-                       std::source_location::current()) -> bool
+                   const std::source_location LOCATION = std::source_location::current()) -> bool
 {
     if constexpr (ENABLED) {
         if (!CHECK) {
@@ -40,8 +39,7 @@ inline auto Assert(const bool CHECK,
 
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #    define ASSERT(check) \
-        JE::detail::Assert<JE::ASSERTS_ENABLED, JE_ASSERT_BREAK_ON_FAIL>( \
-            check, JE_STRINGIFY_MACRO(check))
+        JE::detail::Assert<JE::ASSERTS_ENABLED, JE_ASSERT_BREAK_ON_FAIL>(check, JE_STRINGIFY_MACRO(check))
 
 #else
 
@@ -49,15 +47,12 @@ namespace JE::detail
 {
 
 template<bool ENABLED = false, bool BREAK = true>
-inline auto Assert(const bool CHECK,
-                   const std::string_view ASSERTION,
-                   const std::string_view FILE,
-                   const int LINE) -> bool
+inline auto Assert(const bool CHECK, const std::string_view ASSERTION, const std::string_view FILE, const int LINE)
+    -> bool
 {
     if constexpr (ENABLED) {
         if (!CHECK) {
-            EngineLogger()->error(
-                "Assertion `{}` at {}:{} failed!", ASSERTION, FILE, LINE);
+            EngineLogger()->error("Assertion `{}` at {}:{} failed!", ASSERTION, FILE, LINE);
 
             if constexpr (BREAK) {
                 DEBUGBREAK();

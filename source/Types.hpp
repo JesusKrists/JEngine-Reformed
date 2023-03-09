@@ -40,7 +40,6 @@ struct fmt::formatter<JE::Size2D>
     auto format(const JE::Size2D& size, FormatContext& ctx)  // NOLINT
         -> decltype(ctx.out())
     {
-        return fmt::format_to(
-            ctx.out(), "Size2D{{ X:{} Y:{} }}", size.x, size.y);
+        return fmt::format_to(ctx.out(), "Size2D{{ X:{} Y:{} }}", size.x, size.y);
     }
 };
