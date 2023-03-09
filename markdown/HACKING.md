@@ -123,8 +123,8 @@ the project:
                 "noTestsAction": "error"
             },
             "environment": {
-                "ASAN_OPTIONS": "detect_invalid_pointer_pairs=1:strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:detect_leaks=1:fast_unwind_on_malloc=0:suppressions=${sourceDir}/ASAN.supp",
-                "LSAN_OPTIONS": "suppressions=${sourceDir}/LSAN.supp",
+                "ASAN_OPTIONS": "detect_invalid_pointer_pairs=1:strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:detect_leaks=1:fast_unwind_on_malloc=0:suppressions=${sourceDir}/misc/ASAN.supp",
+                "LSAN_OPTIONS": "suppressions=${sourceDir}/misc/LSAN.supp",
                 "UBSAN_OPTIONS": "print_stacktrace=1"
             }
         }
@@ -133,7 +133,7 @@ the project:
 ```
 
 You should replace `dev` presets inherit in your newly created presets file with the name of the operating system you have, which may be `win64` or `linux` or `darwin`. You can see what
-these correspond to in the [`CMakePresets.json`](CMakePresets.json) file.
+these correspond to in the [`CMakePresets.json`](../CMakePresets.json) file.
 
 `CMakeUserPresets.json` is also the perfect place in which you can put all
 sorts of things that you would otherwise want to pass to the configure command

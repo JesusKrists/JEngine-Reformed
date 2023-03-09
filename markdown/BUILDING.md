@@ -2,7 +2,7 @@
 
 ## Dependencies
 
-For a list of dependencies, please refer to [conanfile.py](conanfile.py).
+For a list of dependencies, please refer to [conanfile.py](../conanfile.py).
 
 ## Build
 
@@ -29,7 +29,7 @@ cmake --build build --config Release
 
 Note that MSVC by default is not standards compliant and you need to pass some
 flags to make it behave properly. See the `flags-windows` preset in the
-[CMakePresets.json](CMakePresets.json) file for the flags and with what
+[CMakePresets.json](../CMakePresets.json) file for the flags and with what
 variable to provide them to CMake during configuration.
 
 ### Building on Apple Silicon

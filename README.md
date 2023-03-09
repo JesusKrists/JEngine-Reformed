@@ -10,11 +10,11 @@ The next generation of JEngine.
 
 # Building and installing
 
-See the [BUILDING](BUILDING.md) document.
+See the [BUILDING](markdown/BUILDING.md) document.
 
 # Contributing
 
-See the [CONTRIBUTING](CONTRIBUTING.md) document.
+See the [CONTRIBUTING](markdown/CONTRIBUTING.md) document.
 
 # Licensing
 

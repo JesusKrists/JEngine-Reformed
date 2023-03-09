@@ -1,0 +1,24 @@
+name: Setup CI cache
+description: Setup CI cache
+
+inputs:
+  environment:
+    description: 'The build environment (UCRT64/CLANG64/CLANG-CL)'
+    required: true
+  compiler:
+    description: 'The compiler being used'
+    required: true
+  build_type:
+    description: 'Build type can be Release/Debug/RelWithDebInfo/MinSizeRel etc.'
+    required: true
+
+runs:
+  using: 'composite'
+
+  steps:
+    - name: Cache conan dependencies
+      uses: actions/cache@v3.2.6
+      with:
+        path: |
+          ~/.conan
+        key: ${{ runner.os }}-${{ inputs.environment }}-${{ inputs.compiler }}-${{ inputs.build_type }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}-${{ hashFiles('**/CMakeLists.txt') }}
