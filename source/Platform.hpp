@@ -3,6 +3,7 @@
 #include <string_view>
 #include <utility>
 
+#include "Graphics/IRenderTarget.hpp"
 #include "Memory.hpp"
 #include "Types.hpp"
 
@@ -24,7 +25,7 @@ class IGraphicsContext
     virtual auto Created() const -> bool = 0;
 };
 
-class IWindow
+class IWindow : public IRenderTarget
 {
   public:
     static constexpr auto DEFAULT_WINDOW_SIZE = Size2D{1280, 720};
@@ -35,7 +36,7 @@ class IWindow
     auto operator=(IWindow&& other) -> IWindow& = delete;
 
     IWindow() = default;
-    virtual ~IWindow() = default;
+    ~IWindow() override = default;
 
     virtual auto Created() const -> bool = 0;
     virtual auto GraphicsContext() -> IGraphicsContext& = 0;

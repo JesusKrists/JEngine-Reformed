@@ -4,7 +4,8 @@ macro(default name)
   endif()
 endmacro()
 
-add_library(JEngine-Reformed_lib OBJECT source/Platform.cpp)
+add_library(JEngine-Reformed_lib OBJECT source/Platform.cpp
+                                        source/Graphics/Renderer.cpp)
 add_library(JEngine-Reformed::lib ALIAS JEngine-Reformed_lib)
 
 target_include_directories(
@@ -14,7 +15,7 @@ target_include_directories(
 target_compile_features(JEngine-Reformed_lib PUBLIC cxx_std_20)
 
 target_link_libraries(
-  JEngine-Reformed_lib PUBLIC spdlog::spdlog SDL2::SDL2 glad::glad
+  JEngine-Reformed_lib PUBLIC spdlog::spdlog SDL2::SDL2 glad::glad glm::glm
                               nanosvg::nanosvg Tracy::TracyClient)
 
 default(JE_PLATFORM_WINDOWS_VALUE 0)

@@ -7,19 +7,17 @@
 
 #include <fmt/core.h>
 
+#include "Types.hpp"
+
 #define JE_ASSERT_BREAK_ON_FAIL false
 #include "Application.hpp"
 #include "Assert.hpp"
 #include "Base.hpp"
 #include "Events.hpp"
+#include "Graphics/Renderer.hpp"
 #include "Logger.hpp"
 #include "Memory.hpp"
 #include "Platform.hpp"
-
-namespace JE
-{
-struct Size2D;
-}  // namespace JE
 
 struct TestGraphicsContext : JE::IGraphicsContext
 {
@@ -30,6 +28,11 @@ struct TestWindow : JE::IWindow
 {
     inline auto Created() const -> bool override { return true; }
     inline auto GraphicsContext() -> JE::IGraphicsContext& override { return m_GraphicsContext; }
+
+    // cppcheck-suppress unusedFunction
+    inline void Bind() override {}
+    // cppcheck-suppress unusedFunction
+    inline void Unbind() override {}
 
     TestGraphicsContext m_GraphicsContext;
 };
@@ -87,6 +90,54 @@ TEST_CASE("Test Assert", "[Assert]")
 
     REQUIRE(ASSERT(LIB.m_Name == "JEngine-Reformed") == true);
     REQUIRE(ASSERT(LIB.m_Name == "JEngine-Old") == false);
+}
+
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+TEST_CASE("Test ColorRGBA", "[Types]")
+{
+    static constexpr auto COLOR8_MAX_VALUE = 255u;
+    static constexpr auto COLOR8_HALF_VALUE = 128u;
+    static constexpr auto COLOR_HALF_VALUE = 0.5f;
+
+    auto white = JE::ColorRGBA{1.0f, 1.0f, 1.0f, 1.0f};
+    REQUIRE(white.ToUint32() == 0xFFFFFFFF);
+    auto green = JE::ColorRGBA{0.0f, 1.0f, 0.0f, 1.0f};
+    REQUIRE(green.ToUint32() == 0x00FF00FF);
+
+    auto blue = JE::ColorRGBA{0.0f, 0.0f, 1.0f, 0.0f};
+    REQUIRE(JE::CompareFloat(blue.R(), 0.0f));
+    REQUIRE(JE::CompareFloat(blue.G(), 0.0f));
+    REQUIRE(JE::CompareFloat(blue.B(), 1.0f));
+    REQUIRE(JE::CompareFloat(blue.A(), 0.0f));
+    REQUIRE(blue.RToUint32() == 0);
+    REQUIRE(blue.GToUint32() == 0);
+    REQUIRE(blue.BToUint32() == 255);
+    REQUIRE(blue.AToUint32() == 0);
+    REQUIRE(blue.ToUint32() == 0x0000FF00);
+
+    blue.SetR(COLOR8_MAX_VALUE);
+    REQUIRE(JE::CompareFloat(blue.R(), 1.0f));
+    blue.SetR(COLOR_HALF_VALUE);
+    REQUIRE(JE::CompareFloat(blue.R(), COLOR_HALF_VALUE));
+    REQUIRE(blue.RToUint32() == COLOR8_HALF_VALUE);
+
+    blue.SetG(COLOR8_MAX_VALUE);
+    REQUIRE(JE::CompareFloat(blue.G(), 1.0f));
+    blue.SetG(COLOR_HALF_VALUE);
+    REQUIRE(JE::CompareFloat(blue.G(), COLOR_HALF_VALUE));
+    REQUIRE(blue.GToUint32() == COLOR8_HALF_VALUE);
+
+    blue.SetB(COLOR8_MAX_VALUE);
+    REQUIRE(JE::CompareFloat(blue.B(), 1.0f));
+    blue.SetB(COLOR_HALF_VALUE);
+    REQUIRE(JE::CompareFloat(blue.B(), COLOR_HALF_VALUE));
+    REQUIRE(blue.BToUint32() == COLOR8_HALF_VALUE);
+
+    blue.SetA(COLOR8_MAX_VALUE);
+    REQUIRE(JE::CompareFloat(blue.A(), 1.0f));
+    blue.SetA(COLOR_HALF_VALUE);
+    REQUIRE(JE::CompareFloat(blue.A(), COLOR_HALF_VALUE));
+    REQUIRE(blue.AToUint32() == COLOR8_HALF_VALUE);
 }
 
 TEST_CASE("Test Loggers", "[Logger]")
@@ -206,4 +257,18 @@ TEST_CASE("Test Application QuitEvent handling", "[Application][Events]")
     REQUIRE(!JE::Application().Running());
     REQUIRE(JE::Application().LoopCount() == 1);
     REQUIRE(JE::Application().EventsProcessed() == 1);
+}
+
+TEST_CASE("Test Application Renderer command queue processing", "[Application][Renderer]")
+{
+    static constexpr auto CLEAR_COLOR = JE::ColorRGBA{1.f, 1.f, 1.f, 1.f};
+
+    JE::Application().Renderer().Begin(&JE::Application().MainWindow(), CLEAR_COLOR);
+    JE::Application().Renderer().End();
+
+    REQUIRE(!JE::Application().Renderer().CommandQueue().empty());
+
+    JE::Application().Renderer().ProcessCommandQueue();
+
+    REQUIRE(JE::Application().Renderer().CommandQueue().empty());
 }

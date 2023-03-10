@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>  // IWYU pragma: export
-#include <vector>
+#include <vector>  // IWYU pragma: export
 
 namespace JE
 {

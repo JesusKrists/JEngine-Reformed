@@ -34,7 +34,7 @@ class IEvent
     virtual auto Category() const -> EventCategory = 0;
     virtual auto Type() const -> EventType = 0;
 
-    inline auto Handled() const { return m_Handled; }
+    inline auto Handled() const -> bool { return m_Handled; }
 
   private:
     inline void SetEventHandled() { m_Handled = true; }

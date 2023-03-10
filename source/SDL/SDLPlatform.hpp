@@ -41,8 +41,10 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
 
     inline void Initialize(SDL_Window* window)
     {
-        auto* previousContext = SDL_GL_GetCurrentContext();
+        m_Window = window;
+
         auto* previousWindow = SDL_GL_GetCurrentWindow();
+        auto* previousContext = SDL_GL_GetCurrentContext();
 
         m_Context = SDL_GL_CreateContext(window);
         if (m_Context == nullptr) {
@@ -73,7 +75,7 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
             sGladInitialized = true;
         }
 
-        if (previousContext == nullptr || previousWindow == nullptr) {
+        if (previousWindow == nullptr || previousContext == nullptr) {
             EngineLogger()->trace("No previous graphics context available");
             return;
         }
@@ -84,6 +86,26 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
     }
 
     inline auto Created() const -> bool override { return sGladInitialized && m_Context != nullptr; }
+
+    inline void MakeContextCurrent()
+    {
+        m_PreviousWindow = SDL_GL_GetCurrentWindow();
+        m_PreviousContext = SDL_GL_GetCurrentContext();
+
+        SDL_GL_MakeCurrent(m_Window, m_Context);
+    }
+
+    inline void RestorePreviousContext()
+    {
+        if (m_PreviousWindow == nullptr || m_PreviousContext == nullptr) {
+            EngineLogger()->warn("Attempted to restore non existing previous OpenGL context");
+            return;
+        }
+
+        SDL_GL_MakeCurrent(m_PreviousWindow, m_PreviousContext);
+        m_PreviousWindow = nullptr;
+        m_PreviousContext = nullptr;
+    }
 
     ~SDLOpenGLGraphicsContext() override
     {
@@ -114,7 +136,12 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
         SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
     }
 
+    SDL_Window* m_Window = nullptr;
     SDL_GLContext m_Context = nullptr;
+
+    SDL_Window* m_PreviousWindow = nullptr;
+    SDL_GLContext m_PreviousContext = nullptr;
+
     static inline bool sGladInitialized = false;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
@@ -145,6 +172,10 @@ class SDLWindow final : public IWindow
     inline auto Created() const -> bool override { return m_Window != nullptr; }
 
     inline auto GraphicsContext() -> IGraphicsContext& override { return *m_GraphicsContext; }
+
+    inline void Bind() override { m_GraphicsContext->MakeContextCurrent(); }
+
+    inline void Unbind() override { m_GraphicsContext->RestorePreviousContext(); }
 
     ~SDLWindow() override
     {

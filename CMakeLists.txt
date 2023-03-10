@@ -22,6 +22,7 @@ include(cmake/variables.cmake)
 find_package(spdlog REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(glad REQUIRED)
+find_package(glm REQUIRED)
 find_package(nanosvg REQUIRED)
 find_package(Tracy REQUIRED)
 

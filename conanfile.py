@@ -42,6 +42,7 @@ class Recipe(ConanFile):
         self.requires("spdlog/1.11.0")
         self.requires("sdl/2.26.1")
         self.requires("glad/0.1.36")
+        self.requires("glm/cci.20230113")
         self.requires("nanosvg/cci.20210904")
         self.requires("tracy/0.9")
 

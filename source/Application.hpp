@@ -2,7 +2,9 @@
 
 #include "Assert.hpp"
 #include "Events.hpp"
+#include "Graphics/Renderer.hpp"
 #include "Platform.hpp"
+#include "Types.hpp"
 
 namespace JE
 {
@@ -13,6 +15,7 @@ class App final : public IEventProcessor
 
   public:
     static constexpr auto MAINWINDOW_DEFAULT_TITLE = "JEngine-Reformed Application";
+    static constexpr auto DEFAULT_CLEAR_COLOR = ColorRGBA{255u, 0u, 255u, 255u};
 
     // cppcheck-suppress unusedFunction
     inline void ProcessEvent(IEvent& event) override
@@ -47,17 +50,23 @@ class App final : public IEventProcessor
         while (m_LoopCount != loopCount && m_Running) {
             ProcessEvents();
 
+            m_Renderer.Begin(m_MainWindow, DEFAULT_CLEAR_COLOR);
+            m_Renderer.End();
+
+            m_Renderer.ProcessCommandQueue();
+
             ++m_LoopCount;
         }
     }
 
     inline auto MainWindow() -> IWindow& { return *m_MainWindow; }
+    inline auto Renderer() -> JE::Renderer& { return m_Renderer; }
 
-    inline auto LoopCount() const { return m_LoopCount; }
-    inline auto Running() const { return m_Running; }
-    inline auto EventsProcessed() const { return m_EventsProcessed; }
+    inline auto LoopCount() const -> std::int64_t { return m_LoopCount; }
+    inline auto Running() const -> bool { return m_Running; }
+    inline auto EventsProcessed() const -> std::uint64_t { return m_EventsProcessed; }
 
-    inline auto Initialized() const { return m_Initialized; }
+    inline auto Initialized() const -> bool { return m_Initialized; }
 
   private:
     App()
@@ -77,6 +86,7 @@ class App final : public IEventProcessor
     }
 
     IWindow* m_MainWindow = nullptr;
+    JE::Renderer m_Renderer;
 
     std::int64_t m_LoopCount = 0;
     bool m_Running = false;
