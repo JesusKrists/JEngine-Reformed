@@ -11,6 +11,7 @@ namespace JE
 void Renderer::Begin(IRenderTarget* target, [[maybe_unused]] const ColorRGBA& color)
 {
     ASSERT(target != nullptr);
+    ASSERT(m_CurrentRenderTarget == nullptr);
 
     m_CurrentRenderTarget = target;
 

@@ -7,6 +7,7 @@
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define JE_STRINGIFY_MACRO(x) #x
 
+#include <cmath>
 #include <cstdint>
 #include <type_traits>
 
@@ -46,6 +47,11 @@ constexpr auto EnumToSizeT(const T ENUM_VALUE) -> std::size_t
 {
     static_assert(std::is_enum_v<T>, "Can only be used with enum types");
     return static_cast<std::size_t>(ENUM_VALUE);
+}
+
+inline auto CompareFloat(float lhs, float rhs) -> bool
+{
+    return std::abs(lhs - rhs) < std::numeric_limits<float>::epsilon();
 }
 
 }  // namespace JE

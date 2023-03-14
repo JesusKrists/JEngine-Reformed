@@ -14,3 +14,4 @@
 - LGTM
 - CodeQL
 - Coverity scan?
+- Add image based unit test for renderer (Compare image with master image to see if renderer has changed)

@@ -20,11 +20,6 @@
 namespace JE
 {
 
-constexpr auto CompareFloat(float lhs, float rhs) -> bool
-{
-    return std::abs(lhs - rhs) < std::numeric_limits<float>::epsilon();
-}
-
 struct Size2D
 {
     std::int32_t x = 0;  // NOLINT(readability-identifier-naming)
