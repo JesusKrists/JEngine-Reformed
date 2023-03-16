@@ -27,6 +27,17 @@ TEST_CASE(  // NOLINT(cert-err58-cpp,
     STATIC_REQUIRE(JE::EnumToSizeT(TestEnum::TWO) == 2);
 }
 
+TEST_CASE("JE::BIT returns shifted bit from bit index", "[JE::BIT]")
+{
+    static constexpr auto FIRST_BIT = JE::Bit(0);
+    static constexpr auto SECOND_BIT = JE::Bit(1);
+    static constexpr auto THIRD_BIT = JE::Bit(2);
+
+    STATIC_REQUIRE(FIRST_BIT == 0x01);
+    STATIC_REQUIRE(SECOND_BIT == 0x02);
+    STATIC_REQUIRE(THIRD_BIT == 0x04);
+}
+
 TEST_CASE("constexpr Test StaticType and Category/Type to string", "[Events]")
 {
     STATIC_REQUIRE(JE::UnknownEvent::StaticType() == JE::IEvent::EventType::UNKNOWN);

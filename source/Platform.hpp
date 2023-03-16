@@ -23,6 +23,7 @@ class IGraphicsContext
     virtual ~IGraphicsContext() = default;
 
     virtual auto Created() const -> bool = 0;
+    virtual auto SwapBuffers() -> bool = 0;
 };
 
 class IWindow : public IRenderTarget

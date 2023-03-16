@@ -55,6 +55,8 @@ class App final : public IEventProcessor
 
             m_Renderer.ProcessCommandQueue();
 
+            m_MainWindow->GraphicsContext().SwapBuffers();
+
             ++m_LoopCount;
         }
     }

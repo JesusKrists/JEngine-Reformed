@@ -2,7 +2,7 @@
 
 #include "Assert.hpp"
 #include "Graphics/IRenderTarget.hpp"
-// #include "Types.hpp"
+#include "Graphics/IRendererAPI.hpp"
 
 namespace JE
 {
@@ -16,9 +16,11 @@ void Renderer::Begin(IRenderTarget* target, [[maybe_unused]] const ColorRGBA& co
     m_CurrentRenderTarget = target;
 
     SubmitRenderCommand(
-        [target]() -> bool
+        [target, &color]() -> bool
         {
             target->Bind();
+            RendererAPI().SetClearColor(color);
+            RendererAPI().ClearFramebuffer(Renderer::DEFAULT_ATTACHMENT_FLAGS);
             return true;
         });
 }

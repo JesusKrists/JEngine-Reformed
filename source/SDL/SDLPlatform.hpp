@@ -11,6 +11,7 @@
 
 #include "Assert.hpp"
 #include "Events.hpp"
+#include "Graphics/OpenGLRendererAPI.hpp"
 #include "Logger.hpp"
 #include "Memory.hpp"
 #include "Platform.hpp"
@@ -87,6 +88,18 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
 
     inline auto Created() const -> bool override { return sGladInitialized && m_Context != nullptr; }
 
+    inline auto SwapBuffers() -> bool override
+    {
+        MakeContextCurrent();
+
+        const bool OPENGL_SUCCESS = RendererAPI().BindFramebuffer(0);
+        SDL_GL_SwapWindow(m_Window);
+
+        RestorePreviousContext();
+
+        return OPENGL_SUCCESS;
+    }
+
     inline void MakeContextCurrent()
     {
         m_PreviousWindow = SDL_GL_GetCurrentWindow();
@@ -97,8 +110,9 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
 
     inline void RestorePreviousContext()
     {
-        if (m_PreviousWindow == nullptr || m_PreviousContext == nullptr) {
-            EngineLogger()->warn("Attempted to restore non existing previous OpenGL context");
+        if ((m_PreviousWindow == nullptr || m_PreviousContext == nullptr)
+            && (m_PreviousWindow == m_Window || m_PreviousContext == m_Context))
+        {
             return;
         }
 

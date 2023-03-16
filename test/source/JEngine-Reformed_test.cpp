@@ -7,6 +7,7 @@
 
 #include <fmt/core.h>
 
+#include "Graphics/IRendererAPI.hpp"
 #include "Types.hpp"
 
 #define JE_ASSERT_BREAK_ON_FAIL false
@@ -22,6 +23,7 @@
 struct TestGraphicsContext : JE::IGraphicsContext
 {
     inline auto Created() const -> bool override { return true; }
+    inline auto SwapBuffers() -> bool override { return true; }
 };
 
 struct TestWindow : JE::IWindow
@@ -57,6 +59,15 @@ struct TestPlatform : JE::IPlatform
                                                   // readability-identifier-naming)
 };
 
+struct TestRendererAPI : JE::IRendererAPI
+{
+    inline auto Name() const -> std::string_view override { return "TestRendererAPI"; }
+
+    inline auto SetClearColor([[maybe_unused]] const JE::ColorRGBA& color) -> bool override { return true; }
+    inline auto ClearFramebuffer([[maybe_unused]] AttachmentFlags flags) -> bool override { return true; }
+    inline auto BindFramebuffer([[maybe_unused]] FramebufferID bufferID) -> bool override { return true; }
+};
+
 TEST_CASE(  // NOLINT(cert-err58-cpp,
             // cppcoreguidelines-avoid-non-const-global-variables)
     "Test Base macros",
@@ -77,6 +88,17 @@ TEST_CASE(  // NOLINT(cert-err58-cpp,
 
     REQUIRE(JE::EnumToSizeT(TestEnum::ONE) == 1);
     REQUIRE(JE::EnumToSizeT(TestEnum::TWO) == 2);
+}
+
+TEST_CASE("JE::BIT returns shifted bit from bit index", "[JE::BIT]")
+{
+    const auto FIRST_BIT = JE::Bit(0);
+    const auto SECOND_BIT = JE::Bit(1);
+    const auto THIRD_BIT = JE::Bit(2);
+
+    REQUIRE(FIRST_BIT == 0x01);
+    REQUIRE(SECOND_BIT == 0x02);
+    REQUIRE(THIRD_BIT == 0x04);
 }
 
 TEST_CASE("Test Assert", "[Assert]")
@@ -251,6 +273,7 @@ TEST_CASE("Test Application QuitEvent handling", "[Application][Events]")
     };
 
     JE::detail::InjectCustomEnginePlatform<QuitEventPlatform>();
+    JE::detail::InjectCustomRendererAPI<TestRendererAPI>();
 
     JE::Application().Loop(MAX_LOOP_COUNT);
 
@@ -268,7 +291,7 @@ TEST_CASE("Test Application Renderer command queue processing", "[Application][R
 
     REQUIRE(!JE::Application().Renderer().CommandQueue().empty());
 
-    JE::Application().Renderer().ProcessCommandQueue();
+    JE::Application().Loop(1);
 
     REQUIRE(JE::Application().Renderer().CommandQueue().empty());
 }

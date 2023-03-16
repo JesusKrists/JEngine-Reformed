@@ -49,6 +49,9 @@ constexpr auto EnumToSizeT(const T ENUM_VALUE) -> std::size_t
     return static_cast<std::size_t>(ENUM_VALUE);
 }
 
+using BitFieldType = std::uint32_t;
+constexpr auto Bit(std::uint32_t bitIdx) -> BitFieldType { return 1u << bitIdx; }
+
 inline auto CompareFloat(float lhs, float rhs) -> bool
 {
     return std::abs(lhs - rhs) < std::numeric_limits<float>::epsilon();
