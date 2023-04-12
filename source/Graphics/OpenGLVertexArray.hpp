@@ -9,7 +9,6 @@ class OpenGLVertexArray : public IVertexArray
 {
   public:
     using IVertexArray::IVertexArray;
-
 };
 
 }  // namespace JE

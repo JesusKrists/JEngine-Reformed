@@ -70,7 +70,7 @@ class IVertexArray
     IVertexArray() = default;
     virtual ~IVertexArray() = default;
 
-    inline auto Bufers() const -> const Vector<Scope<IVertexBuffer>>& { return m_Buffers; }
+    inline auto Buffers() const -> const Vector<Scope<IVertexBuffer>>& { return m_Buffers; }
 
     virtual auto Build() -> bool = 0;
 
