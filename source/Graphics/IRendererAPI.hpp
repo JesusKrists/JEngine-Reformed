@@ -32,6 +32,17 @@ class IRendererAPI
     using AttachmentFlags = BitFieldType;
     using FramebufferID = std::uint32_t;
 
+    enum class Primitive
+    {
+        TRIANGLES
+    };
+
+    enum class Type
+    {
+        UNSIGNED_SHORT,
+        UNSIGNED_INT
+    };
+
     IRendererAPI(const IRendererAPI& other) = delete;
     IRendererAPI(IRendererAPI&& other) = delete;
     auto operator=(const IRendererAPI& other) -> IRendererAPI& = delete;
@@ -45,6 +56,7 @@ class IRendererAPI
     virtual auto SetClearColor(const ColorRGBA& color) -> bool = 0;
     virtual auto ClearFramebuffer(AttachmentFlags flags) -> bool = 0;
     virtual auto BindFramebuffer(FramebufferID bufferID) -> bool = 0;
+    virtual auto DrawIndexed(Primitive primitiveType, std::uint32_t indexCount, Type indexType) -> bool = 0;
 };
 
 namespace detail  // NOLINT(readability-identifier-naming)

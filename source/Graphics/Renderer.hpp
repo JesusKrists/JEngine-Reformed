@@ -11,6 +11,7 @@ namespace JE
 {
 class IRenderTarget;
 struct ColorRGBA;
+class Mesh;
 
 class Renderer
 {
@@ -25,6 +26,9 @@ class Renderer
 
     void Begin(IRenderTarget* target, const ColorRGBA& color);
     void End();
+
+    void DrawMesh(const Mesh& mesh);
+
     inline auto CommandQueue() const -> const Vector<RenderCommand>& { return m_CommandQueue; }
 
   private:

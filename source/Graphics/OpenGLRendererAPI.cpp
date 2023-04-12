@@ -4,10 +4,34 @@
 
 #include <glad/glad.h>
 
+#include "Graphics/IRendererAPI.hpp"
+#include "Logger.hpp"
 #include "Types.hpp"
 
 namespace JE::detail
 {
+
+inline auto GLErrorToString(GLenum error) -> std::string_view
+{
+    switch (error) {
+        case GL_INVALID_ENUM:
+            return "INVALID_ENUM";
+        case GL_INVALID_VALUE:
+            return "INVALID_VALUE";
+        case GL_INVALID_OPERATION:
+            return "INVALID_OPERATION";
+        case GL_STACK_OVERFLOW:
+            return "STACK_OVERFLOW";
+        case GL_STACK_UNDERFLOW:
+            return "STACK_UNDERFLOW";
+        case GL_OUT_OF_MEMORY:
+            return "OUT_OF_MEMORY";
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            return "INVALID_FRAMEBUFFER_OPERATION";
+        default:
+            return "UKNOWN_OPENGL_ERROR";
+    }
+}
 
 struct OpenGLErrorWrapper
 {
@@ -16,7 +40,15 @@ struct OpenGLErrorWrapper
     {
         func();
 
-        return true;
+        bool errored = false;
+        GLenum errorCode = 0;
+        while ((errorCode = glGetError()) != GL_NO_ERROR) {
+            auto errorMessage = GLErrorToString(errorCode);
+            JE::EngineLogger()->error("OpenGL API Error: {}", errorMessage);
+            errored = true;
+        }
+
+        return !errored;
     }
 };
 
@@ -52,6 +84,39 @@ auto OpenGLRendererAPI::ClearFramebuffer(AttachmentFlags flags) -> bool
 auto OpenGLRendererAPI::BindFramebuffer(FramebufferID bufferID) -> bool
 {
     return OpenGLErrorWrapper::Call([bufferID]() { glBindFramebuffer(GL_FRAMEBUFFER, bufferID); });
+}
+
+static constexpr auto PrimitiveToOpenGLPrimitive(IRendererAPI::Primitive primitive) -> GLenum
+{
+    if (primitive == IRendererAPI::Primitive::TRIANGLES) {
+        return GL_TRIANGLES;
+    }
+
+    return 0;
+}
+
+static constexpr auto TypeToOpenGLType(IRendererAPI::Type type) -> GLenum
+{
+    if (type == IRendererAPI::Type::UNSIGNED_INT) {
+        return GL_UNSIGNED_INT;
+    }
+    if (type == IRendererAPI::Type::UNSIGNED_SHORT) {
+        return GL_UNSIGNED_SHORT;
+    }
+
+    return 0;
+}
+
+auto OpenGLRendererAPI::DrawIndexed(Primitive primitiveType, std::uint32_t indexCount, Type indexType) -> bool
+{
+    return OpenGLErrorWrapper::Call(
+        [primitiveType, indexCount, indexType]()
+        {
+            glDrawElements(PrimitiveToOpenGLPrimitive(primitiveType),
+                           static_cast<GLsizei>(indexCount),
+                           TypeToOpenGLType(indexType),
+                           nullptr);
+        });
 }
 
 }  // namespace JE::detail

@@ -2,6 +2,7 @@
 
 #include "Assert.hpp"
 #include "Events.hpp"
+#include "Graphics/Mesh.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Platform.hpp"
 #include "Types.hpp"
@@ -51,6 +52,7 @@ class App final : public IEventProcessor
             ProcessEvents();
 
             m_Renderer.Begin(m_MainWindow, DEFAULT_CLEAR_COLOR);
+            m_Renderer.DrawMesh(m_TestMesh);
             m_Renderer.End();
 
             m_Renderer.ProcessCommandQueue();
@@ -89,6 +91,8 @@ class App final : public IEventProcessor
 
     IWindow* m_MainWindow = nullptr;
     JE::Renderer m_Renderer;
+
+    Mesh m_TestMesh = CreateTriangleMesh();
 
     std::int64_t m_LoopCount = 0;
     bool m_Running = false;

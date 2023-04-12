@@ -2,6 +2,7 @@
 
 ////////////////////////////////////////
 
+#include <cstdint>
 #include <string>
 #include <string_view>
 
@@ -66,6 +67,12 @@ struct TestRendererAPI : JE::IRendererAPI
     inline auto SetClearColor([[maybe_unused]] const JE::ColorRGBA& color) -> bool override { return true; }
     inline auto ClearFramebuffer([[maybe_unused]] AttachmentFlags flags) -> bool override { return true; }
     inline auto BindFramebuffer([[maybe_unused]] FramebufferID bufferID) -> bool override { return true; }
+    inline auto DrawIndexed([[maybe_unused]] Primitive primitiveType,
+                            [[maybe_unused]] std::uint32_t indexCount,
+                            [[maybe_unused]] Type indexType) -> bool override
+    {
+        return true;
+    }
 };
 
 TEST_CASE(  // NOLINT(cert-err58-cpp,
