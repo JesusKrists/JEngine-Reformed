@@ -52,7 +52,7 @@ class App final : public IEventProcessor
             ProcessEvents();
 
             m_Renderer.Begin(m_MainWindow, DEFAULT_CLEAR_COLOR);
-            m_Renderer.DrawMesh(m_TestMesh);
+            // m_Renderer.DrawMesh(m_TestMesh);
             m_Renderer.End();
 
             m_Renderer.ProcessCommandQueue();

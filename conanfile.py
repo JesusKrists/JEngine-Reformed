@@ -117,7 +117,7 @@ class Recipe(ConanFile):
                     )
 
     def generate(self):
-        tc = CMakeToolchain(self)
+        tc = CMakeToolchain(self, generator="Ninja")
         tc.generate()
 
         self.import_shared_libraries()
