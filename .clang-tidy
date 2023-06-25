@@ -13,7 +13,8 @@ Checks: "*,\
   -modernize-use-nodiscard,\
   -misc-non-private-member-variables-in-classes,\
   -hicpp-uppercase-literal-suffix,\
-  -readability-uppercase-literal-suffix"
+  -readability-uppercase-literal-suffix",\
+  -cppcoreguidelines-avoid-const-or-ref-data-members
 WarningsAsErrors: '*'
 CheckOptions:
   - key: 'bugprone-argument-comment.StrictMode'

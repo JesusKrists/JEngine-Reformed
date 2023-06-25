@@ -17,7 +17,8 @@
         {
             "label": "Install conan dependencies for development - Windows debug",
             "type": "shell",
-            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Debug -o jengine-reformed*:dev_build=True"
+            "command": "conan install . -b missing -pr .github/msvc.profile -s build_type=Debug -o jengine-reformed*:dev_build=True",
+            "problemMatcher": []
         },
         {
             "label": "Install conan dependencies for development - Windows release",
