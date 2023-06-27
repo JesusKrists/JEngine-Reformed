@@ -242,7 +242,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        compiler: [clang-15, gcc-12]
+        compiler: [clang, gcc]
 
     runs-on: windows-latest
 
@@ -259,8 +259,8 @@ jobs:
             base-devel
             git
           pacboy: >
-            gcc-12:p
-            clang-15:p
+            gcc:p
+            clang:p
             cppcheck:p
             clang-tools-extra:p
             python:p
@@ -282,14 +282,14 @@ jobs:
       - uses: ./.github/actions/setup_cache
 
       - name: Configure - gcc
-        if: matrix.compiler == 'gcc-12'
+        if: matrix.compiler == 'gcc'
         env:
           CC: gcc
           CXX: g++
         run: cmake "--preset=ci-windows-msys" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
 
       - name: Configure - clang
-        if: matrix.compiler != 'gcc-12'
+        if: matrix.compiler != 'gcc'
         env:
           CC: clang
           CXX: clang++
@@ -331,8 +331,8 @@ jobs:
             base-devel
             git
           pacboy: >
-            gcc-12:p
-            clang-15:p
+            gcc:p
+            clang:p
             cppcheck:p
             clang-tools-extra:p
             python:p
