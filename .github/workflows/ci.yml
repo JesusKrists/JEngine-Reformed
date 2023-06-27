@@ -49,11 +49,6 @@ jobs:
 
       - uses: ./.github/actions/setup_cache
 
-      - name: Install dependencies
-        run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
-          && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-          && conan install . -b missing -pr .github/gcc.profile -o jengine-reformed*:coverage_build=True
-
       - name: Configure
         run: cmake --preset=ci-coverage -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
@@ -98,11 +93,6 @@ jobs:
 
       - uses: ./.github/actions/setup_cache
 
-      - name: Install dependencies
-        run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
-          && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-          && conan install . -b missing -pr .github/gcc.profile
-
       - name: Configure
         run: cmake --preset=ci-ubuntu-noanalysis -DCMAKE_BUILD_TYPE:STRING=Debug -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
@@ -142,11 +132,6 @@ jobs:
           && sudo add-apt-repository -y "deb ${{ env.LLVM_URL }} ${{ env.LLVM_PKG }} main"
           && sudo apt-get update -q
           && sudo apt-get install -y -q ${{ matrix.compiler }}
-
-      - name: Install dependencies
-        run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
-          && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-          && conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -o jengine-reformed*:sanitize_build=True
 
       - name: Configure - gcc
         if: matrix.compiler == 'gcc-12'
@@ -225,17 +210,6 @@ jobs:
           && cmake --build ${{ env.CPPCHECK_BUILD }} -j
           && sudo cmake --install ${{ env.CPPCHECK_BUILD }}
 
-      - name: Install dependencies
-        shell: bash
-        run: |
-          conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
-          conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-          conan profile new default --detect --force
-          if [ ${{ runner.os }} = Linux ]; then
-            conan profile update settings.compiler.libcxx=libstdc++11 default
-          fi
-          conan install . -b missing -s build_type=${{ matrix.configuration }} -s compiler.cppstd=20 -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
-
       - name: Setup MultiToolTask
         if: runner.os == 'Windows'
         run: |
@@ -307,18 +281,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - uses: ./.github/actions/setup_cache
-
-      - name: Add conan remote
-        run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
-          && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-
-      - name: Install dependencies - gcc
-        if: matrix.compiler == 'gcc-12'
-        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=gcc -e CXX=g++
-
-      - name: Install dependencies - clang
-        if: matrix.compiler != 'gcc-12'
-        run: conan install . -b missing -pr .github/${{ matrix.compiler }}.profile -s build_type=${{ matrix.configuration }} -s os=Windows -e CC=clang -e CXX=clang++
 
       - name: Configure - gcc
         if: matrix.compiler == 'gcc-12'
@@ -393,13 +355,6 @@ jobs:
 
       - uses: ./.github/actions/setup_cache
 
-      - name: Add conan remote
-        run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
-          && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-
-      - name: Install dependencies - clang
-        run: conan install . -b missing -pr .github/clang-15.profile -s build_type=${{ matrix.configuration }} -s os=Windows -s compiler.libcxx=libc++ -e CC=clang -e CXX=clang++ -o jengine-reformed*:sanitize_build=True
-
       - name: Configure - clang
         env:
           CC: clang
@@ -443,12 +398,6 @@ jobs:
       - uses: ./.github/actions/setup_tools_shared
 
       - uses: ./.github/actions/setup_cache
-
-      - name: Install dependencies
-        shell: bash
-        run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
-          && conan remote add jesuskrists-conan https://jesuskrists.jfrog.io/artifactory/api/conan/jesuskrists-conan --force --insert 0
-          && conan install . -b missing -pr .github/clang-cl.profile -s build_type=${{ matrix.configuration }}
 
       - name: Setup MultiToolTask
         if: runner.os == 'Windows'

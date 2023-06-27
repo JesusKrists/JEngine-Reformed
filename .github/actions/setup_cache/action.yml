@@ -5,7 +5,7 @@ runs:
   using: 'composite'
 
   steps:
-    - name: Cache conan dependencies
+    - name: Cache cpm dependencies
       uses: actions/cache@v3.2.6
       with:
         path: |

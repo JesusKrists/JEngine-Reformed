@@ -9,9 +9,9 @@ endmacro()
 default(SPELL_COMMAND codespell)
 default(FIX NO)
 
-set(flag "--ignore-regex \".cpm\"")
+set(flag "")
 if(FIX)
-  set(flag "${flag} -w")
+  set(flag -w)
 endif()
 
 execute_process(
