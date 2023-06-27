@@ -218,7 +218,7 @@ jobs:
 
       - name: Configure
         shell: pwsh
-        run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+        run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Build
         env:
@@ -286,14 +286,14 @@ jobs:
         env:
           CC: gcc
           CXX: g++
-        run: cmake "--preset=ci-windows-msys" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+        run: cmake "--preset=ci-windows-msys" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Configure - clang
         if: matrix.compiler != 'gcc'
         env:
           CC: clang
           CXX: clang++
-        run: cmake "--preset=ci-windows-msys" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+        run: cmake "--preset=ci-windows-msys" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Build
         env:
@@ -357,7 +357,7 @@ jobs:
         env:
           CC: clang
           CXX: clang++
-        run: cmake "--preset=ci-msys-sanitize" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+        run: cmake "--preset=ci-msys-sanitize" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Build
         env:
@@ -405,7 +405,7 @@ jobs:
 
       - name: Configure
         shell: pwsh
-        run: cmake "--preset=ci-windows-clangcl" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+        run: cmake "--preset=ci-windows-clangcl" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Build
         env:
