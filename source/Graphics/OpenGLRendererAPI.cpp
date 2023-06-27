@@ -88,7 +88,10 @@ auto OpenGLRendererAPI::BindFramebuffer(FramebufferID bufferID) -> bool
     return OpenGLErrorWrapper::Call([bufferID]() { glBindFramebuffer(GL_FRAMEBUFFER, bufferID); });
 }
 
-static constexpr auto PrimitiveToOpenGLPrimitive(IRendererAPI::Primitive primitive) -> GLenum
+namespace
+{
+
+constexpr auto PrimitiveToOpenGLPrimitive(IRendererAPI::Primitive primitive) -> GLenum
 {
     if (primitive == IRendererAPI::Primitive::TRIANGLES) {
         return GL_TRIANGLES;
@@ -97,7 +100,7 @@ static constexpr auto PrimitiveToOpenGLPrimitive(IRendererAPI::Primitive primiti
     return 0;
 }
 
-static constexpr auto TypeToOpenGLType(IRendererAPI::Type type) -> GLenum
+constexpr auto TypeToOpenGLType(IRendererAPI::Type type) -> GLenum
 {
     if (type == IRendererAPI::Type::UNSIGNED_INT) {
         return GL_UNSIGNED_INT;
@@ -108,6 +111,8 @@ static constexpr auto TypeToOpenGLType(IRendererAPI::Type type) -> GLenum
 
     return 0;
 }
+
+}  // namespace
 
 auto OpenGLRendererAPI::DrawIndexed(Primitive primitiveType, std::uint32_t indexCount, Type indexType) -> bool
 {

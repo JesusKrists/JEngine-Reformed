@@ -13,7 +13,8 @@ Checks: "*,\
   -modernize-use-nodiscard,\
   -misc-non-private-member-variables-in-classes,\
   -hicpp-uppercase-literal-suffix,\
-  -readability-uppercase-literal-suffix"
+  -readability-uppercase-literal-suffix,
+  -bugprone-exception-escape"
 WarningsAsErrors: '*'
 CheckOptions:
   - key: 'bugprone-argument-comment.StrictMode'

@@ -16,11 +16,15 @@ target_include_directories(
 
 target_compile_features(JEngine-Reformed_lib PUBLIC cxx_std_20)
 
-target_link_libraries(
-  JEngine-Reformed_lib PUBLIC project_options spdlog::spdlog SDL2::SDL2
-                              glm::glm Tracy::TracyClient)
-
-target_link_system_libraries(JEngine-Reformed_lib PUBLIC glad::glad)
+target_link_system_libraries(
+  JEngine-Reformed_lib
+  PUBLIC
+  project_options
+  spdlog::spdlog
+  SDL2::SDL2
+  glm::glm
+  Tracy::TracyClient
+  glad::glad)
 
 default(JE_PLATFORM_WINDOWS_VALUE 0)
 default(JE_PLATFORM_UNIX_VALUE 0)

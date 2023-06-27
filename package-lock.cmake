@@ -2,7 +2,15 @@
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/DisableStaticAnalysis.cmake)
 
-cpmaddpackage("gh:gabime/spdlog#v1.11.0")
+cpmaddpackage(
+  NAME
+  spdlog
+  GITHUB_REPOSITORY
+  gabime/spdlog
+  GIT_TAG
+  v1.11.0
+  OPTIONS
+  "SPDLOG_NO_EXCEPTIONS ON")
 cpmaddpackage("gh:libsdl-org/SDL#release-2.28.0")
 cpmaddpackage("gh:Dav1dde/glad#v2.0.4")
 cpmaddpackage("gh:g-truc/glm#0.9.9.8")

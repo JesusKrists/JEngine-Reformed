@@ -6,18 +6,19 @@ include(${CMAKE_SOURCE_DIR}/cmake/Catch.cmake)
 # ---- Tests ----
 
 add_executable(JEngine-Reformed_test source/JEngine-Reformed_test.cpp)
-target_link_libraries(
-  JEngine-Reformed_test PRIVATE Catch2::Catch2 Catch2::Catch2WithMain
-                                JEngine-Reformed::lib)
+target_link_system_libraries(JEngine-Reformed_test PRIVATE Catch2::Catch2
+                             Catch2::Catch2WithMain)
+target_link_libraries(JEngine-Reformed_test PRIVATE JEngine-Reformed::lib)
 target_compile_features(JEngine-Reformed_test PRIVATE cxx_std_20)
 
 # ---- Constexpr tests ----
 
 add_executable(JEngine-Reformed_constexpr_test
                source/JEngine-Reformed_constexpr_test.cpp)
-target_link_libraries(
-  JEngine-Reformed_constexpr_test PRIVATE Catch2::Catch2 Catch2::Catch2WithMain
-                                          JEngine-Reformed::lib)
+target_link_system_libraries(JEngine-Reformed_constexpr_test PRIVATE
+                             Catch2::Catch2 Catch2::Catch2WithMain)
+target_link_libraries(JEngine-Reformed_constexpr_test
+                      PRIVATE JEngine-Reformed::lib)
 target_compile_features(JEngine-Reformed_constexpr_test PRIVATE cxx_std_20)
 
 # ---- End-of-file commands ----
