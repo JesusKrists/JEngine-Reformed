@@ -9,7 +9,12 @@
 
 namespace JE
 {
-static Scope<IRendererAPI> sRendererApi;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+
+namespace
+{
+Scope<IRendererAPI> sRendererApi;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+
+}  // namespace
 
 namespace detail
 {

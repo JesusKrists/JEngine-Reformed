@@ -3,7 +3,7 @@
 #include <string_view>
 #include <utility>
 
-#include "Graphics/IRenderTarget.hpp"
+#include "Graphics/Renderer.hpp"
 #include "Memory.hpp"
 #include "Types.hpp"
 
@@ -73,7 +73,7 @@ namespace detail  // NOLINT(readability-identifier-naming)
 void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform);
 
 template<typename T, typename... Args>
-void InjectCustomEnginePlatform(Args&&... args)
+inline void InjectCustomEnginePlatform(Args&&... args)
 {
     static_assert(std::is_base_of_v<IPlatform, T>, "Custom Engine Platform has to derive from IPlatform");
     SetCustomEnginePlatform(CreateScope<T>(std::forward<Args>(args)...));

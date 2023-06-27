@@ -200,11 +200,11 @@ TEST_CASE("Test StaticType and Category/Type to string", "[Events]")
     REQUIRE(JE::UnknownEvent::StaticType() == JE::IEvent::EventType::UNKNOWN);
     REQUIRE(JE::QuitEvent::StaticType() == JE::IEvent::EventType::QUIT);
 
-    REQUIRE(JE::EventCategoryToString(JE::IEvent::EventCategory::UNKNOWN) == "UNKNOWN");
-    REQUIRE(JE::EventCategoryToString(JE::IEvent::EventCategory::APP) == "APP");
+    REQUIRE(JE::ToString(JE::IEvent::EventCategory::UNKNOWN) == "UNKNOWN");
+    REQUIRE(JE::ToString(JE::IEvent::EventCategory::APP) == "APP");
 
-    REQUIRE(JE::EventTypeToString(JE::IEvent::EventType::UNKNOWN) == "UNKNOWN");
-    REQUIRE(JE::EventTypeToString(JE::IEvent::EventType::QUIT) == "QUIT");
+    REQUIRE(JE::ToString(JE::IEvent::EventType::UNKNOWN) == "UNKNOWN");
+    REQUIRE(JE::ToString(JE::IEvent::EventType::QUIT) == "QUIT");
 }
 
 TEST_CASE("Test EventDispatcher and Event handling", "[Events]")

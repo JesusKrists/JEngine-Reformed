@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Assert.hpp"
+#include "Base.hpp"
 #include "Events.hpp"
-#include "Graphics/Mesh.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Platform.hpp"
 #include "Types.hpp"
@@ -21,9 +21,8 @@ class App final : public IEventProcessor
     // cppcheck-suppress unusedFunction
     inline void ProcessEvent(IEvent& event) override
     {
-        EngineLogger()->trace("Processing event of class - {} | type - {}",
-                              EventCategoryToString(event.Category()),
-                              EventTypeToString(event.Type()));
+        EngineLogger()->trace(
+            "Processing event of class - {} | type - {}", ToString(event.Category()), ToString(event.Type()));
 
         EventDispatcher dispatcher{event};
         dispatcher.Dispatch<QuitEvent>(

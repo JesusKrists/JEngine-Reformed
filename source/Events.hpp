@@ -3,6 +3,8 @@
 #include <string_view>
 #include <type_traits>
 
+#include "Base.hpp"
+
 namespace JE
 {
 
@@ -42,7 +44,7 @@ class IEvent
     bool m_Handled = false;
 };
 
-constexpr auto EventCategoryToString(IEvent::EventCategory category) -> std::string_view
+constexpr auto ToString(IEvent::EventCategory category) -> std::string_view
 {
     if (category == IEvent::EventCategory::APP) {
         return "APP";
@@ -51,7 +53,7 @@ constexpr auto EventCategoryToString(IEvent::EventCategory category) -> std::str
     return "UNKNOWN";
 }
 
-constexpr auto EventTypeToString(IEvent::EventType type) -> std::string_view
+constexpr auto ToString(IEvent::EventType type) -> std::string_view
 {
     if (type == IEvent::EventType::QUIT) {
         return "QUIT";
@@ -99,7 +101,7 @@ class EventDispatcher
     }
 
   private:
-    IEvent& m_Event;
+    IEvent& m_Event;  // NOLINT(cppcoreguidelines-avoid-const-or-ref-data-members)
 };
 
 class UnknownEvent final : public IEvent

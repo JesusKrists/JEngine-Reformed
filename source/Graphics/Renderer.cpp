@@ -2,13 +2,8 @@
 
 #include "Renderer.hpp"
 
-#include <glm/detail/qualifier.hpp>
-
 #include "Assert.hpp"
-#include "IRenderTarget.hpp"
 #include "IRendererAPI.hpp"
-#include "IVertexArray.hpp"
-#include "Mesh.hpp"
 
 namespace JE
 {

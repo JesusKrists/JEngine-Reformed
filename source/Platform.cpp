@@ -1,6 +1,6 @@
 #include "Platform.hpp"
 
-#include <spdlog/fmt/bundled/core.h>
+#include <spdlog/fmt/fmt.h>
 
 #include "Assert.hpp"
 #include "Logger.hpp"
@@ -10,7 +10,10 @@
 namespace JE
 {
 
-static Scope<IPlatform> sEnginePlatform;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+namespace
+{
+Scope<IPlatform> sEnginePlatform;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+}  // namespace
 
 namespace detail
 {

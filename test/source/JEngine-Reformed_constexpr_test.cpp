@@ -43,9 +43,9 @@ TEST_CASE("constexpr Test StaticType and Category/Type to string", "[Events]")
     STATIC_REQUIRE(JE::UnknownEvent::StaticType() == JE::IEvent::EventType::UNKNOWN);
     STATIC_REQUIRE(JE::QuitEvent::StaticType() == JE::IEvent::EventType::QUIT);
 
-    STATIC_REQUIRE(JE::EventCategoryToString(JE::IEvent::EventCategory::UNKNOWN) == "UNKNOWN");
-    STATIC_REQUIRE(JE::EventCategoryToString(JE::IEvent::EventCategory::APP) == "APP");
+    STATIC_REQUIRE(JE::ToString(JE::IEvent::EventCategory::UNKNOWN) == "UNKNOWN");
+    STATIC_REQUIRE(JE::ToString(JE::IEvent::EventCategory::APP) == "APP");
 
-    STATIC_REQUIRE(JE::EventTypeToString(JE::IEvent::EventType::UNKNOWN) == "UNKNOWN");
-    STATIC_REQUIRE(JE::EventTypeToString(JE::IEvent::EventType::QUIT) == "QUIT");
+    STATIC_REQUIRE(JE::ToString(JE::IEvent::EventType::UNKNOWN) == "UNKNOWN");
+    STATIC_REQUIRE(JE::ToString(JE::IEvent::EventType::QUIT) == "QUIT");
 }

@@ -65,7 +65,7 @@ namespace detail  // NOLINT(readability-identifier-naming)
 void SetCustomRendererAPI(Scope<IRendererAPI> rendererAPI);
 
 template<typename T, typename... Args>
-void InjectCustomRendererAPI(Args&&... args)
+inline void InjectCustomRendererAPI(Args&&... args)
 {
     static_assert(std::is_base_of_v<IRendererAPI, T>, "Custom RendererAPI has to derive from IRendererAPI");
     SetCustomRendererAPI(CreateScope<T>(std::forward<Args>(args)...));

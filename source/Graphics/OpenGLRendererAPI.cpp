@@ -13,9 +13,9 @@
 namespace JE::detail
 {
 
-inline auto GLErrorToString(GLenum error) -> std::string_view
+constexpr auto ToString(GLenum value) -> std::string_view
 {
-    switch (error) {
+    switch (value) {
         case GL_INVALID_ENUM:
             return "INVALID_ENUM";
         case GL_INVALID_VALUE:
@@ -45,7 +45,7 @@ struct OpenGLErrorWrapper
         bool errored = false;
         GLenum errorCode = 0;
         while ((errorCode = glGetError()) != GL_NO_ERROR) {
-            auto errorMessage = GLErrorToString(errorCode);
+            auto errorMessage = ToString(errorCode);
             JE::EngineLogger()->error("OpenGL API Error: {}", errorMessage);
             errored = true;
         }
