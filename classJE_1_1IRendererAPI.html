@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JE::IRendererAPI class | JEngine-Reformed</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
+  <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
+  <link rel="icon" href="favicon-dark.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">JEngine-Reformed</a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path id="m-doc-search-icon-path" d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z"/>
+        </svg></a>
+        <a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+        <a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+      </div>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li>
+              <a href="pages.html">Pages</a>
+              <ol>
+                <li><a href="about.html">About</a></li>
+              </ol>
+            </li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a href="files.html">Files</a></li>
+            <li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path" />
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb"><a href="namespaceJE.html">JE</a>::<wbr/></span>IRendererAPI <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="IRendererAPI_8hpp.html">&lt;IRendererAPI.hpp&gt;</a></div>
+        </h1>
+        <p><span></span></p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              class <a href="classJE_1_1detail_1_1OpenGLRendererAPI.html" class="m-doc">OpenGLRendererAPI</a> <span class="m-label m-flat m-warning">final</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="af14018dd3ea1e2873af5d304e7192e5f">
+              <span class="m-doc-wrap-bumper">enum class <a href="#af14018dd3ea1e2873af5d304e7192e5f" class="m-doc-self">API</a> { </span><span class="m-doc-wrap"><a href="#af14018dd3ea1e2873af5d304e7192e5fac0ad831a34c4633bee584066cfcc5040" class="m-doc">OPENGL</a> }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad8e61d10782d566d1b8c5e56b3badf41">
+              <span class="m-doc-wrap-bumper">enum <a href="#ad8e61d10782d566d1b8c5e56b3badf41" class="m-doc-self">AttachmentFlag</a>: std::uint32_t { </span><span class="m-doc-wrap"><a href="#ad8e61d10782d566d1b8c5e56b3badf41afb570a7c6eaaddf4185efad73d815daa" class="m-doc">COLOR</a> = Bit(0),
+              <a href="#ad8e61d10782d566d1b8c5e56b3badf41ac6671042c60f2ee5449d2f5e0baf8811" class="m-doc">DEPTH</a> = Bit(1),
+              <a href="#ad8e61d10782d566d1b8c5e56b3badf41a7c8e550aa28245f3ee9fe761f31af2a3" class="m-doc">STENCIL</a> = Bit(2) }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad51b253ecc06f3d537d5e233e0438607">
+              <span class="m-doc-wrap-bumper">enum class <a href="#ad51b253ecc06f3d537d5e233e0438607" class="m-doc-self">Primitive</a> { </span><span class="m-doc-wrap"><a href="#ad51b253ecc06f3d537d5e233e0438607add3bfee8042d1b85c224f08b42a3fc2e" class="m-doc">TRIANGLES</a> }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa3dfc0b0e799b3065b9359b906708653">
+              <span class="m-doc-wrap-bumper">enum class <a href="#aa3dfc0b0e799b3065b9359b906708653" class="m-doc-self">Type</a> { </span><span class="m-doc-wrap"><a href="#aa3dfc0b0e799b3065b9359b906708653a765ef1b950ba8455b8992510ffa56895" class="m-doc">UNSIGNED_SHORT</a>,
+              <a href="#aa3dfc0b0e799b3065b9359b906708653a9ba5b3da1d35e22e1680ddbe52d36ed5" class="m-doc">UNSIGNED_INT</a> }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="adb87ce217d84294661571e03599d3092">
+              using <a href="#adb87ce217d84294661571e03599d3092" class="m-doc-self">AttachmentFlags</a> = <a href="namespaceJE.html#ad64c17f9b25097bb1200d943154d636a" class="m-doc">BitFieldType</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a5e5b29672b34edb0a4e0fdeaf79282d1">
+              using <a href="#a5e5b29672b34edb0a4e0fdeaf79282d1" class="m-doc-self">FramebufferID</a> = std::uint32_t
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="ae1745db0416735a23a4c2869db41bc30">
+              <span class="m-doc-wrap-bumper"><a href="#ae1745db0416735a23a4c2869db41bc30" class="m-doc-self">IRendererAPI</a>(</span><span class="m-doc-wrap">const <a href="classJE_1_1IRendererAPI.html" class="m-doc">IRendererAPI</a>&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a37002522c3e910e4b74619d2680daacb">
+              <span class="m-doc-wrap-bumper"><a href="#a37002522c3e910e4b74619d2680daacb" class="m-doc-self">IRendererAPI</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IRendererAPI.html" class="m-doc">IRendererAPI</a>&amp;&amp; other) <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a1bc8278c025c12f37178b54533eb74c2">
+              <span class="m-doc-wrap-bumper"><a href="#a1bc8278c025c12f37178b54533eb74c2" class="m-doc-self">IRendererAPI</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a2e6badce27f6e2cbd81314f593cb5462">
+              <span class="m-doc-wrap-bumper"><a href="#a2e6badce27f6e2cbd81314f593cb5462" class="m-doc-self">~IRendererAPI</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-warning">virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a86a8d8447c21b1e799a87c4ea848928f">
+              <span class="m-doc-wrap-bumper">auto <a href="#a86a8d8447c21b1e799a87c4ea848928f" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap">const <a href="classJE_1_1IRendererAPI.html" class="m-doc">IRendererAPI</a>&amp; other) -&gt; IRendererAPI &amp; <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a26a7a4ce1c1699180fd765a398900831">
+              <span class="m-doc-wrap-bumper">auto <a href="#a26a7a4ce1c1699180fd765a398900831" class="m-doc-self">operator=</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IRendererAPI.html" class="m-doc">IRendererAPI</a>&amp;&amp; other) -&gt; IRendererAPI &amp; <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad3804fe12b7282e02d11b3ddca0d6e58">
+              <span class="m-doc-wrap-bumper">auto <a href="#ad3804fe12b7282e02d11b3ddca0d6e58" class="m-doc-self">Name</a>(</span><span class="m-doc-wrap">) const -&gt; std::string_view <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a9a4071800c901ac676d97e5a8828bb65">
+              <span class="m-doc-wrap-bumper">auto <a href="#a9a4071800c901ac676d97e5a8828bb65" class="m-doc-self">SetClearColor</a>(</span><span class="m-doc-wrap">const <a href="structJE_1_1ColorRGBA.html" class="m-doc">ColorRGBA</a>&amp; color) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ae38a43da68d62b48e0ce6880a16814c0">
+              <span class="m-doc-wrap-bumper">auto <a href="#ae38a43da68d62b48e0ce6880a16814c0" class="m-doc-self">ClearFramebuffer</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IRendererAPI.html#adb87ce217d84294661571e03599d3092" class="m-doc">AttachmentFlags</a> flags) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a0e22f5d46f6a65a11b4143486a090500">
+              <span class="m-doc-wrap-bumper">auto <a href="#a0e22f5d46f6a65a11b4143486a090500" class="m-doc-self">BindFramebuffer</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IRendererAPI.html#a5e5b29672b34edb0a4e0fdeaf79282d1" class="m-doc">FramebufferID</a> bufferID) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aacce794ed40a843c38fb53fa0f294724">
+              <span class="m-doc-wrap-bumper">auto <a href="#aacce794ed40a843c38fb53fa0f294724" class="m-doc-self">DrawIndexed</a>(</span><span class="m-doc-wrap"><a href="classJE_1_1IRendererAPI.html#ad51b253ecc06f3d537d5e233e0438607" class="m-doc">Primitive</a> primitiveType,
+              std::uint32_t indexCount,
+              <a href="classJE_1_1IRendererAPI.html#aa3dfc0b0e799b3065b9359b906708653" class="m-doc">Type</a> indexType) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">&hellip;</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input type="search" name="q" id="search-input" placeholder="Loading &hellip;" disabled="disabled" autofocus="autofocus" autocomplete="off" spellcheck="false" />
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div id="search-help" class="m-text m-dim m-text-center">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">&darr;</span>
+            / <span class="m-label m-dim">&uarr;</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script src="searchdata-v1.js" async="async"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>JEngine-Reformed. Created with <a href="https://doxygen.org/">Doxygen</a> 1.9.1 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>
