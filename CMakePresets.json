@@ -217,8 +217,7 @@
         "ci-linux",
         "dev-mode",
         "clang-tidy",
-        "cppcheck",
-        "iwyu"
+        "cppcheck"
       ]
     },
     {

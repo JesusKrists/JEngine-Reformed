@@ -262,7 +262,6 @@ jobs:
             gcc:p
             clang:p
             cppcheck:p
-            include-what-you-use:p
             clang-tools-extra:p
             python:p
             python-pip:p
@@ -335,7 +334,6 @@ jobs:
             gcc:p
             clang:p
             cppcheck:p
-            include-what-you-use:p
             clang-tools-extra:p
             python:p
             python-pip:p
