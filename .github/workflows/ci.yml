@@ -48,10 +48,6 @@ jobs:
       - uses: ./.github/actions/setup_tools_shared
 
       - uses: ./.github/actions/setup_cache
-        with:
-          environment: 'UBUNTU'
-          compiler: 'gcc'
-          build_type: 'Release'
 
       - name: Install dependencies
         run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
@@ -59,7 +55,7 @@ jobs:
           && conan install . -b missing -pr .github/gcc.profile -o jengine-reformed*:coverage_build=True
 
       - name: Configure
-        run: cmake --preset=ci-coverage
+        run: cmake --preset=ci-coverage -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Build
         env:
@@ -101,10 +97,6 @@ jobs:
         uses: SonarSource/sonarcloud-github-c-cpp@v1
 
       - uses: ./.github/actions/setup_cache
-        with:
-          environment: 'UBUNTU'
-          compiler: 'gcc'
-          build_type: 'Release'
 
       - name: Install dependencies
         run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
@@ -112,7 +104,7 @@ jobs:
           && conan install . -b missing -pr .github/gcc.profile
 
       - name: Configure
-        run: cmake --preset=ci-ubuntu-noanalysis -DCMAKE_BUILD_TYPE:STRING=Debug
+        run: cmake --preset=ci-ubuntu-noanalysis -DCMAKE_BUILD_TYPE:STRING=Debug -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Build
         env:
@@ -140,10 +132,6 @@ jobs:
       - uses: ./.github/actions/setup_tools_shared
 
       - uses: ./.github/actions/setup_cache
-        with:
-          environment: 'UBUNTU'
-          compiler: ${{ matrix.compiler }}
-          build_type: ${{ matrix.configuration }}
 
       - name: Install clang
         if: matrix.compiler != 'gcc-12'
@@ -165,14 +153,14 @@ jobs:
         env:
           C: gcc-12
           CXX: g++-12
-        run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+        run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Configure - clang
         if: matrix.compiler != 'gcc-12'
         env:
           C: clang-15
           CXX: clang++-15
-        run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }}
+        run: cmake --preset=ci-sanitize -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Build
         env:
@@ -212,10 +200,6 @@ jobs:
       - uses: ./.github/actions/setup_tools_shared
 
       - uses: ./.github/actions/setup_cache
-        with:
-          environment: ${{ matrix.os }}
-          compiler: 'SYS_DEFAULT'
-          build_type: ${{ matrix.configuration }}
 
       - name: Install clang-tidy-15 - Linux
         if: runner.os == 'Linux'
@@ -323,10 +307,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - uses: ./.github/actions/setup_cache
-        with:
-          environment: 'UCRT64'
-          compiler: ${{ matrix.compiler }}
-          build_type: ${{ matrix.configuration }}
 
       - name: Add conan remote
         run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
@@ -412,10 +392,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - uses: ./.github/actions/setup_cache
-        with:
-          environment: 'CLANG64'
-          compiler: 'clang-15'
-          build_type: ${{ matrix.configuration }}
 
       - name: Add conan remote
         run: conan config install https://github.com/JesusKrists/JEngine-conan-settings.git
@@ -466,12 +442,7 @@ jobs:
 
       - uses: ./.github/actions/setup_tools_shared
 
-      - name: Cache conan dependencies
-        uses: actions/cache@v3.2.6
-        with:
-          path: |
-            ~/.conan
-          key: ${{ runner.os }}-clangcl-${{ matrix.configuration }}-${{ hashFiles('conanfile.py') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('.github/*.profile') }}
+      - uses: ./.github/actions/setup_cache
 
       - name: Install dependencies
         shell: bash

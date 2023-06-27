@@ -9,6 +9,10 @@ runs:
       if: runner.os == 'Linux'
       run: sudo apt-get update -q
 
+    - shell: bash
+      if: runner.os == 'Linux'
+      run: sudo apt-get install -y -q ccache
+
     - uses: actions/setup-python@v4.5.0
       with:
         python-version: '3.8'
