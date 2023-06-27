@@ -259,8 +259,8 @@ jobs:
             base-devel
             git
           pacboy: >
-            gcc:p
-            clang:p
+            gcc-12:p
+            clang-15:p
             cppcheck:p
             clang-tools-extra:p
             python:p
@@ -331,8 +331,8 @@ jobs:
             base-devel
             git
           pacboy: >
-            gcc:p
-            clang:p
+            gcc-12:p
+            clang-15:p
             cppcheck:p
             clang-tools-extra:p
             python:p
