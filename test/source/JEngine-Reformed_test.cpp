@@ -6,7 +6,7 @@
 #include <string>
 #include <string_view>
 
-#include <fmt/core.h>
+#include <spdlog/fmt/bundled/core.h>
 
 #include "Graphics/IRendererAPI.hpp"
 #include "Types.hpp"

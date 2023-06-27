@@ -1,6 +1,5 @@
 #pragma once
-
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
@@ -60,7 +59,9 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
 
         // cppcheck-suppress knownConditionTrueFalse
         if (!sGladInitialized) {
-            if (gladLoadGLLoader(SDL_GL_GetProcAddress) == 0) {
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+            auto version = gladLoadGL(reinterpret_cast<GLADloadfunc>(SDL_GL_GetProcAddress));
+            if (version == 0) {
                 EngineLogger()->error("Failed to initialize GLAD");
                 return;
             }
@@ -68,11 +69,11 @@ class SDLOpenGLGraphicsContext final : public IGraphicsContext
             EngineLogger()->info("Requested OpenGL version: {}.{} | Created OpenGL version: {}.{}",
                                  OPENGL_MAJOR_VERSION,
                                  OPENGL_MINOR_VERSION,
-                                 GLVersion.major,
-                                 GLVersion.minor);
+                                 GLAD_VERSION_MAJOR(version),
+                                 GLAD_VERSION_MINOR(version));
 
-            ASSERT(GLVersion.major == OPENGL_MAJOR_VERSION);
-            ASSERT(GLVersion.minor == OPENGL_MINOR_VERSION);
+            ASSERT(GLAD_VERSION_MAJOR(version) == OPENGL_MAJOR_VERSION);
+            ASSERT(GLAD_VERSION_MINOR(version) == OPENGL_MINOR_VERSION);
             sGladInitialized = true;
         }
 

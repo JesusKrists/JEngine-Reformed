@@ -8,8 +8,8 @@
 #    pragma warning(disable : 4365)
 #endif
 
-#include <fmt/core.h>
-#include <fmt/format.h>
+#include <spdlog/fmt/bundled/core.h>
+#include <spdlog/fmt/bundled/format.h>
 
 #ifdef _MSC_VER
 #    pragma warning(pop)

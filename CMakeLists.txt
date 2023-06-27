@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.25)
 
 include(cmake/prelude.cmake)
 
@@ -13,18 +13,17 @@ project(
   VERSION 0.0.1
   DESCRIPTION "The next generation of JEngine"
   HOMEPAGE_URL "https://github.com/JesusKrists/JEngine-Reformed"
-  LANGUAGES CXX)
+  LANGUAGES CXX C)
 
 include(cmake/custom-options.cmake)
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
+include(cmake/SystemLink.cmake)
 
-find_package(spdlog REQUIRED)
-find_package(SDL2 REQUIRED)
-find_package(glad REQUIRED)
-find_package(glm REQUIRED)
-find_package(nanosvg REQUIRED)
-find_package(Tracy REQUIRED)
+include(cmake/DownloadCPM.cmake)
+cpmusepackagelock(${CMAKE_CURRENT_SOURCE_DIR}/package-lock.cmake)
+
+# find_package(nanosvg REQUIRED)
 
 # ---- Declare library ----
 

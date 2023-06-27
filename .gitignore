@@ -1,8 +1,8 @@
 .idea/
 .vs/
 .vscode/*
-!.vscode/tasks.json
-build/
+build/dev/*
+.cpm/
 cmake/open-cpp-coverage.cmake
 cmake-build-*/
 conan/
@@ -16,3 +16,6 @@ compile_commands.json
 .cache
 conan.lock
 conan_imports_manifest.txt
+
+
+!.vscode/tasks.json

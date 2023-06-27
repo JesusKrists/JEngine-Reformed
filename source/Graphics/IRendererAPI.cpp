@@ -1,8 +1,6 @@
-#include <exception>
-
 #include "IRendererAPI.hpp"
 
-#include <fmt/core.h>
+#include <spdlog/fmt/bundled/core.h>
 
 #include "Assert.hpp"
 #include "Graphics/OpenGLRendererAPI.hpp"

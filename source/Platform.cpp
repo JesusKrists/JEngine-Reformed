@@ -1,8 +1,6 @@
-#include <exception>
-
 #include "Platform.hpp"
 
-#include <fmt/core.h>
+#include <spdlog/fmt/bundled/core.h>
 
 #include "Assert.hpp"
 #include "Logger.hpp"

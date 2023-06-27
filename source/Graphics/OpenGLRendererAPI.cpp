@@ -2,10 +2,12 @@
 
 #include "OpenGLRendererAPI.hpp"
 
-#include <glad/glad.h>
+#include <glad/gl.h>
+#include <spdlog/fmt/fmt.h>
 
 #include "Graphics/IRendererAPI.hpp"
 #include "Logger.hpp"
+#include "Memory.hpp"
 #include "Types.hpp"
 
 namespace JE::detail

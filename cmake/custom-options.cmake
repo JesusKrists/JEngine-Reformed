@@ -1,8 +1,11 @@
-if(ENABLE_SANITIZERS)
-  add_compile_options(-fsanitize=address,undefined -fno-omit-frame-pointer
-                      -fno-common)
+add_library(project_options INTERFACE)
 
-  add_link_options(-fsanitize=address,undefined)
+if(ENABLE_SANITIZERS)
+  target_compile_options(
+    project_options INTERFACE -fsanitize=address,undefined
+                              -fno-omit-frame-pointer -fno-common)
+
+  target_link_options(project_options INTERFACE -fsanitize=address,undefined)
 endif()
 
 if(MSVC)
@@ -11,7 +14,9 @@ endif()
 
 # We have extra warnings enabled, which clang does not support
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang" AND NOT CLANG64_MSYS_ENV)
-  set(CMAKE_CXX_FLAGS
-      "-Wno-unknown-warning-option -Wno-unused-command-line-argument ${CMAKE_CXX_FLAGS}"
-  )
+  target_compile_options(
+    project_options INTERFACE -Wno-unknown-warning-option
+                              -Wno-unused-command-line-argument)
 endif()
+
+target_compile_options(project_options INTERFACE "${JENGINE_CXX_FLAGS}")
