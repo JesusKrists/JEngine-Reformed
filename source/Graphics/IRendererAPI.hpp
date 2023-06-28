@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <string_view>
 #include <utility>
@@ -31,6 +32,7 @@ class IRendererAPI
     };
     using AttachmentFlags = BitFieldType;
     using FramebufferID = std::uint32_t;
+    using BufferID = std::uint32_t;
 
     enum class Primitive
     {
@@ -39,6 +41,7 @@ class IRendererAPI
 
     enum class Type
     {
+        FLOAT,
         UNSIGNED_SHORT,
         UNSIGNED_INT
     };
@@ -58,6 +61,18 @@ class IRendererAPI
     virtual auto BindFramebuffer(FramebufferID bufferID) -> bool = 0;
     virtual auto DrawIndexed(Primitive primitiveType, std::uint32_t indexCount, Type indexType) -> bool = 0;
 };
+
+constexpr auto TypeByteCount(IRendererAPI::Type type) -> std::size_t
+{
+    switch (type) {
+        case IRendererAPI::Type::FLOAT:
+            return 4;
+            break;
+        default:
+            return 0;
+            break;
+    }
+}
 
 namespace detail  // NOLINT(readability-identifier-naming)
 {

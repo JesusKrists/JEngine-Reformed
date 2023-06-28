@@ -120,7 +120,7 @@ CheckOptions:
   - key: 'readability-identifier-naming.PrivateMethodCase'
     value: 'CamelCase'
   - key: 'readability-identifier-naming.ProtectedMemberCase'
-    value: 'camelBack'
+    value: 'CamelCase'
   - key: 'readability-identifier-naming.ProtectedMemberPrefix'
     value: 'm_'
   - key: 'readability-identifier-naming.ProtectedMethodCase'

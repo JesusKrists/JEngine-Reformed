@@ -4,9 +4,20 @@
 
 #include "Assert.hpp"
 #include "IRendererAPI.hpp"
+#include "OpenGLRenderer.hpp"
 
 namespace JE
 {
+
+auto CreateVertexBuffer(const AttributeLayout& layout) -> Scope<IVertexBuffer>
+{
+    return CreateScope<OpenGLVertexBuffer>(layout);
+}
+
+auto CreateElementBuffer() -> Scope<IElementBuffer> { return CreateScope<OpenGLElementBuffer>(); }
+
+auto CreateVertexArray() -> Scope<IVertexArray> { return CreateScope<OpenGLVertexArray>(); }
+
 // class RendererMesh
 // {
 //   public:
@@ -118,7 +129,7 @@ void Renderer::End()
 }
 
 // cppcheck-suppress unusedFunction
-void Renderer::DrawMesh(const Mesh& mesh)
+void Renderer::DrawMesh(Mesh& mesh)
 {
     ASSERT(!mesh.Vertices().empty());
     ASSERT(!mesh.Indices().empty());
@@ -126,19 +137,11 @@ void Renderer::DrawMesh(const Mesh& mesh)
     SubmitRenderCommand(
         [&mesh]()
         {
-            // auto& vao = VertexArrayRegister::CreateFromMesh(mesh);
-            // if (!vao.Bind()) {
-            //     return false;
-            // }
-
+            mesh.VAO().Bind();
             const bool SUCCESS = RendererAPI().DrawIndexed(IRendererAPI::Primitive::TRIANGLES,
                                                            static_cast<std::uint32_t>(mesh.Indices().size()),
                                                            IRendererAPI::Type::UNSIGNED_INT);
-
-            // if (!vao.Unbind()) {
-            //     return false;
-            // }
-
+            mesh.VAO().Unbind();
             return SUCCESS;
         });
 }

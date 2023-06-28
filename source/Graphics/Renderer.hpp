@@ -2,12 +2,14 @@
 
 // IWYU pragma: no_include <glm/detail/type_vec3.inl>
 
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <initializer_list>
 #include <iterator>
 #include <span>
 #include <string>
+#include <string_view>
 #include <utility>
 
 #include <glm/detail/qualifier.hpp>
@@ -38,38 +40,51 @@ class IRenderTarget
     virtual void Unbind() = 0;
 };
 
-enum class AttributeType
-{
-    FLOAT3
-};
-
-inline constexpr auto FLOAT3_STRIDE = 12;
-
 class AttributeLayout
 {
   public:
     struct Attribute
     {
+        Attribute(const std::string_view NAME,
+                  IRendererAPI::Type type,
+                  std::uint32_t componentCount,
+                  bool normalized = true)
+            : Name(NAME)
+            , Type(type)
+            , ComponentCount(componentCount)
+            , Normalized(normalized)
+        {
+        }
+
         std::string Name;  // NOLINT(readability-identifier-naming)
-        AttributeType Type = AttributeType::FLOAT3;  // NOLINT(readability-identifier-naming)
-        std::uint32_t Offset = 0;  // NOLINT(readability-identifier-naming)
+        IRendererAPI::Type Type = IRendererAPI::Type::FLOAT;  // NOLINT(readability-identifier-naming)
+        std::size_t ComponentCount = 0;  // NOLINT(readability-identifier-naming)
+        bool Normalized = false;  // NOLINT(readability-identifier-naming)
+        std::size_t Offset = 0;  // NOLINT(readability-identifier-naming)
     };
 
     AttributeLayout() = default;
 
-    explicit AttributeLayout(const std::span<const Attribute> ATTRIBUTES)
+    AttributeLayout(const std::initializer_list<const Attribute> ATTRIBUTES)
         : m_Attributes(std::begin(ATTRIBUTES), std::end(ATTRIBUTES))
     {
         for (auto& attribute : m_Attributes) {
-            if (attribute.Type == AttributeType::FLOAT3) {
+            if (attribute.Type == IRendererAPI::Type::FLOAT) {
                 attribute.Offset = m_Stride;
-                m_Stride += FLOAT3_STRIDE;
+                m_Stride += TypeByteCount(attribute.Type) * attribute.ComponentCount;
             }
         }
     }
 
+    inline auto Count() const -> std::size_t { return m_Attributes.size(); }
+    inline auto Stride() const -> std::size_t { return m_Stride; }
+
+    inline auto begin() const { return m_Attributes.begin(); }  // NOLINT(readability-identifier-naming)
+    inline auto end() const { return m_Attributes.end(); }  // NOLINT(readability-identifier-naming)
+    inline auto operator[](std::size_t index) const -> const Attribute& { return m_Attributes[index]; }
+
   private:
-    std::uint32_t m_Stride = 0;
+    std::size_t m_Stride = 0;
     Vector<Attribute> m_Attributes;
 };
 
@@ -81,13 +96,55 @@ class IVertexBuffer
     auto operator=(const IVertexBuffer& other) -> IVertexBuffer& = delete;
     auto operator=(IVertexBuffer&& other) -> IVertexBuffer& = delete;
 
-    IVertexBuffer() = default;
+    explicit IVertexBuffer(AttributeLayout layout)
+        : m_Layout(std::move(layout))
+    {
+    }
     virtual ~IVertexBuffer() = default;
+
+    inline auto ID() const -> IRendererAPI::BufferID { return m_BufferID; }
 
     virtual auto Bind() -> bool = 0;
 
     virtual auto Unbind() -> bool = 0;
+
+    virtual auto SetData(std::span<const std::byte> data) -> bool = 0;
+
+    inline auto Layout() const -> const AttributeLayout& { return m_Layout; }
+
+    virtual auto UploadLayout() -> bool = 0;
+
+  protected:
+    IRendererAPI::BufferID m_BufferID = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    AttributeLayout m_Layout;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
+
+auto CreateVertexBuffer(const AttributeLayout& layout) -> Scope<IVertexBuffer>;
+
+class IElementBuffer
+{
+  public:
+    IElementBuffer(const IElementBuffer& other) = delete;
+    IElementBuffer(IElementBuffer&& other) = delete;
+    auto operator=(const IElementBuffer& other) -> IElementBuffer& = delete;
+    auto operator=(IElementBuffer&& other) -> IElementBuffer& = delete;
+
+    IElementBuffer() = default;
+    virtual ~IElementBuffer() = default;
+
+    inline auto ID() const -> IRendererAPI::BufferID { return m_BufferID; }
+
+    virtual auto Bind() -> bool = 0;
+
+    virtual auto Unbind() -> bool = 0;
+
+    virtual auto SetData(std::span<const std::byte> data) -> bool = 0;
+
+  protected:
+    IRendererAPI::BufferID m_BufferID = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+};
+
+auto CreateElementBuffer() -> Scope<IElementBuffer>;
 
 class IVertexArray
 {
@@ -100,7 +157,12 @@ class IVertexArray
     IVertexArray() = default;
     virtual ~IVertexArray() = default;
 
-    inline auto Buffers() const -> const Vector<Scope<IVertexBuffer>>& { return m_Buffers; }
+    inline auto ID() const -> IRendererAPI::BufferID { return m_BufferID; }
+
+    inline auto Buffers() const -> const Vector<Scope<IVertexBuffer>>& { return m_VertexBuffers; }
+    inline void AddBuffer(Scope<IVertexBuffer> buffer) { m_VertexBuffers.emplace_back(std::move(buffer)); }
+
+    inline void SetIndexBuffer(Scope<IElementBuffer> buffer) { m_IndexBuffer = std::move(buffer); }
 
     virtual auto Build() -> bool = 0;
 
@@ -108,9 +170,13 @@ class IVertexArray
 
     virtual auto Unbind() -> bool = 0;
 
-  private:
-    Vector<Scope<IVertexBuffer>> m_Buffers;
+  protected:
+    IRendererAPI::BufferID m_BufferID = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    Vector<Scope<IVertexBuffer>> m_VertexBuffers;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    Scope<IElementBuffer> m_IndexBuffer;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
+
+auto CreateVertexArray() -> Scope<IVertexArray>;
 
 using VertexType = glm::tvec3<float>;
 using IndexType = std::uint32_t;
@@ -118,42 +184,54 @@ using IndexType = std::uint32_t;
 class Mesh
 {
   public:
-    Mesh(const Mesh& other) = default;
-    Mesh(Mesh&& other) noexcept
-        : m_Vertices(std::move(other.m_Vertices))
-        , m_Indices(std::move(other.m_Indices))
-    {
-    }
-    auto operator=(const Mesh& other) -> Mesh& = default;
-    auto operator=(Mesh&& other) noexcept -> Mesh&
-    {
-        m_Vertices = std::move(other.m_Vertices);
-        m_Indices = std::move(other.m_Indices);
-        return *this;
-    }
-
     Mesh() = default;
 
     Mesh(const std::span<const VertexType> VERTICES, const std::span<const IndexType> INDICES)
         : m_Vertices(std::begin(VERTICES), std::end(VERTICES))
         , m_Indices(std::begin(INDICES), std::end(INDICES))
     {
+        UploadMesh();
     }
 
     Mesh(const std::initializer_list<VertexType> VERTICES, const std::initializer_list<IndexType> INDICES)
         : m_Vertices(std::begin(VERTICES), std::end(VERTICES))
         , m_Indices(std::begin(INDICES), std::end(INDICES))
     {
+        UploadMesh();
     }
-
-    ~Mesh() = default;
 
     inline auto Vertices() const -> const Vector<VertexType>& { return m_Vertices; }
     inline auto Indices() const -> const Vector<IndexType>& { return m_Indices; }
+    inline auto VAO() -> IVertexArray& { return *m_VAO; }
 
   private:
+    inline void UploadMesh()
+    {
+        auto vertexBuffer =
+            CreateVertexBuffer(AttributeLayout{{AttributeLayout::Attribute{"a_Vertex", IRendererAPI::Type::FLOAT, 3}}});
+        auto indexBuffer = CreateElementBuffer();
+
+        vertexBuffer->Bind();
+        vertexBuffer->SetData(
+            {reinterpret_cast<std::byte*>(m_Vertices.data()),  // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+             m_Vertices.size()});
+        vertexBuffer->Unbind();
+
+        indexBuffer->Bind();
+        indexBuffer->SetData(
+            {reinterpret_cast<std::byte*>(m_Indices.data()),  // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+             m_Indices.size()});
+        indexBuffer->Unbind();
+
+        m_VAO = CreateVertexArray();
+        m_VAO->AddBuffer(std::move(vertexBuffer));
+        m_VAO->SetIndexBuffer(std::move(indexBuffer));
+        m_VAO->Build();
+    }
+
     Vector<VertexType> m_Vertices;
     Vector<IndexType> m_Indices;
+    Scope<IVertexArray> m_VAO;
 };
 
 inline auto CreateTriangleMesh()
@@ -185,7 +263,7 @@ class Renderer
     void Begin(IRenderTarget* target, const ColorRGBA& color);
     void End();
 
-    void DrawMesh(const Mesh& mesh);
+    void DrawMesh(Mesh& mesh);
 
     inline auto CommandQueue() const -> const Vector<RenderCommand>& { return m_CommandQueue; }
 

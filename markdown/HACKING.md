@@ -88,6 +88,7 @@ the project:
             "binaryDir": "${sourceDir}/build/dev",
             "inherits": "dev-linux",
             "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc-12",
                 "CMAKE_CXX_COMPILER": "g++-12"
             }
         },
