@@ -5,6 +5,7 @@
 #include "Events.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Platform.hpp"
+#include "Sound/ImpulseAudio.hpp"
 #include "Types.hpp"
 
 namespace JE
@@ -86,6 +87,8 @@ class App final : public IEventProcessor
             EngineLogger()->error("Failed to create application - MainWindow could not be created");
             return;
         }
+
+        ImpulseAudio::TestStuff();
 
         m_Initialized = true;
     }
