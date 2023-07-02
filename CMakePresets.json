@@ -152,8 +152,7 @@
         "dev-mode"
       ],
       "cacheVariables": {
-        "ENABLE_SANITIZERS": "True",
-        "CMAKE_MAP_IMPORTED_CONFIG_DEBUG": "Release;RelWithDebInfo;Debug;"
+        "ENABLE_SANITIZERS": "True"
       }
     },
     {
@@ -161,7 +160,6 @@
       "binaryDir": "${sourceDir}/build",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_MAP_IMPORTED_CONFIG_DEBUG": "Release;RelWithDebInfo;Debug;"
       }
     },
     {
