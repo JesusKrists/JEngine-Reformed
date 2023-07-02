@@ -18,6 +18,13 @@ auto CreateElementBuffer() -> Scope<IElementBuffer> { return CreateScope<OpenGLE
 
 auto CreateVertexArray() -> Scope<IVertexArray> { return CreateScope<OpenGLVertexArray>(); }
 
+// cppcheck-suppress unusedFunction
+auto CreateShader(std::string_view debugName, std::string_view vertexSource, std::string_view fragmentSource)
+    -> Scope<IShaderProgram>
+{
+    return CreateScope<OpenGLShaderProgram>(debugName, vertexSource, fragmentSource);
+}
+
 // class RendererMesh
 // {
 //   public:
@@ -142,6 +149,27 @@ void Renderer::DrawMesh(Mesh& mesh)
                                                            static_cast<std::uint32_t>(mesh.Indices().size()),
                                                            IRendererAPI::Type::UNSIGNED_INT);
             mesh.VAO().Unbind();
+            return SUCCESS;
+        });
+}
+
+// cppcheck-suppress unusedFunction
+void Renderer::DrawMesh(Mesh& mesh, IShaderProgram& shaderProgram)
+{
+    ASSERT(!mesh.Vertices().empty());
+    ASSERT(!mesh.Indices().empty());
+    ASSERT(shaderProgram.Valid());
+
+    SubmitRenderCommand(
+        [&mesh, &shaderProgram]()
+        {
+            shaderProgram.Bind();
+            mesh.VAO().Bind();
+            const bool SUCCESS = RendererAPI().DrawIndexed(IRendererAPI::Primitive::TRIANGLES,
+                                                           static_cast<std::uint32_t>(mesh.Indices().size()),
+                                                           IRendererAPI::Type::UNSIGNED_INT);
+            mesh.VAO().Unbind();
+            shaderProgram.Unbind();
             return SUCCESS;
         });
 }

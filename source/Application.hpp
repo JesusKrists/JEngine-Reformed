@@ -10,6 +10,24 @@
 namespace JE
 {
 
+inline constexpr auto VERTEX_SOURCE = R"(
+                                                            #version 330 core
+                                                            layout (location = 0) in vec3 a_VertexPos;
+                                                            void main()
+                                                            {
+                                                                gl_Position = vec4(a_VertexPos.xyz, 1.0);
+                                                            }
+                                                            )";
+
+inline constexpr auto FRAGMENT_SOURCE = R"(
+                                                            #version 330 core
+                                                            out vec4 out_FragColor;
+                                                            void main()
+                                                            {
+                                                                out_FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+                                                            } 
+                                                            )";
+
 class App final : public IEventProcessor
 {
     friend auto Application() -> App&;
@@ -46,14 +64,15 @@ class App final : public IEventProcessor
     {
         ASSERT(m_Initialized);
 
-        m_TestMesh = CreateQuadMesh();
+        auto testMesh = CreateQuadMesh();
+        auto testProgram = CreateShader("TestProgram", VERTEX_SOURCE, FRAGMENT_SOURCE);
 
         m_Running = true;
         while (m_LoopCount != loopCount && m_Running) {
             ProcessEvents();
 
             m_Renderer.Begin(m_MainWindow, DEFAULT_CLEAR_COLOR);
-            m_Renderer.DrawMesh(m_TestMesh);
+            m_Renderer.DrawMesh(testMesh, *testProgram);
             m_Renderer.End();
 
             m_Renderer.ProcessCommandQueue();
@@ -92,8 +111,6 @@ class App final : public IEventProcessor
 
     IWindow* m_MainWindow = nullptr;
     JE::Renderer m_Renderer;
-
-    Mesh m_TestMesh;
 
     std::int64_t m_LoopCount = 0;
     bool m_Running = false;
