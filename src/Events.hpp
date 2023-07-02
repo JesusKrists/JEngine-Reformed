@@ -44,6 +44,18 @@ class IEvent
     bool m_Handled = false;
 };
 
+constexpr auto EventTypeToCategory(IEvent::EventType type) -> IEvent::EventCategory
+{
+    switch (type) {
+        case IEvent::EventType::QUIT:
+            return IEvent::EventCategory::APP;
+
+        case IEvent::EventType::UNKNOWN:
+        default:
+            return IEvent::EventCategory::UNKNOWN;
+    }
+}
+
 constexpr auto ToString(IEvent::EventCategory category) -> std::string_view
 {
     if (category == IEvent::EventCategory::APP) {

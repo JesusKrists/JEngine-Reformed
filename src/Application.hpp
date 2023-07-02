@@ -40,8 +40,7 @@ class App final : public IEventProcessor
     // cppcheck-suppress unusedFunction
     inline void ProcessEvent(IEvent& event) override
     {
-        EngineLogger()->trace(
-            "Processing event of class - {} | type - {}", ToString(event.Category()), ToString(event.Type()));
+        LogEvent(event);
 
         EventDispatcher dispatcher{event};
         dispatcher.Dispatch<QuitEvent>(
@@ -82,6 +81,10 @@ class App final : public IEventProcessor
 
             ++m_LoopCount;
         }
+        
+        // Flush the last processed event
+        UnknownEvent dummy;
+        LogEvent(dummy);
     }
 
     inline auto MainWindow() -> IWindow& { return *m_MainWindow; }
@@ -110,6 +113,32 @@ class App final : public IEventProcessor
         ImpulseAudio::TestStuff();
 
         m_Initialized = true;
+    }
+
+    static inline void LogEvent(const IEvent& event)
+    {
+        static IEvent::EventType sLastEventType = IEvent::EventType::UNKNOWN;
+        static std::uint32_t sEventCounter = 0;
+
+        if (event.Type() == sLastEventType) {
+            sEventCounter++;
+            sLastEventType = event.Type();
+            return;
+        }
+
+        if (sEventCounter > 1) {
+            EngineLogger()->trace("Processing {} events of class - {} | type - {}",
+                                  sEventCounter,
+                                  ToString(EventTypeToCategory(sLastEventType)),
+                                  ToString(sLastEventType));
+        } else {
+            EngineLogger()->trace("Processing event of class - {} | type - {}",
+                                  ToString(EventTypeToCategory(sLastEventType)),
+                                  ToString(sLastEventType));
+        }
+
+        sEventCounter = 1;
+        sLastEventType = event.Type();
     }
 
     IWindow* m_MainWindow = nullptr;
