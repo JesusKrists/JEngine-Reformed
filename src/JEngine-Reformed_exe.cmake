@@ -1,4 +1,4 @@
-add_executable(JEngine-Reformed_exe source/main.cpp)
+add_executable(JEngine-Reformed_exe src/main.cpp)
 add_executable(JEngine-Reformed::exe ALIAS JEngine-Reformed_exe)
 
 set_property(TARGET JEngine-Reformed_exe PROPERTY OUTPUT_NAME JEngine-Reformed)

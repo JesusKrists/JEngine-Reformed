@@ -7,7 +7,7 @@
 
 namespace JE
 {
-struct ColorRGBA;
+struct RGBA;
 }  // namespace JE
 
 namespace JE::detail  // NOLINT(readability-identifier-naming)
@@ -18,7 +18,7 @@ class OpenGLRendererAPI final : public IRendererAPI
   public:
     auto Name() const -> std::string_view override;
 
-    auto SetClearColor(const ColorRGBA& color) -> bool override;
+    auto SetClearColor(const RGBA& color) -> bool override;
     auto ClearFramebuffer(AttachmentFlags flags) -> bool override;
     auto BindFramebuffer(FramebufferID bufferID) -> bool override;
     auto DrawIndexed(Primitive primitiveType, std::uint32_t indexCount, Type indexType) -> bool override;

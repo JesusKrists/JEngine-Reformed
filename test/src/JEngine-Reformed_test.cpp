@@ -64,7 +64,7 @@ struct TestRendererAPI : JE::IRendererAPI
 {
     inline auto Name() const -> std::string_view override { return "TestRendererAPI"; }
 
-    inline auto SetClearColor([[maybe_unused]] const JE::ColorRGBA& color) -> bool override { return true; }
+    inline auto SetClearColor([[maybe_unused]] const JE::RGBA& color) -> bool override { return true; }
     inline auto ClearFramebuffer([[maybe_unused]] AttachmentFlags flags) -> bool override { return true; }
     inline auto BindFramebuffer([[maybe_unused]] FramebufferID bufferID) -> bool override { return true; }
     inline auto DrawIndexed([[maybe_unused]] Primitive primitiveType,
@@ -128,12 +128,12 @@ TEST_CASE("Test ColorRGBA", "[Types]")
     static constexpr auto COLOR8_HALF_VALUE = 128u;
     static constexpr auto COLOR_HALF_VALUE = 0.5f;
 
-    auto white = JE::ColorRGBA{1.0f, 1.0f, 1.0f, 1.0f};
+    auto white = JE::RGBA{1.0f, 1.0f, 1.0f, 1.0f};
     REQUIRE(white.ToUint32() == 0xFFFFFFFF);
-    auto green = JE::ColorRGBA{0.0f, 1.0f, 0.0f, 1.0f};
+    auto green = JE::RGBA{0.0f, 1.0f, 0.0f, 1.0f};
     REQUIRE(green.ToUint32() == 0x00FF00FF);
 
-    auto blue = JE::ColorRGBA{0.0f, 0.0f, 1.0f, 0.0f};
+    auto blue = JE::RGBA{0.0f, 0.0f, 1.0f, 0.0f};
     REQUIRE(JE::CompareFloat(blue.R(), 0.0f));
     REQUIRE(JE::CompareFloat(blue.G(), 0.0f));
     REQUIRE(JE::CompareFloat(blue.B(), 1.0f));
@@ -291,7 +291,7 @@ TEST_CASE("Test Application QuitEvent handling", "[Application][Events]")
 
 TEST_CASE("Test Application Renderer command queue processing", "[Application][Renderer]")
 {
-    static constexpr auto CLEAR_COLOR = JE::ColorRGBA{1.f, 1.f, 1.f, 1.f};
+    static constexpr auto CLEAR_COLOR = JE::RGBA{1.f, 1.f, 1.f, 1.f};
 
     JE::Application().Renderer().Begin(&JE::Application().MainWindow(), CLEAR_COLOR);
     JE::Application().Renderer().End();

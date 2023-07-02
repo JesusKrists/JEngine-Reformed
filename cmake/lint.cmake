@@ -7,7 +7,7 @@ macro(default name)
 endmacro()
 
 default(FORMAT_COMMAND clang-format)
-default(PATTERNS source/*.cpp source/*.hpp include/*.hpp test/*.cpp test/*.hpp)
+default(PATTERNS src/*.cpp src/*.hpp include/*.hpp test/*.cpp test/*.hpp)
 default(FIX NO)
 
 set(flag --output-replacements-xml)
