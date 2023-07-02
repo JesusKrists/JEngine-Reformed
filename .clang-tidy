@@ -15,7 +15,7 @@ Checks: "*,\
   -hicpp-uppercase-literal-suffix,\
   -readability-uppercase-literal-suffix,\
   -bugprone-exception-escape,\
-  -hicpp-multiway-paths-covered",
+  -hicpp-multiway-paths-covered"
 WarningsAsErrors: '*'
 CheckOptions:
   - key: 'bugprone-argument-comment.StrictMode'

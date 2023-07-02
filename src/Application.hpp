@@ -64,16 +64,9 @@ class App final : public IEventProcessor
     {
         ASSERT(m_Initialized);
 
-        auto testMesh = CreateQuadMesh();
-        auto testProgram = CreateShader("TestProgram", VERTEX_SOURCE, FRAGMENT_SOURCE);
-
         m_Running = true;
         while (m_LoopCount != loopCount && m_Running) {
             ProcessEvents();
-
-            m_Renderer.Begin(m_MainWindow, DEFAULT_CLEAR_COLOR);
-            m_Renderer.DrawMesh(testMesh, *testProgram);
-            m_Renderer.End();
 
             m_Renderer.ProcessCommandQueue();
 
