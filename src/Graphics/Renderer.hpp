@@ -79,8 +79,8 @@ namespace JE
         inline auto Count() const -> std::size_t { return m_Attributes.size(); }
         inline auto Stride() const -> std::size_t { return m_Stride; }
 
-        inline auto begin() const { return m_Attributes.begin(); }  // NOLINT(readability-identifier-naming)
-        inline auto end() const { return m_Attributes.end(); }  // NOLINT(readability-identifier-naming)
+        inline auto begin() const { return std::begin(m_Attributes); }  // NOLINT(readability-identifier-naming)
+        inline auto end() const { return std::end(m_Attributes); }  // NOLINT(readability-identifier-naming)
         inline auto operator[](std::size_t index) const -> const Attribute& { return m_Attributes[index]; }
 
       private:

@@ -255,6 +255,19 @@ namespace JE::detail
                 if (event.type == SDL_QUIT) {
                     QuitEvent evnt{};
                     eventProcessor.ProcessEvent(evnt);
+                }
+                if (event.type == SDL_KEYDOWN) {
+                    KeyDownEvent evnt{static_cast<KeyCode>(event.key.keysym.sym), static_cast<bool>(event.key.state)};
+                    eventProcessor.ProcessEvent(evnt);
+                }
+                if (event.type == SDL_KEYUP) {
+                    KeyUpEvent evnt{static_cast<KeyCode>(event.key.keysym.sym), static_cast<bool>(event.key.state)};
+                    eventProcessor.ProcessEvent(evnt);
+                }
+                if (event.type == SDL_MOUSEMOTION) {
+                    MouseMoveEvent evnt{Size2D{event.motion.xrel, event.motion.yrel},
+                                        Size2D{event.motion.x, event.motion.y}};
+                    eventProcessor.ProcessEvent(evnt);
                 } else {
                     UnknownEvent evnt{};
                     eventProcessor.ProcessEvent(evnt);
