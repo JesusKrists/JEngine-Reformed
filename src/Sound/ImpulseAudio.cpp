@@ -88,7 +88,7 @@ void ImpulseAudio::TestStuff()
     auto dev =
         SDL_OpenAudioDevice("Scarlett Solo (3rd Gen.) Analog Stereo", 0, &specs, &got_spec, SDL_AUDIO_ALLOW_ANY_CHANGE);
     if (!dev) {
-        EngineLogger()->error("Failed to open audio device: {}", SDL_GetError());
+        EngineLogger()->warn("Failed to open audio device: {}", SDL_GetError());
         SDL_AudioQuit();
         return;
     }
