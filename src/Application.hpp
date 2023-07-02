@@ -76,8 +76,8 @@ class App final : public IEventProcessor
         }
 
         // Flush the last processed event
-        UnknownEvent dummy;
-        LogEvent(dummy);
+        const UnknownEvent DUMMY;
+        LogEvent(DUMMY);
     }
 
     inline auto MainWindow() -> IWindow& { return *m_MainWindow; }

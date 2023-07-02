@@ -1,4 +1,5 @@
-#define _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES  // NOLINT(bugprone-reserved-identifier, cert-dcl37-c, cert-dcl51-cpp,
+                           // readability-identifier-naming)
 #include <cmath>
 #include <numeric>
 #include <span>
