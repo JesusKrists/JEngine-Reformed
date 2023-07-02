@@ -94,7 +94,7 @@
       }
     },
     {
-      "name": "ci-linux",
+      "name": "ci-base-linux",
       "generator": "Ninja",
       "hidden": true,
       "inherits": [
@@ -103,7 +103,7 @@
       ]
     },
     {
-      "name": "ci-darwin",
+      "name": "ci-base-darwin",
       "generator": "Ninja",
       "hidden": true,
       "inherits": [
@@ -112,7 +112,7 @@
       ]
     },
     {
-      "name": "ci-win64",
+      "name": "ci-base-win64",
       "inherits": [
         "flags-windows",
         "ci-std"
@@ -123,7 +123,7 @@
     {
       "name": "coverage-linux",
       "binaryDir": "${sourceDir}/build/coverage",
-      "inherits": "ci-linux",
+      "inherits": "ci-base-linux",
       "hidden": true,
       "cacheVariables": {
         "ENABLE_COVERAGE": "ON",
@@ -148,7 +148,7 @@
       "name": "ci-sanitize",
       "binaryDir": "${sourceDir}/build/sanitize",
       "inherits": [
-        "ci-linux",
+        "ci-base-linux",
         "dev-mode"
       ],
       "cacheVariables": {
@@ -159,14 +159,13 @@
       "name": "ci-build",
       "binaryDir": "${sourceDir}/build",
       "hidden": true,
-      "cacheVariables": {
-      }
+      "cacheVariables": {}
     },
     {
       "name": "ci-macos",
       "inherits": [
         "ci-build",
-        "ci-darwin",
+        "ci-base-darwin",
         "dev-mode"
       ]
     },
@@ -174,7 +173,7 @@
       "name": "ci-ubuntu",
       "inherits": [
         "ci-build",
-        "ci-linux",
+        "ci-base-linux",
         "clang-tidy",
         "cppcheck",
         "dev-mode"
@@ -184,7 +183,7 @@
       "name": "ci-ubuntu-noanalysis",
       "inherits": [
         "ci-build",
-        "ci-linux",
+        "ci-base-linux",
         "dev-mode"
       ]
     },
@@ -192,7 +191,7 @@
       "name": "ci-linux",
       "inherits": [
         "ci-build",
-        "ci-linux",
+        "ci-base-linux",
         "clang-tidy",
         "cppcheck",
         "dev-mode"
@@ -202,7 +201,7 @@
       "name": "ci-linux-noanalysis",
       "inherits": [
         "ci-build",
-        "ci-linux",
+        "ci-base-linux",
         "dev-mode"
       ]
     },
@@ -210,7 +209,7 @@
       "name": "ci-windows",
       "inherits": [
         "ci-build",
-        "ci-win64",
+        "ci-base-win64",
         "dev-mode"
       ]
     },
@@ -219,7 +218,7 @@
       "toolset": "ClangCL",
       "inherits": [
         "ci-build",
-        "ci-win64",
+        "ci-base-win64",
         "dev-mode"
       ],
       "cacheVariables": {
