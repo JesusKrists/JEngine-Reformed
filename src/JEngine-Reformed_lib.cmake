@@ -7,7 +7,12 @@ endmacro()
 add_library(
   JEngine-Reformed_lib OBJECT
   src/Platform.cpp src/Graphics/IRendererAPI.cpp
-  src/Graphics/OpenGLRendererAPI.cpp src/Graphics/Renderer.cpp)
+  src/Graphics/OpenGLRendererAPI.cpp src/Graphics/Renderer.cpp
+
+  # Audio
+  src/Sound/ImpulseAudio.cpp
+)
+
 add_library(JEngine-Reformed::lib ALIAS JEngine-Reformed_lib)
 
 target_include_directories(

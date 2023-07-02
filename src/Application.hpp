@@ -5,6 +5,7 @@
 #include "Events.hpp"
 #include "Graphics/Renderer.hpp"
 #include "Platform.hpp"
+#include "Sound/ImpulseAudio.hpp"
 #include "Types.hpp"
 
 namespace JE
@@ -63,16 +64,9 @@ class App final : public IEventProcessor
     {
         ASSERT(m_Initialized);
 
-        auto testMesh = CreateQuadMesh();
-        auto testProgram = CreateShader("TestProgram", VERTEX_SOURCE, FRAGMENT_SOURCE);
-
         m_Running = true;
         while (m_LoopCount != loopCount && m_Running) {
             ProcessEvents();
-
-            m_Renderer.Begin(m_MainWindow, DEFAULT_CLEAR_COLOR);
-            m_Renderer.DrawMesh(testMesh, *testProgram);
-            m_Renderer.End();
 
             m_Renderer.ProcessCommandQueue();
 
@@ -82,8 +76,8 @@ class App final : public IEventProcessor
         }
 
         // Flush the last processed event
-        UnknownEvent dummy;
-        LogEvent(dummy);
+        const UnknownEvent DUMMY;
+        LogEvent(DUMMY);
     }
 
     inline auto MainWindow() -> IWindow& { return *m_MainWindow; }
@@ -108,6 +102,8 @@ class App final : public IEventProcessor
             EngineLogger()->error("Failed to create application - MainWindow could not be created");
             return;
         }
+
+        ImpulseAudio::TestStuff();
 
         m_Initialized = true;
     }
