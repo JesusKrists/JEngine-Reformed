@@ -13,7 +13,7 @@
 #include "Logger.hpp"
 
 #ifndef M_PIf
-#    define M_PIf static_cast<float>(M_PI)
+#    define M_PIf static_cast<float>(M_PI)  // NOLINT(readability-identifier-naming)
 #endif
 
 namespace JE
