@@ -94,7 +94,7 @@ jobs:
       - uses: ./.github/actions/setup_cache
 
       - name: Configure
-        run: cmake --preset=ci-ubuntu-noanalysis -DCMAKE_BUILD_TYPE:STRING=Debug -DCPM_SOURCE_CACHE:STRING=~/.cpm
+        run: cmake --preset=ci-linux-noanalysis -DCMAKE_BUILD_TYPE:STRING=Debug -DCPM_SOURCE_CACHE:STRING=~/.cpm
 
       - name: Build
         env:

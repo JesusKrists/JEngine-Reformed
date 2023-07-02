@@ -103,7 +103,7 @@ auto CreateShader(std::string_view debugName, std::string_view vertexSource, std
 //     "}\n\0";
 
 // cppcheck-suppress unusedFunction
-void Renderer::Begin(IRenderTarget* target, [[maybe_unused]] const ColorRGBA& color)
+void Renderer::Begin(IRenderTarget* target, [[maybe_unused]] const RGBA& color)
 {
     ASSERT(target != nullptr);
     ASSERT(m_CurrentRenderTarget == nullptr);

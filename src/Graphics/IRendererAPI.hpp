@@ -10,7 +10,7 @@
 
 namespace JE
 {
-struct ColorRGBA;
+struct RGBA;
 }  // namespace JE
 
 namespace JE  // NOLINT(readability-identifier-naming)
@@ -57,7 +57,7 @@ class IRendererAPI
 
     virtual auto Name() const -> std::string_view = 0;
 
-    virtual auto SetClearColor(const ColorRGBA& color) -> bool = 0;
+    virtual auto SetClearColor(const RGBA& color) -> bool = 0;
     virtual auto ClearFramebuffer(AttachmentFlags flags) -> bool = 0;
     virtual auto BindFramebuffer(FramebufferID bufferID) -> bool = 0;
     virtual auto DrawIndexed(Primitive primitiveType, std::uint32_t indexCount, Type indexType) -> bool = 0;

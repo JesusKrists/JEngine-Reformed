@@ -27,11 +27,11 @@ cpmusepackagelock(${CMAKE_CURRENT_SOURCE_DIR}/package-lock.cmake)
 
 # ---- Declare library ----
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/source/JEngine-Reformed_lib.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/src/JEngine-Reformed_lib.cmake)
 
 # ---- Declare executable ----
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/source/JEngine-Reformed_exe.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/src/JEngine-Reformed_exe.cmake)
 
 # ---- Install rules ----
 

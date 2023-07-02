@@ -23,7 +23,7 @@
 namespace JE
 {
 
-struct ColorRGBA;
+struct RGBA;
 
 class IRenderTarget
 {
@@ -297,7 +297,7 @@ class Renderer
         | IRendererAPI::AttachmentFlag::DEPTH | IRendererAPI::AttachmentFlag::STENCIL;
     Renderer() = default;
 
-    void Begin(IRenderTarget* target, const ColorRGBA& color);
+    void Begin(IRenderTarget* target, const RGBA& color);
     void End();
 
     void DrawMesh(Mesh& mesh);

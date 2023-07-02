@@ -6,13 +6,13 @@ endmacro()
 
 add_library(
   JEngine-Reformed_lib OBJECT
-  source/Platform.cpp source/Graphics/IRendererAPI.cpp
-  source/Graphics/OpenGLRendererAPI.cpp source/Graphics/Renderer.cpp)
+  src/Platform.cpp src/Graphics/IRendererAPI.cpp
+  src/Graphics/OpenGLRendererAPI.cpp src/Graphics/Renderer.cpp)
 add_library(JEngine-Reformed::lib ALIAS JEngine-Reformed_lib)
 
 target_include_directories(
   JEngine-Reformed_lib ${warning_guard}
-  PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>")
+  PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>")
 
 target_compile_features(JEngine-Reformed_lib PUBLIC cxx_std_20)
 

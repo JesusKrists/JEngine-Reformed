@@ -191,6 +191,24 @@
       ]
     },
     {
+      "name": "ci-linux",
+      "inherits": [
+        "ci-build",
+        "ci-linux",
+        "clang-tidy",
+        "cppcheck",
+        "dev-mode"
+      ]
+    },
+    {
+      "name": "ci-linux-noanalysis",
+      "inherits": [
+        "ci-build",
+        "ci-linux",
+        "dev-mode"
+      ]
+    },
+    {
       "name": "ci-windows",
       "inherits": [
         "ci-build",

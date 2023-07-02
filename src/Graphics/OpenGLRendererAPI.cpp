@@ -56,7 +56,7 @@ struct OpenGLErrorWrapper
 
 auto OpenGLRendererAPI::Name() const -> std::string_view { return "OpenGL"; }
 
-auto OpenGLRendererAPI::SetClearColor(const ColorRGBA& color) -> bool
+auto OpenGLRendererAPI::SetClearColor(const RGBA& color) -> bool
 {
     return OpenGLErrorWrapper::Call([&color]() { glClearColor(color.R(), color.G(), color.B(), color.A()); });
 }

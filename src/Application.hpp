@@ -34,7 +34,7 @@ class App final : public IEventProcessor
 
   public:
     static constexpr auto MAINWINDOW_DEFAULT_TITLE = "JEngine-Reformed Application";
-    static constexpr auto DEFAULT_CLEAR_COLOR = ColorRGBA{255u, 0u, 255u, 255u};
+    static constexpr auto DEFAULT_CLEAR_COLOR = RGBA{255u, 0u, 255u, 255u};
 
     // cppcheck-suppress unusedFunction
     inline void ProcessEvent(IEvent& event) override

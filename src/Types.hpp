@@ -26,7 +26,7 @@ struct Size2D
     std::int32_t y = 0;  // NOLINT(readability-identifier-naming)
 };
 
-struct ColorRGBA
+struct RGBA
 {
     static constexpr auto COLOR8_MAX_VALUE = 255.f;
 
@@ -40,12 +40,12 @@ struct ColorRGBA
     static constexpr auto B_BYTE_MASK = 0xFF00u;
     static constexpr auto A_BYTE_MASK = 0xFFu;
 
-    constexpr ColorRGBA() = default;
-    constexpr ColorRGBA(float red, float green, float blue, float alpha)
+    constexpr RGBA() = default;
+    constexpr RGBA(float red, float green, float blue, float alpha)
         : color(red, green, blue, alpha)
     {
     }
-    constexpr ColorRGBA(std::uint32_t red, std::uint32_t green, std::uint32_t blue, std::uint32_t alpha)
+    constexpr RGBA(std::uint32_t red, std::uint32_t green, std::uint32_t blue, std::uint32_t alpha)
         : color(static_cast<float>(red) / COLOR8_MAX_VALUE,
                 static_cast<float>(green) / COLOR8_MAX_VALUE,
                 static_cast<float>(blue) / COLOR8_MAX_VALUE,
@@ -149,7 +149,7 @@ struct fmt::formatter<JE::Size2D>
 };
 
 template<>
-struct fmt::formatter<JE::ColorRGBA>
+struct fmt::formatter<JE::RGBA>
 {
     // cppcheck-suppress functionStatic
     constexpr auto parse(format_parse_context& ctx)  // NOLINT
@@ -160,7 +160,7 @@ struct fmt::formatter<JE::ColorRGBA>
 
     template<typename FormatContext>
     // cppcheck-suppress functionStatic
-    auto format(const JE::ColorRGBA& color, FormatContext& ctx)  // NOLINT
+    auto format(const JE::RGBA& color, FormatContext& ctx)  // NOLINT
         -> decltype(ctx.out())
     {
         return fmt::format_to(
