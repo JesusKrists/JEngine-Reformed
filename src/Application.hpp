@@ -81,7 +81,7 @@ class App final : public IEventProcessor
 
             ++m_LoopCount;
         }
-        
+
         // Flush the last processed event
         UnknownEvent dummy;
         LogEvent(dummy);
