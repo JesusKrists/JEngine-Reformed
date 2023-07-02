@@ -42,6 +42,11 @@ class App final : public IEventProcessor
     {
         LogEvent(event);
 
+        if (event.Category() == IEvent::EventCategory::KEYBOARD || event.Category() == IEvent::EventCategory::MOUSE) {
+            m_InputController.InputController::ProcessEvent(event);
+            return;
+        }
+
         EventDispatcher dispatcher{event};
         dispatcher.Dispatch<QuitEvent>(
             [this]([[maybe_unused]] const QuitEvent& evnt)
@@ -55,6 +60,7 @@ class App final : public IEventProcessor
     {
         ASSERT(m_Initialized);
 
+        m_InputController.NewFrame();
         while (EnginePlatform().PollEvents(*this)) {
             ++m_EventsProcessed;
         }
@@ -82,6 +88,7 @@ class App final : public IEventProcessor
 
     inline auto MainWindow() -> IWindow& { return *m_MainWindow; }
     inline auto Renderer() -> JE::Renderer& { return m_Renderer; }
+    inline auto InputController() -> JE::InputController& { return m_InputController; }
 
     inline auto LoopCount() const -> std::int64_t { return m_LoopCount; }
     inline auto Running() const -> bool { return m_Running; }
@@ -136,6 +143,7 @@ class App final : public IEventProcessor
 
     IWindow* m_MainWindow = nullptr;
     JE::Renderer m_Renderer;
+    JE::InputController m_InputController;
 
     std::int64_t m_LoopCount = 0;
     bool m_Running = false;
@@ -149,5 +157,7 @@ inline auto Application() -> App&
     static App sApplication;
     return sApplication;
 }
+
+inline auto Input() -> InputController& { return Application().InputController(); }
 
 }  // namespace JE
