@@ -157,7 +157,7 @@ class IVertexArray
     IVertexArray() = default;
     virtual ~IVertexArray() = default;
 
-    inline auto ID() const -> IRendererAPI::BufferID { return m_BufferID; }
+    inline auto ID() const -> IRendererAPI::BufferID { return m_VAOId; }
 
     inline auto Buffers() const -> const Vector<Scope<IVertexBuffer>>& { return m_VertexBuffers; }
     inline void AddBuffer(Scope<IVertexBuffer> buffer) { m_VertexBuffers.emplace_back(std::move(buffer)); }
@@ -171,7 +171,7 @@ class IVertexArray
     virtual auto Unbind() -> bool = 0;
 
   protected:
-    IRendererAPI::BufferID m_BufferID = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    IRendererAPI::BufferID m_VAOId = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
     Vector<Scope<IVertexBuffer>> m_VertexBuffers;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
     Scope<IElementBuffer> m_IndexBuffer;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 };
@@ -207,20 +207,20 @@ class Mesh
   private:
     inline void UploadMesh()
     {
-        auto vertexBuffer =
-            CreateVertexBuffer(AttributeLayout{{AttributeLayout::Attribute{"a_Vertex", IRendererAPI::Type::FLOAT, 3}}});
+        auto vertexBuffer = CreateVertexBuffer(
+            AttributeLayout{{AttributeLayout::Attribute{"a_VertexPos", IRendererAPI::Type::FLOAT, 3}}});
         auto indexBuffer = CreateElementBuffer();
 
         vertexBuffer->Bind();
         vertexBuffer->SetData(
             {reinterpret_cast<std::byte*>(m_Vertices.data()),  // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
-             m_Vertices.size()});
+             m_Vertices.size() * sizeof(VertexType)});
         vertexBuffer->Unbind();
 
         indexBuffer->Bind();
         indexBuffer->SetData(
             {reinterpret_cast<std::byte*>(m_Indices.data()),  // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
-             m_Indices.size()});
+             m_Indices.size() * sizeof(IndexType)});
         indexBuffer->Unbind();
 
         m_VAO = CreateVertexArray();
@@ -237,17 +237,54 @@ class Mesh
 inline auto CreateTriangleMesh()
 {
     // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
-    return Mesh{{{-0.5f, -0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}, {0.0f, 0.5f, 0.0f}}, {0, 1, 2}};
+    return Mesh{{{-0.5f, -0.5f, 0.0f}, {0.0f, 0.5f, 0.0f}, {0.5f, -0.5f, 0.0f}}, {0, 1, 2}};
 }
 
 inline auto CreateQuadMesh()
 {
-    return Mesh{{{0.5f, 0.5f, 0.0f},  // NOLINT(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
-                 {0.5f, -0.5f, 0.0f},  // NOLINT(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+    return Mesh{{{-0.5f, 0.5f, 0.0f},  // NOLINT(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
                  {-0.5f, -0.5f, 0.0f},  // NOLINT(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
-                 {-0.5f, 0.5f, 0.0f}},  // NOLINT(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
-                {0, 1, 3, 1, 2, 3}};
+                 {0.5f, -0.5f, 0.0f},  // NOLINT(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+                 {0.5f, 0.5f, 0.0f}},  // NOLINT(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+                {0, 1, 2, 2, 3, 0}};
 }
+
+enum class ShaderType
+{
+    VERTEX,
+    FRAGMENT
+};
+
+class IShaderProgram
+{
+  public:
+    IShaderProgram(const IShaderProgram& other) = delete;
+    IShaderProgram(IShaderProgram&& other) = delete;
+    auto operator=(const IShaderProgram& other) -> IShaderProgram& = delete;
+    auto operator=(IShaderProgram&& other) -> IShaderProgram& = delete;
+
+    explicit IShaderProgram(std::string_view debugName)
+        : m_DebugName(debugName)
+    {
+    }
+    virtual ~IShaderProgram() = default;
+
+    inline auto ID() const -> IRendererAPI::ProgramID { return m_ProgramID; }
+
+    virtual auto Bind() -> bool = 0;
+
+    virtual auto Unbind() -> bool = 0;
+
+    inline auto Valid() const -> bool { return m_Valid; }
+
+  protected:
+    std::string m_DebugName;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    IRendererAPI::ProgramID m_ProgramID = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+    bool m_Valid = false;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+};
+
+auto CreateShader(std::string_view debugName, std::string_view vertexSource, std::string_view fragmentSource)
+    -> Scope<IShaderProgram>;
 
 class Renderer
 {
@@ -264,6 +301,7 @@ class Renderer
     void End();
 
     void DrawMesh(Mesh& mesh);
+    void DrawMesh(Mesh& mesh, IShaderProgram& shaderProgram);
 
     inline auto CommandQueue() const -> const Vector<RenderCommand>& { return m_CommandQueue; }
 

@@ -33,6 +33,7 @@ class IRendererAPI
     using AttachmentFlags = BitFieldType;
     using FramebufferID = std::uint32_t;
     using BufferID = std::uint32_t;
+    using ProgramID = std::uint32_t;
 
     enum class Primitive
     {
