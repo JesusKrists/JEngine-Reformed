@@ -9,88 +9,88 @@
 
 namespace JE
 {
-class IEventProcessor;
+    class IEventProcessor;
 
-class IGraphicsContext
-{
-  public:
-    IGraphicsContext(const IGraphicsContext& other) = delete;
-    IGraphicsContext(IGraphicsContext&& other) = delete;
-    auto operator=(const IGraphicsContext& other) -> IGraphicsContext& = delete;
-    auto operator=(IGraphicsContext&& other) -> IGraphicsContext& = delete;
-
-    IGraphicsContext() = default;
-    virtual ~IGraphicsContext() = default;
-
-    virtual auto Created() const -> bool = 0;
-    virtual auto SwapBuffers() -> bool = 0;
-};
-
-class IWindow : public IRenderTarget
-{
-  public:
-    static constexpr auto DEFAULT_WINDOW_SIZE = Size2D{1280, 720};
-
-    enum class WindowMode
+    class IGraphicsContext
     {
-        WINDOWED,
-        FULLSCREEN_BORDERLESS,
-        FULLSCREEN
+      public:
+        IGraphicsContext(const IGraphicsContext& other) = delete;
+        IGraphicsContext(IGraphicsContext&& other) = delete;
+        auto operator=(const IGraphicsContext& other) -> IGraphicsContext& = delete;
+        auto operator=(IGraphicsContext&& other) -> IGraphicsContext& = delete;
+
+        IGraphicsContext() = default;
+        virtual ~IGraphicsContext() = default;
+
+        virtual auto Created() const -> bool = 0;
+        virtual auto SwapBuffers() -> bool = 0;
     };
 
-    IWindow(const IWindow& other) = delete;
-    IWindow(IWindow&& other) = delete;
-    auto operator=(const IWindow& other) -> IWindow& = delete;
-    auto operator=(IWindow&& other) -> IWindow& = delete;
+    class IWindow : public IRenderTarget
+    {
+      public:
+        static constexpr auto DEFAULT_WINDOW_SIZE = Size2D{1280, 720};
 
-    IWindow() = default;
-    ~IWindow() override = default;
+        enum class WindowMode
+        {
+            WINDOWED,
+            FULLSCREEN_BORDERLESS,
+            FULLSCREEN
+        };
 
-    virtual auto Created() const -> bool = 0;
-    virtual auto GraphicsContext() -> IGraphicsContext& = 0;
+        IWindow(const IWindow& other) = delete;
+        IWindow(IWindow&& other) = delete;
+        auto operator=(const IWindow& other) -> IWindow& = delete;
+        auto operator=(IWindow&& other) -> IWindow& = delete;
 
-    virtual auto SetWindowMode(WindowMode mode) -> bool = 0;
-};
+        IWindow() = default;
+        ~IWindow() override = default;
 
-class IPlatform
-{
-    friend class App;
-    friend auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow*;
+        virtual auto Created() const -> bool = 0;
+        virtual auto GraphicsContext() -> IGraphicsContext& = 0;
 
-  public:
-    IPlatform(const IPlatform& other) = delete;
-    IPlatform(IPlatform&& other) = delete;
-    auto operator=(const IPlatform& other) -> IPlatform& = delete;
-    auto operator=(IPlatform&& other) -> IPlatform& = delete;
+        virtual auto SetWindowMode(WindowMode mode) -> bool = 0;
+    };
 
-    IPlatform() = default;
-    virtual ~IPlatform() = default;
+    class IPlatform
+    {
+        friend class App;
+        friend auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow*;
 
-    virtual auto Name() const -> std::string_view = 0;
-    virtual auto Initialized() const -> bool = 0;
-    virtual auto GetLastError() const -> std::string_view = 0;
+      public:
+        IPlatform(const IPlatform& other) = delete;
+        IPlatform(IPlatform&& other) = delete;
+        auto operator=(const IPlatform& other) -> IPlatform& = delete;
+        auto operator=(IPlatform&& other) -> IPlatform& = delete;
 
-  private:
-    virtual auto Initialize() -> bool = 0;
-    virtual auto PollEvents(IEventProcessor& eventProcessor) -> bool = 0;
-    virtual auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow* = 0;
-};
+        IPlatform() = default;
+        virtual ~IPlatform() = default;
 
-namespace detail  // NOLINT(readability-identifier-naming)
-{
+        virtual auto Name() const -> std::string_view = 0;
+        virtual auto Initialized() const -> bool = 0;
+        virtual auto GetLastError() const -> std::string_view = 0;
 
-void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform);
+      private:
+        virtual auto Initialize() -> bool = 0;
+        virtual auto PollEvents(IEventProcessor& eventProcessor) -> bool = 0;
+        virtual auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow* = 0;
+    };
 
-template<typename T, typename... Args>
-inline void InjectCustomEnginePlatform(Args&&... args)
-{
-    static_assert(std::is_base_of_v<IPlatform, T>, "Custom Engine Platform has to derive from IPlatform");
-    SetCustomEnginePlatform(CreateScope<T>(std::forward<Args>(args)...));
-}
+    namespace detail  // NOLINT(readability-identifier-naming)
+    {
 
-}  // namespace detail
+        void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform);
 
-auto EnginePlatform() -> IPlatform&;
-auto CreateWindow(std::string_view title, const Size2D& size = IWindow::DEFAULT_WINDOW_SIZE) -> IWindow*;
+        template<typename T, typename... Args>
+        inline void InjectCustomEnginePlatform(Args&&... args)
+        {
+            static_assert(std::is_base_of_v<IPlatform, T>, "Custom Engine Platform has to derive from IPlatform");
+            SetCustomEnginePlatform(CreateScope<T>(std::forward<Args>(args)...));
+        }
+
+    }  // namespace detail
+
+    auto EnginePlatform() -> IPlatform&;
+    auto CreateWindow(std::string_view title, const Size2D& size = IWindow::DEFAULT_WINDOW_SIZE) -> IWindow*;
 
 }  // namespace JE
