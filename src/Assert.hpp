@@ -12,28 +12,28 @@
 namespace JE::detail
 {
 
-template<bool ENABLED = false, bool BREAK = true>
-inline auto Assert(const bool CHECK,
-                   const std::string_view ASSERTION,
-                   const std::source_location LOCATION = std::source_location::current()) -> bool
-{
-    if constexpr (ENABLED) {
-        if (!CHECK) {
-            EngineLogger()->error("Assertion `{}` in `{}` at {}:{}:{} failed!",
-                                  ASSERTION,
-                                  LOCATION.function_name(),
-                                  LOCATION.file_name(),
-                                  LOCATION.line(),
-                                  LOCATION.column());
+    template<bool ENABLED = false, bool BREAK = true>
+    inline auto Assert(const bool CHECK,
+                       const std::string_view ASSERTION,
+                       const std::source_location LOCATION = std::source_location::current()) -> bool
+    {
+        if constexpr (ENABLED) {
+            if (!CHECK) {
+                EngineLogger()->error("Assertion `{}` in `{}` at {}:{}:{} failed!",
+                                      ASSERTION,
+                                      LOCATION.function_name(),
+                                      LOCATION.file_name(),
+                                      LOCATION.line(),
+                                      LOCATION.column());
 
-            if constexpr (BREAK) {
-                DEBUGBREAK();
+                if constexpr (BREAK) {
+                    DEBUGBREAK();
+                }
             }
         }
-    }
 
-    return CHECK;
-}
+        return CHECK;
+    }
 
 }  // namespace JE::detail
 
@@ -46,22 +46,22 @@ inline auto Assert(const bool CHECK,
 namespace JE::detail
 {
 
-template<bool ENABLED = false, bool BREAK = true>
-inline auto Assert(const bool CHECK, const std::string_view ASSERTION, const std::string_view FILE, const int LINE)
-    -> bool
-{
-    if constexpr (ENABLED) {
-        if (!CHECK) {
-            EngineLogger()->error("Assertion `{}` at {}:{} failed!", ASSERTION, FILE, LINE);
+    template<bool ENABLED = false, bool BREAK = true>
+    inline auto Assert(const bool CHECK, const std::string_view ASSERTION, const std::string_view FILE, const int LINE)
+        -> bool
+    {
+        if constexpr (ENABLED) {
+            if (!CHECK) {
+                EngineLogger()->error("Assertion `{}` at {}:{} failed!", ASSERTION, FILE, LINE);
 
-            if constexpr (BREAK) {
-                DEBUGBREAK();
+                if constexpr (BREAK) {
+                    DEBUGBREAK();
+                }
             }
         }
-    }
 
-    return CHECK;
-}
+        return CHECK;
+    }
 
 }  // namespace JE::detail
 

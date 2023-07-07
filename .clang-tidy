@@ -15,7 +15,15 @@ Checks: "*,\
   -hicpp-uppercase-literal-suffix,\
   -readability-uppercase-literal-suffix,\
   -bugprone-exception-escape,\
-  -hicpp-multiway-paths-covered"
+  -hicpp-multiway-paths-covered,\
+  -cppcoreguidelines-avoid-magic-numbers,\
+  -readability-magic-numbers,\
+  -readability-named-parameter,\
+  -hicpp-named-parameter,\
+  -cppcoreguidelines-avoid-non-const-global-variables,\
+  -cert-err58-cpp,\
+  -modernize-use-using,\
+  -hicpp-signed-bitwise"
 WarningsAsErrors: '*'
 CheckOptions:
   - key: 'bugprone-argument-comment.StrictMode'
@@ -89,7 +97,9 @@ CheckOptions:
   - key: 'readability-identifier-naming.GlobalPointerCase'
     value: 'CamelCase'
   - key: 'readability-identifier-naming.GlobalVariableCase'
-    value: 'camelBack'
+    value: 'CamelCase'
+  - key: 'readability-identifier-naming.GlobalVariablePrefix'
+    value: 'g_'
   - key: 'readability-identifier-naming.InlineNamespaceCase'
     value: 'CamelCase'
   - key: 'readability-identifier-naming.LocalConstantCase'
@@ -97,9 +107,9 @@ CheckOptions:
   - key: 'readability-identifier-naming.LocalConstantPointerCase'
     value: 'UPPER_CASE'
   - key: 'readability-identifier-naming.LocalPointerCase'
-    value: 'camelBack'
+    value: 'lower_case'
   - key: 'readability-identifier-naming.LocalVariableCase'
-    value: 'camelBack'
+    value: 'lower_case'
   - key: 'readability-identifier-naming.MacroDefinitionCase'
     value: 'UPPER_CASE'
   - key: 'readability-identifier-naming.MemberCase'
@@ -109,11 +119,11 @@ CheckOptions:
   - key: 'readability-identifier-naming.NamespaceCase'
     value: 'CamelCase'
   - key: 'readability-identifier-naming.ParameterCase'
-    value: 'camelBack'
+    value: 'lower_case'
   #- key: 'readability-identifier-naming.ParameterPackCase'
   #  value: 'UPPER_CASE'
   - key: 'readability-identifier-naming.PointerParameterCase'
-    value: 'camelBack'
+    value: 'lower_case'
   - key: 'readability-identifier-naming.PrivateMemberCase'
     value: 'CamelCase'
   - key: 'readability-identifier-naming.PrivateMemberPrefix'
@@ -137,9 +147,9 @@ CheckOptions:
   - key: 'readability-identifier-naming.StaticConstantCase'
     value: 'UPPER_CASE'
   - key: 'readability-identifier-naming.StaticVariableCase'
-    value: 'camelBack'
-  # - key: 'readability-identifier-naming.StaticVariablePrefix'
-  #   value: 's_'
+    value: 'CamelCase'
+  - key: 'readability-identifier-naming.StaticVariablePrefix'
+    value: 's_'
   - key: 'readability-identifier-naming.StructCase'
     value: 'CamelCase'
   - key: 'readability-identifier-naming.TemplateParameterCase'
@@ -157,6 +167,6 @@ CheckOptions:
   - key: 'readability-identifier-naming.ValueTemplateParameterCase'
     value: 'CamelCase'
   - key: 'readability-identifier-naming.VariableCase'
-    value: 'camelBack'
+    value: 'lower_case'
   - key: 'readability-identifier-naming.VirtualMethodCase'
     value: 'CamelCase'

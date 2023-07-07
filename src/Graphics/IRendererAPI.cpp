@@ -10,30 +10,30 @@
 namespace JE
 {
 
-namespace
-{
-Scope<IRendererAPI> sRendererApi;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+    namespace
+    {
+        Scope<IRendererAPI> sRendererApi;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-}  // namespace
+    }  // namespace
 
-namespace detail
-{
-void SetCustomRendererAPI(Scope<IRendererAPI> rendererAPI)
-{
-    ASSERT(!sRendererApi);
+    namespace detail
+    {
+        void SetCustomRendererAPI(Scope<IRendererAPI> rendererAPI)
+        {
+            ASSERT(!sRendererApi);
 
-    EngineLogger()->debug("Injecting custom RendererAPI - {}", rendererAPI->Name());
-    sRendererApi = std::move(rendererAPI);
-}
-}  // namespace detail
+            EngineLogger()->debug("Injecting custom RendererAPI - {}", rendererAPI->Name());
+            sRendererApi = std::move(rendererAPI);
+        }
+    }  // namespace detail
 
-// cppcheck-suppress unusedFunction
-auto RendererAPI() -> IRendererAPI&
-{
-    if (!sRendererApi) {
-        sRendererApi = CreateScope<detail::OpenGLRendererAPI>();
+    // cppcheck-suppress unusedFunction
+    auto RendererAPI() -> IRendererAPI&
+    {
+        if (!sRendererApi) {
+            sRendererApi = CreateScope<detail::OpenGLRendererAPI>();
+        }
+        return *sRendererApi;
     }
-    return *sRendererApi;
-}
 
 }  // namespace JE
