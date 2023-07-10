@@ -42,6 +42,8 @@ class App final : public IEventProcessor
     {
         LogEvent(event);
 
+        m_HotkeyRegister.ProcessEvent(event);
+
         if (event.Category() == IEvent::EventCategory::KEYBOARD || event.Category() == IEvent::EventCategory::MOUSE) {
             m_InputController.InputController::ProcessEvent(event);
             return;
@@ -112,6 +114,16 @@ class App final : public IEventProcessor
 
         ImpulseAudio::TestStuff();
 
+        m_HotkeyRegister.RegisterAction(KeyCode::F1,
+                                        [this](bool toggle)
+                                        {
+                                            if (toggle) {
+                                                m_MainWindow->SetWindowMode(IWindow::WindowMode::FULLSCREEN);
+                                            } else {
+                                                m_MainWindow->SetWindowMode(IWindow::WindowMode::WINDOWED);
+                                            }
+                                        });
+
         m_Initialized = true;
     }
 
@@ -144,6 +156,7 @@ class App final : public IEventProcessor
     IWindow* m_MainWindow = nullptr;
     JE::Renderer m_Renderer;
     JE::InputController m_InputController;
+    JE::HotkeyRegister m_HotkeyRegister;
 
     std::int64_t m_LoopCount = 0;
     bool m_Running = false;
