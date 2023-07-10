@@ -34,7 +34,7 @@ the project:
     "version": 2,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 14,
+        "minor": 25,
         "patch": 0
     },
     "configurePresets": [

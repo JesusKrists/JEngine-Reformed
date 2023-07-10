@@ -31,6 +31,13 @@ namespace JE
       public:
         static constexpr auto DEFAULT_WINDOW_SIZE = Size2D{1280, 720};
 
+        enum class WindowMode
+        {
+            WINDOWED,
+            FULLSCREEN_BORDERLESS,
+            FULLSCREEN
+        };
+
         IWindow(const IWindow& other) = delete;
         IWindow(IWindow&& other) = delete;
         auto operator=(const IWindow& other) -> IWindow& = delete;
@@ -41,6 +48,8 @@ namespace JE
 
         virtual auto Created() const -> bool = 0;
         virtual auto GraphicsContext() -> IGraphicsContext& = 0;
+
+        virtual auto SetWindowMode(WindowMode mode) -> bool = 0;
     };
 
     class IPlatform

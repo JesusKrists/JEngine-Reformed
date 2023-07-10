@@ -1,10 +1,13 @@
 #pragma once
 
+#include <functional>
+#include <initializer_list>
 #include <string_view>
 #include <type_traits>
 #include <unordered_map>
 
 #include "Base.hpp"
+#include "Logger.hpp"
 #include "Types.hpp"
 
 namespace JE
@@ -554,9 +557,13 @@ namespace JE
         ENDCALL = ScanCodeToKeyCode(ScanCode::ENDCALL)
     };
 
-    enum class MouseButton
+    inline auto ToString(KeyCode key) -> std::string_view
     {
-    };
+        switch (key) {
+            default:
+                return "UNKNOWN";
+        }
+    }
 
     class IEvent
     {
@@ -826,6 +833,17 @@ namespace JE
             return false;
         }
 
+        inline auto KeyReleased(KeyCode key) const -> bool { return !KeyPressed(key); }
+
+        inline auto KeyPressedOnce(KeyCode key) const -> bool
+        {
+            auto iter = m_KeyMap.find(key);
+            auto iter2 = m_PreviousKeyMap.find(key);
+            return iter != std::end(m_KeyMap) && iter2 == std::end(m_PreviousKeyMap);
+        }
+
+        inline auto KeyReleasedOnce(KeyCode key) const -> bool { return !KeyPressedOnce(key); }
+
         inline auto MousePos() const -> const Size2D& { return m_MousePosition; }
         inline auto MouseFrameMotion() const -> const Size2D& { return m_MouseFrameMotion; }
 
@@ -835,6 +853,59 @@ namespace JE
 
         Size2D m_MouseFrameMotion;
         Size2D m_MousePosition;
+    };
+
+    class HotkeyRegister : public IEventProcessor
+    {
+      public:
+        using ActionFunctor = std::function<void(bool)>;
+        struct ActionToggle
+        {
+            ActionFunctor Action;  // NOLINT(readability-identifier-naming)
+            bool Toggle = true;  // NOLINT(readability-identifier-naming)
+        };
+
+        HotkeyRegister() = default;
+
+        HotkeyRegister(std::initializer_list<std::pair<KeyCode, ActionFunctor>> hotkeys)
+        {
+            for (const auto& hotkey : hotkeys) {
+                m_ActionMap[hotkey.first] = {hotkey.second};
+            }
+        }
+
+        template<typename Func>
+        inline auto RegisterAction(KeyCode key, Func functor) -> bool
+        {
+            auto iter = m_ActionMap.find(key);
+            if (iter != std::end(m_ActionMap)) {
+                EngineLogger()->error("Action for key [{}] already exists", ToString(key));
+                return false;
+            }
+
+            m_ActionMap[key].Action = functor;
+
+            return true;
+        }
+
+        inline void ProcessEvent(IEvent& event) override
+        {
+            EventDispatcher dispatcher{event};
+            dispatcher.Dispatch<KeyDownEvent>(
+                [this](const KeyDownEvent& evnt)
+                {
+                    auto iter = m_ActionMap.find(evnt.Code());
+                    if (iter != std::end(m_ActionMap)) {
+                        iter->second.Action(iter->second.Toggle);
+                        iter->second.Toggle = !iter->second.Toggle;
+                    }
+
+                    return false;
+                });
+        }
+
+      private:
+        std::unordered_map<KeyCode, ActionToggle> m_ActionMap;
     };
 
 }  // namespace JE

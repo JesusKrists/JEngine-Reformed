@@ -36,6 +36,8 @@ struct TestWindow : JE::IWindow
     inline void Bind() override {}
     // cppcheck-suppress unusedFunction
     inline void Unbind() override {}
+    // cppcheck-suppress unusedFunction
+    inline auto SetWindowMode([[maybe_unused]] WindowMode mode) -> bool override { return true; }
 
     TestGraphicsContext m_GraphicsContext;
 };

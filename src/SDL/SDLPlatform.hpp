@@ -192,6 +192,19 @@ namespace JE::detail
 
         inline void Unbind() override { m_GraphicsContext->RestorePreviousContext(); }
 
+        inline auto SetWindowMode(WindowMode mode) -> bool override
+        {
+            std::uint32_t sdlWindowFlags = 0;
+            if (mode == IWindow::WindowMode::FULLSCREEN) {
+                sdlWindowFlags |= SDL_WINDOW_FULLSCREEN;
+            }
+            if (mode == IWindow::WindowMode::FULLSCREEN_BORDERLESS) {
+                sdlWindowFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+            }
+
+            return SDL_SetWindowFullscreen(m_Window, sdlWindowFlags) == 0;
+        }
+
         ~SDLWindow() override
         {
             m_GraphicsContext.reset();
