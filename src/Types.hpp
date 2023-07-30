@@ -22,8 +22,8 @@ namespace JE
 
     struct Size2D
     {
-        std::int32_t x = 0;  // NOLINT(readability-identifier-naming)
-        std::int32_t y = 0;  // NOLINT(readability-identifier-naming)
+        std::int32_t X = 0;
+        std::int32_t Y = 0;
     };
 
     struct RGBA
@@ -42,11 +42,11 @@ namespace JE
 
         constexpr RGBA() = default;
         constexpr RGBA(float red, float green, float blue, float alpha)
-            : color(red, green, blue, alpha)
+            : Color(red, green, blue, alpha)
         {
         }
         constexpr RGBA(std::uint32_t red, std::uint32_t green, std::uint32_t blue, std::uint32_t alpha)
-            : color(static_cast<float>(red) / COLOR8_MAX_VALUE,
+            : Color(static_cast<float>(red) / COLOR8_MAX_VALUE,
                     static_cast<float>(green) / COLOR8_MAX_VALUE,
                     static_cast<float>(blue) / COLOR8_MAX_VALUE,
                     static_cast<float>(alpha) / COLOR8_MAX_VALUE)
@@ -55,76 +55,48 @@ namespace JE
 
         inline auto ToUint32() const -> std::uint32_t
         {
-            auto colR = RToUint32();
-            auto colG = GToUint32();
-            auto colB = BToUint32();
-            auto colA = AToUint32();
+            auto col_r = RToUint32();
+            auto col_g = GToUint32();
+            auto col_b = BToUint32();
+            auto col_a = AToUint32();
 
-            return ((colR << R_BIT_OFFSET) & R_BYTE_MASK) | ((colG << G_BIT_OFFSET) & G_BYTE_MASK)
-                | ((colB << B_BIT_OFFSET) & B_BYTE_MASK) | (colA & A_BYTE_MASK);
+            return ((col_r << R_BIT_OFFSET) & R_BYTE_MASK) | ((col_g << G_BIT_OFFSET) & G_BYTE_MASK)
+                | ((col_b << B_BIT_OFFSET) & B_BYTE_MASK) | (col_a & A_BYTE_MASK);
         }
 
-        constexpr auto R() const -> float { return color.r; }  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        constexpr auto G() const -> float { return color.g; }  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        constexpr auto B() const -> float { return color.b; }  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        constexpr auto A() const -> float { return color.a; }  // NOLINT(cppcoreguidelines-pro-type-union-access)
+        constexpr auto R() const -> float { return Color.r; }
+        constexpr auto G() const -> float { return Color.g; }
+        constexpr auto B() const -> float { return Color.b; }
+        constexpr auto A() const -> float { return Color.a; }
 
         inline auto RToUint32() const -> std::uint32_t
         {
-            return static_cast<std::uint32_t>(
-                std::roundf(color.r * COLOR8_MAX_VALUE));  // NOLINT(cppcoreguidelines-pro-type-union-access)
+            return static_cast<std::uint32_t>(std::roundf(Color.r * COLOR8_MAX_VALUE));
         }
         inline auto GToUint32() const -> std::uint32_t
         {
-            return static_cast<std::uint32_t>(
-                std::roundf(color.g * COLOR8_MAX_VALUE));  // NOLINT(cppcoreguidelines-pro-type-union-access)
+            return static_cast<std::uint32_t>(std::roundf(Color.g * COLOR8_MAX_VALUE));
         }
         inline auto BToUint32() const -> std::uint32_t
         {
-            return static_cast<std::uint32_t>(
-                std::roundf(color.b * COLOR8_MAX_VALUE));  // NOLINT(cppcoreguidelines-pro-type-union-access)
+            return static_cast<std::uint32_t>(std::roundf(Color.b * COLOR8_MAX_VALUE));
         }
         inline auto AToUint32() const -> std::uint32_t
         {
-            return static_cast<std::uint32_t>(
-                std::roundf(color.a * COLOR8_MAX_VALUE));  // NOLINT(cppcoreguidelines-pro-type-union-access)
+            return static_cast<std::uint32_t>(std::roundf(Color.a * COLOR8_MAX_VALUE));
         }
 
-        constexpr void SetR(std::uint32_t red)
-        {
-            color.r = static_cast<float>(red) / COLOR8_MAX_VALUE;  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        }
-        constexpr void SetG(std::uint32_t green)
-        {
-            color.g = static_cast<float>(green) / COLOR8_MAX_VALUE;  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        }
-        constexpr void SetB(std::uint32_t blue)
-        {
-            color.b = static_cast<float>(blue) / COLOR8_MAX_VALUE;  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        }
-        constexpr void SetA(std::uint32_t alpha)
-        {
-            color.a = static_cast<float>(alpha) / COLOR8_MAX_VALUE;  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        }
+        constexpr void SetR(std::uint32_t red) { Color.r = static_cast<float>(red) / COLOR8_MAX_VALUE; }
+        constexpr void SetG(std::uint32_t green) { Color.g = static_cast<float>(green) / COLOR8_MAX_VALUE; }
+        constexpr void SetB(std::uint32_t blue) { Color.b = static_cast<float>(blue) / COLOR8_MAX_VALUE; }
+        constexpr void SetA(std::uint32_t alpha) { Color.a = static_cast<float>(alpha) / COLOR8_MAX_VALUE; }
 
-        constexpr void SetR(float red)
-        {
-            color.r = red;  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        }
-        constexpr void SetG(float green)
-        {
-            color.g = green;  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        }
-        constexpr void SetB(float blue)
-        {
-            color.b = blue;  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        }
-        constexpr void SetA(float alpha)
-        {
-            color.a = alpha;  // NOLINT(cppcoreguidelines-pro-type-union-access)
-        }
+        constexpr void SetR(float red) { Color.r = red; }
+        constexpr void SetG(float green) { Color.g = green; }
+        constexpr void SetB(float blue) { Color.b = blue; }
+        constexpr void SetA(float alpha) { Color.a = alpha; }
 
-        glm::vec4 color = {0, 0, 0, 0};  // NOLINT(readability-identifier-naming)
+        glm::vec4 Color = {0, 0, 0, 0};
     };
 
 }  // namespace JE
@@ -144,7 +116,7 @@ struct fmt::formatter<JE::Size2D>
     auto format(const JE::Size2D& size, FormatContext& ctx)  // NOLINT
         -> decltype(ctx.out())
     {
-        return fmt::format_to(ctx.out(), "Size2D{{ X:{} Y:{} }}", size.x, size.y);
+        return fmt::format_to(ctx.out(), "Size2D{{ X:{} Y:{} }}", size.X, size.Y);
     }
 };
 

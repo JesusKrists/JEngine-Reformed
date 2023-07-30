@@ -47,20 +47,20 @@ namespace JE
         {
             Attribute(const std::string_view NAME,
                       IRendererAPI::Type type,
-                      std::uint32_t componentCount,
+                      std::uint32_t component_count,
                       bool normalized = true)
                 : Name(NAME)
                 , Type(type)
-                , ComponentCount(componentCount)
+                , ComponentCount(component_count)
                 , Normalized(normalized)
             {
             }
 
-            std::string Name;  // NOLINT(readability-identifier-naming)
-            IRendererAPI::Type Type = IRendererAPI::Type::FLOAT;  // NOLINT(readability-identifier-naming)
-            std::size_t ComponentCount = 0;  // NOLINT(readability-identifier-naming)
-            bool Normalized = false;  // NOLINT(readability-identifier-naming)
-            std::size_t Offset = 0;  // NOLINT(readability-identifier-naming)
+            std::string Name;
+            IRendererAPI::Type Type = IRendererAPI::Type::FLOAT;
+            std::size_t ComponentCount = 0;
+            bool Normalized = false;
+            std::size_t Offset = 0;
         };
 
         AttributeLayout() = default;
@@ -115,8 +115,8 @@ namespace JE
         virtual auto UploadLayout() -> bool = 0;
 
       protected:
-        IRendererAPI::BufferID m_BufferID = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-        AttributeLayout m_Layout;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        IRendererAPI::BufferID m_BufferID = 0;
+        AttributeLayout m_Layout;
     };
 
     auto CreateVertexBuffer(const AttributeLayout& layout) -> Scope<IVertexBuffer>;
@@ -141,7 +141,7 @@ namespace JE
         virtual auto SetData(std::span<const std::byte> data) -> bool = 0;
 
       protected:
-        IRendererAPI::BufferID m_BufferID = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        IRendererAPI::BufferID m_BufferID = 0;
     };
 
     auto CreateElementBuffer() -> Scope<IElementBuffer>;
@@ -171,10 +171,9 @@ namespace JE
         virtual auto Unbind() -> bool = 0;
 
       protected:
-        IRendererAPI::BufferID m_VAOId = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-        Vector<Scope<IVertexBuffer>>
-            m_VertexBuffers;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-        Scope<IElementBuffer> m_IndexBuffer;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        IRendererAPI::BufferID m_VAOId = 0;
+        Vector<Scope<IVertexBuffer>> m_VertexBuffers;
+        Scope<IElementBuffer> m_IndexBuffer;
     };
 
     auto CreateVertexArray() -> Scope<IVertexArray>;
@@ -208,25 +207,23 @@ namespace JE
       private:
         inline void UploadMesh()
         {
-            auto vertexBuffer = CreateVertexBuffer(
+            auto vertex_buffer = CreateVertexBuffer(
                 AttributeLayout{{AttributeLayout::Attribute{"a_VertexPos", IRendererAPI::Type::FLOAT, 3}}});
-            auto indexBuffer = CreateElementBuffer();
+            auto index_buffer = CreateElementBuffer();
 
-            vertexBuffer->Bind();
-            vertexBuffer->SetData({reinterpret_cast<std::byte*>(
-                                       m_Vertices.data()),  // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
-                                   m_Vertices.size() * sizeof(VertexType)});
-            vertexBuffer->Unbind();
+            vertex_buffer->Bind();
+            vertex_buffer->SetData(
+                {reinterpret_cast<std::byte*>(m_Vertices.data()), m_Vertices.size() * sizeof(VertexType)});
+            vertex_buffer->Unbind();
 
-            indexBuffer->Bind();
-            indexBuffer->SetData(
-                {reinterpret_cast<std::byte*>(m_Indices.data()),  // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
-                 m_Indices.size() * sizeof(IndexType)});
-            indexBuffer->Unbind();
+            index_buffer->Bind();
+            index_buffer->SetData(
+                {reinterpret_cast<std::byte*>(m_Indices.data()), m_Indices.size() * sizeof(IndexType)});
+            index_buffer->Unbind();
 
             m_VAO = CreateVertexArray();
-            m_VAO->AddBuffer(std::move(vertexBuffer));
-            m_VAO->SetIndexBuffer(std::move(indexBuffer));
+            m_VAO->AddBuffer(std::move(vertex_buffer));
+            m_VAO->SetIndexBuffer(std::move(index_buffer));
             m_VAO->Build();
         }
 
@@ -264,8 +261,8 @@ namespace JE
         auto operator=(const IShaderProgram& other) -> IShaderProgram& = delete;
         auto operator=(IShaderProgram&& other) -> IShaderProgram& = delete;
 
-        explicit IShaderProgram(std::string_view debugName)
-            : m_DebugName(debugName)
+        explicit IShaderProgram(std::string_view debug_name)
+            : m_DebugName(debug_name)
         {
         }
         virtual ~IShaderProgram() = default;
@@ -279,12 +276,12 @@ namespace JE
         inline auto Valid() const -> bool { return m_Valid; }
 
       protected:
-        std::string m_DebugName;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-        IRendererAPI::ProgramID m_ProgramID = 0;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-        bool m_Valid = false;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        std::string m_DebugName;
+        IRendererAPI::ProgramID m_ProgramID = 0;
+        bool m_Valid = false;
     };
 
-    auto CreateShader(std::string_view debugName, std::string_view vertexSource, std::string_view fragmentSource)
+    auto CreateShader(std::string_view debug_name, std::string_view vertex_source, std::string_view fragment_source)
         -> Scope<IShaderProgram>;
 
     class Renderer
@@ -302,7 +299,7 @@ namespace JE
         void End();
 
         void DrawMesh(Mesh& mesh);
-        void DrawMesh(Mesh& mesh, IShaderProgram& shaderProgram);
+        void DrawMesh(Mesh& mesh, IShaderProgram& shader_program);
 
         inline auto CommandQueue() const -> const Vector<RenderCommand>& { return m_CommandQueue; }
 

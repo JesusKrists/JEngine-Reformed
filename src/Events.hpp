@@ -722,8 +722,8 @@ namespace JE
     class KeyDownEvent final : public IEvent
     {
       public:
-        KeyDownEvent(KeyCode keyCode, bool pressed)
-            : m_KeyCode(keyCode)
+        KeyDownEvent(KeyCode key_code, bool pressed)
+            : m_KeyCode(key_code)
             , m_Pressed(pressed)
         {
         }
@@ -744,8 +744,8 @@ namespace JE
     class KeyUpEvent final : public IEvent
     {
       public:
-        KeyUpEvent(KeyCode keyCode, bool pressed)
-            : m_KeyCode(keyCode)
+        KeyUpEvent(KeyCode key_code, bool pressed)
+            : m_KeyCode(key_code)
             , m_Pressed(pressed)
         {
         }
@@ -766,10 +766,10 @@ namespace JE
     class MouseMoveEvent final : public IEvent
     {
       public:
-        MouseMoveEvent(const Size2D& relativeMotion,  // NOLINT(bugprone-easily-swappable-parameters)
-                       const Size2D& relativePosition)
-            : m_RelativeMotion(relativeMotion)
-            , m_RelativePosition(relativePosition)
+        MouseMoveEvent(const Size2D& relative_motion,  // NOLINT(bugprone-easily-swappable-parameters)
+                       const Size2D& relative_position)
+            : m_RelativeMotion(relative_motion)
+            , m_RelativePosition(relative_position)
         {
         }
 
@@ -814,8 +814,8 @@ namespace JE
             dispatcher.Dispatch<MouseMoveEvent>(
                 [this](const MouseMoveEvent& evnt)
                 {
-                    m_MouseFrameMotion.x += evnt.Motion().x;
-                    m_MouseFrameMotion.y += evnt.Motion().y;
+                    m_MouseFrameMotion.X += evnt.Motion().X;
+                    m_MouseFrameMotion.Y += evnt.Motion().Y;
 
                     m_MousePosition = evnt.Position();
 
@@ -861,8 +861,8 @@ namespace JE
         using ActionFunctor = std::function<void(bool)>;
         struct ActionToggle
         {
-            ActionFunctor Action;  // NOLINT(readability-identifier-naming)
-            bool Toggle = true;  // NOLINT(readability-identifier-naming)
+            ActionFunctor Action;
+            bool Toggle = true;
         };
 
         HotkeyRegister() = default;

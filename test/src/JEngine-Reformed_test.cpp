@@ -30,7 +30,7 @@ struct TestGraphicsContext : JE::IGraphicsContext
 struct TestWindow : JE::IWindow
 {
     inline auto Created() const -> bool override { return true; }
-    inline auto GraphicsContext() -> JE::IGraphicsContext& override { return m_GraphicsContext; }
+    inline auto GraphicsContext() -> JE::IGraphicsContext& override { return Context; }
 
     // cppcheck-suppress unusedFunction
     inline void Bind() override {}
@@ -39,7 +39,7 @@ struct TestWindow : JE::IWindow
     // cppcheck-suppress unusedFunction
     inline auto SetWindowMode([[maybe_unused]] WindowMode mode) -> bool override { return true; }
 
-    TestGraphicsContext m_GraphicsContext;
+    TestGraphicsContext Context;
 };
 
 struct TestPlatform : JE::IPlatform
@@ -50,16 +50,15 @@ struct TestPlatform : JE::IPlatform
     inline auto Initialized() const -> bool override { return true; }
     inline auto GetLastError() const -> std::string_view override { return ""; }
 
-    inline auto PollEvents([[maybe_unused]] JE::IEventProcessor& eventProcessor) -> bool override { return false; }
+    inline auto PollEvents([[maybe_unused]] JE::IEventProcessor& event_processor) -> bool override { return false; }
 
     inline auto CreateWindow([[maybe_unused]] std::string_view title, [[maybe_unused]] const JE::Size2D& size)
         -> JE::IWindow* override
     {
-        return m_Windows.emplace_back(JE::CreateScope<TestWindow>()).get();
+        return Windows.emplace_back(JE::CreateScope<TestWindow>()).get();
     }
 
-    JE::Vector<JE::Scope<TestWindow>> m_Windows;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes,
-                                                  // readability-identifier-naming)
+    JE::Vector<JE::Scope<TestWindow>> Windows;
 };
 
 struct TestRendererAPI : JE::IRendererAPI
@@ -68,19 +67,16 @@ struct TestRendererAPI : JE::IRendererAPI
 
     inline auto SetClearColor([[maybe_unused]] const JE::RGBA& color) -> bool override { return true; }
     inline auto ClearFramebuffer([[maybe_unused]] AttachmentFlags flags) -> bool override { return true; }
-    inline auto BindFramebuffer([[maybe_unused]] FramebufferID bufferID) -> bool override { return true; }
-    inline auto DrawIndexed([[maybe_unused]] Primitive primitiveType,
-                            [[maybe_unused]] std::uint32_t indexCount,
-                            [[maybe_unused]] Type indexType) -> bool override
+    inline auto BindFramebuffer([[maybe_unused]] FramebufferID buffer_id) -> bool override { return true; }
+    inline auto DrawIndexed([[maybe_unused]] Primitive primitive_type,
+                            [[maybe_unused]] std::uint32_t index_count,
+                            [[maybe_unused]] Type index_type) -> bool override
     {
         return true;
     }
 };
 
-TEST_CASE(  // NOLINT(cert-err58-cpp,
-            // cppcoreguidelines-avoid-non-const-global-variables)
-    "Test Base macros",
-    "[Base]")
+TEST_CASE("Test Base macros", "[Base]")
 {
     enum class TestEnum
     {
@@ -114,13 +110,13 @@ TEST_CASE("Test Assert", "[Assert]")
 {
     struct Library
     {
-        std::string m_Name = fmt::format("{}", "JEngine-Reformed");
+        std::string Name = fmt::format("{}", "JEngine-Reformed");
     };
 
     const Library LIB{};
 
-    REQUIRE(ASSERT(LIB.m_Name == "JEngine-Reformed") == true);
-    REQUIRE(ASSERT(LIB.m_Name == "JEngine-Old") == false);
+    REQUIRE(ASSERT(LIB.Name == "JEngine-Reformed") == true);
+    REQUIRE(ASSERT(LIB.Name == "JEngine-Old") == false);
 }
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
@@ -250,7 +246,7 @@ TEST_CASE("Test Application initialization failure (Window creation failure)", "
         inline auto CreateWindow([[maybe_unused]] std::string_view title, [[maybe_unused]] const JE::Size2D& size)
             -> JE::IWindow* override
         {
-            return m_Windows.emplace_back(JE::CreateScope<FailWindow>()).get();
+            return Windows.emplace_back(JE::CreateScope<FailWindow>()).get();
         }
     };
 
@@ -265,20 +261,20 @@ TEST_CASE("Test Application QuitEvent handling", "[Application][Events]")
 
     struct QuitEventPlatform : TestPlatform
     {
-        inline auto PollEvents(JE::IEventProcessor& eventProcessor) -> bool override
+        inline auto PollEvents(JE::IEventProcessor& event_processor) -> bool override
         {
-            if (!m_EventProcessed) {
+            if (!EventProcessed) {
                 JE::QuitEvent event;
-                eventProcessor.ProcessEvent(event);
+                event_processor.ProcessEvent(event);
 
-                m_EventProcessed = true;
+                EventProcessed = true;
                 return true;
             }
 
             return false;
         }
 
-        bool m_EventProcessed = false;
+        bool EventProcessed = false;
     };
 
     JE::detail::InjectCustomEnginePlatform<QuitEventPlatform>();

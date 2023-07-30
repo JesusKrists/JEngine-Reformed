@@ -51,7 +51,7 @@ namespace JE
     }
 
     using BitFieldType = std::uint32_t;
-    constexpr auto Bit(std::uint32_t bitIdx) -> BitFieldType { return 1u << bitIdx; }
+    constexpr auto Bit(std::uint32_t bit_idx) -> BitFieldType { return 1u << bit_idx; }
 
     inline auto CompareFloat(float lhs, float rhs) -> bool
     {

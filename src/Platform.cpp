@@ -12,18 +12,18 @@ namespace JE
 
     namespace
     {
-        Scope<IPlatform> sEnginePlatform;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+        Scope<IPlatform> g_EnginePlatform;
     }  // namespace
 
     namespace detail
     {
 
-        void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform)
+        void SetCustomEnginePlatform(Scope<IPlatform> engine_platform)
         {
-            ASSERT(!sEnginePlatform);
+            ASSERT(!g_EnginePlatform);
 
-            EngineLogger()->debug("Injecting custom engine platform - {}", enginePlatform->Name());
-            sEnginePlatform = std::move(enginePlatform);
+            EngineLogger()->debug("Injecting custom engine platform - {}", engine_platform->Name());
+            g_EnginePlatform = std::move(engine_platform);
         }
 
     }  // namespace detail
@@ -31,10 +31,10 @@ namespace JE
     // cppcheck-suppress unusedFunction
     auto EnginePlatform() -> IPlatform&
     {
-        if (!sEnginePlatform) {
-            sEnginePlatform = CreateScope<detail::SDLPlatform>();
+        if (!g_EnginePlatform) {
+            g_EnginePlatform = CreateScope<detail::SDLPlatform>();
         }
-        return *sEnginePlatform;
+        return *g_EnginePlatform;
     }
 
     // cppcheck-suppress unusedFunction

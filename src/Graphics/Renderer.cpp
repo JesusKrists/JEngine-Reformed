@@ -19,10 +19,10 @@ namespace JE
     auto CreateVertexArray() -> Scope<IVertexArray> { return CreateScope<OpenGLVertexArray>(); }
 
     // cppcheck-suppress unusedFunction
-    auto CreateShader(std::string_view debugName, std::string_view vertexSource, std::string_view fragmentSource)
+    auto CreateShader(std::string_view debug_name, std::string_view vertex_source, std::string_view fragment_source)
         -> Scope<IShaderProgram>
     {
-        return CreateScope<OpenGLShaderProgram>(debugName, vertexSource, fragmentSource);
+        return CreateScope<OpenGLShaderProgram>(debug_name, vertex_source, fragment_source);
     }
 
     // class RendererMesh
@@ -154,22 +154,22 @@ namespace JE
     }
 
     // cppcheck-suppress unusedFunction
-    void Renderer::DrawMesh(Mesh& mesh, IShaderProgram& shaderProgram)
+    void Renderer::DrawMesh(Mesh& mesh, IShaderProgram& shader_program)
     {
         ASSERT(!mesh.Vertices().empty());
         ASSERT(!mesh.Indices().empty());
-        ASSERT(shaderProgram.Valid());
+        ASSERT(shader_program.Valid());
 
         SubmitRenderCommand(
-            [&mesh, &shaderProgram]()
+            [&mesh, &shader_program]()
             {
-                shaderProgram.Bind();
+                shader_program.Bind();
                 mesh.VAO().Bind();
                 const bool SUCCESS = RendererAPI().DrawIndexed(IRendererAPI::Primitive::TRIANGLES,
                                                                static_cast<std::uint32_t>(mesh.Indices().size()),
                                                                IRendererAPI::Type::UNSIGNED_INT);
                 mesh.VAO().Unbind();
-                shaderProgram.Unbind();
+                shader_program.Unbind();
                 return SUCCESS;
             });
     }

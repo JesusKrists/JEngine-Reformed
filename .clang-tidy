@@ -23,7 +23,10 @@ Checks: "*,\
   -cppcoreguidelines-avoid-non-const-global-variables,\
   -cert-err58-cpp,\
   -modernize-use-using,\
-  -hicpp-signed-bitwise"
+  -hicpp-signed-bitwise,\
+  -cppcoreguidelines-pro-type-union-access,\
+  -cppcoreguidelines-pro-type-reinterpret-cast,\
+  -cppcoreguidelines-non-private-member-variables-in-classes"
 WarningsAsErrors: '*'
 CheckOptions:
   - key: 'bugprone-argument-comment.StrictMode'
@@ -139,7 +142,7 @@ CheckOptions:
   - key: 'readability-identifier-naming.PublicMemberCase'
     value: 'CamelCase'
   - key: 'readability-identifier-naming.PublicMemberPrefix'
-    value: 'm_'
+    value: ''
   - key: 'readability-identifier-naming.PublicMethodCase'
     value: 'CamelCase'
   - key: 'readability-identifier-naming.ScopedEnumConstantCase'

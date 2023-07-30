@@ -12,28 +12,28 @@ namespace JE
 
     namespace
     {
-        Scope<IRendererAPI> sRendererApi;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+        Scope<IRendererAPI> g_RendererApi;
 
     }  // namespace
 
     namespace detail
     {
-        void SetCustomRendererAPI(Scope<IRendererAPI> rendererAPI)
+        void SetCustomRendererAPI(Scope<IRendererAPI> renderer_api)
         {
-            ASSERT(!sRendererApi);
+            ASSERT(!g_RendererApi);
 
-            EngineLogger()->debug("Injecting custom RendererAPI - {}", rendererAPI->Name());
-            sRendererApi = std::move(rendererAPI);
+            EngineLogger()->debug("Injecting custom RendererAPI - {}", renderer_api->Name());
+            g_RendererApi = std::move(renderer_api);
         }
     }  // namespace detail
 
     // cppcheck-suppress unusedFunction
     auto RendererAPI() -> IRendererAPI&
     {
-        if (!sRendererApi) {
-            sRendererApi = CreateScope<detail::OpenGLRendererAPI>();
+        if (!g_RendererApi) {
+            g_RendererApi = CreateScope<detail::OpenGLRendererAPI>();
         }
-        return *sRendererApi;
+        return *g_RendererApi;
     }
 
 }  // namespace JE

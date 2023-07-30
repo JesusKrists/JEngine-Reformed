@@ -10,7 +10,7 @@ namespace JE
     struct RGBA;
 }  // namespace JE
 
-namespace JE::detail  // NOLINT(readability-identifier-naming)
+namespace JE::detail
 {
 
     class OpenGLRendererAPI final : public IRendererAPI
@@ -20,8 +20,8 @@ namespace JE::detail  // NOLINT(readability-identifier-naming)
 
         auto SetClearColor(const RGBA& color) -> bool override;
         auto ClearFramebuffer(AttachmentFlags flags) -> bool override;
-        auto BindFramebuffer(FramebufferID bufferID) -> bool override;
-        auto DrawIndexed(Primitive primitiveType, std::uint32_t indexCount, Type indexType) -> bool override;
+        auto BindFramebuffer(FramebufferID buffer_id) -> bool override;
+        auto DrawIndexed(Primitive primitive_type, std::uint32_t index_count, Type index_type) -> bool override;
     };
 
 }  // namespace JE::detail

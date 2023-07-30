@@ -13,7 +13,7 @@ namespace JE
     struct RGBA;
 }  // namespace JE
 
-namespace JE  // NOLINT(readability-identifier-naming)
+namespace JE
 {
 
     class IRendererAPI
@@ -59,8 +59,8 @@ namespace JE  // NOLINT(readability-identifier-naming)
 
         virtual auto SetClearColor(const RGBA& color) -> bool = 0;
         virtual auto ClearFramebuffer(AttachmentFlags flags) -> bool = 0;
-        virtual auto BindFramebuffer(FramebufferID bufferID) -> bool = 0;
-        virtual auto DrawIndexed(Primitive primitiveType, std::uint32_t indexCount, Type indexType) -> bool = 0;
+        virtual auto BindFramebuffer(FramebufferID buffer_id) -> bool = 0;
+        virtual auto DrawIndexed(Primitive primitive_type, std::uint32_t index_count, Type index_type) -> bool = 0;
     };
 
     constexpr auto TypeByteCount(IRendererAPI::Type type) -> std::size_t
@@ -78,7 +78,7 @@ namespace JE  // NOLINT(readability-identifier-naming)
     namespace detail  // NOLINT(readability-identifier-naming)
     {
 
-        void SetCustomRendererAPI(Scope<IRendererAPI> rendererAPI);
+        void SetCustomRendererAPI(Scope<IRendererAPI> renderer_api);
 
         template<typename T, typename... Args>
         inline void InjectCustomRendererAPI(Args&&... args)
