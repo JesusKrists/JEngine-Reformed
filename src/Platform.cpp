@@ -10,40 +10,40 @@
 namespace JE
 {
 
-namespace
-{
-Scope<IPlatform> sEnginePlatform;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
-}  // namespace
+    namespace
+    {
+        Scope<IPlatform> sEnginePlatform;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+    }  // namespace
 
-namespace detail
-{
+    namespace detail
+    {
 
-void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform)
-{
-    ASSERT(!sEnginePlatform);
+        void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform)
+        {
+            ASSERT(!sEnginePlatform);
 
-    EngineLogger()->debug("Injecting custom engine platform - {}", enginePlatform->Name());
-    sEnginePlatform = std::move(enginePlatform);
-}
+            EngineLogger()->debug("Injecting custom engine platform - {}", enginePlatform->Name());
+            sEnginePlatform = std::move(enginePlatform);
+        }
 
-}  // namespace detail
+    }  // namespace detail
 
-// cppcheck-suppress unusedFunction
-auto EnginePlatform() -> IPlatform&
-{
-    if (!sEnginePlatform) {
-        sEnginePlatform = CreateScope<detail::SDLPlatform>();
+    // cppcheck-suppress unusedFunction
+    auto EnginePlatform() -> IPlatform&
+    {
+        if (!sEnginePlatform) {
+            sEnginePlatform = CreateScope<detail::SDLPlatform>();
+        }
+        return *sEnginePlatform;
     }
-    return *sEnginePlatform;
-}
 
-// cppcheck-suppress unusedFunction
-auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow*
-{
-    ASSERT(EnginePlatform().Initialized());
+    // cppcheck-suppress unusedFunction
+    auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow*
+    {
+        ASSERT(EnginePlatform().Initialized());
 
-    EngineLogger()->info("Creating Window ({}) of size: {}", title, size);
-    return EnginePlatform().CreateWindow(title, size);
-}
+        EngineLogger()->info("Creating Window ({}) of size: {}", title, size);
+        return EnginePlatform().CreateWindow(title, size);
+    }
 
 }  // namespace JE
