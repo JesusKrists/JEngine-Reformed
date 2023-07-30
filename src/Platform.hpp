@@ -72,14 +72,14 @@ namespace JE
 
       private:
         virtual auto Initialize() -> bool = 0;
-        virtual auto PollEvents(IEventProcessor& eventProcessor) -> bool = 0;
+        virtual auto PollEvents(IEventProcessor& event_processor) -> bool = 0;
         virtual auto CreateWindow(std::string_view title, const Size2D& size) -> IWindow* = 0;
     };
 
     namespace detail  // NOLINT(readability-identifier-naming)
     {
 
-        void SetCustomEnginePlatform(Scope<IPlatform> enginePlatform);
+        void SetCustomEnginePlatform(Scope<IPlatform> engine_platform);
 
         template<typename T, typename... Args>
         inline void InjectCustomEnginePlatform(Args&&... args)

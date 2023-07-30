@@ -69,12 +69,12 @@ namespace JE
             }
         }
 
-        inline void Loop(std::int64_t loopCount = -1)
+        inline void Loop(std::int64_t loop_count = -1)
         {
             ASSERT(m_Initialized);
 
             m_Running = true;
-            while (m_LoopCount != loopCount && m_Running) {
+            while (m_LoopCount != loop_count && m_Running) {
                 ProcessEvents();
 
                 m_Renderer.ProcessCommandQueue();
@@ -130,28 +130,28 @@ namespace JE
 
         static inline void LogEvent(const IEvent& event)
         {
-            static IEvent::EventType sLastEventType = IEvent::EventType::UNKNOWN;
-            static std::uint32_t sEventCounter = 0;
+            static IEvent::EventType s_LastEventType = IEvent::EventType::UNKNOWN;
+            static std::uint32_t s_EventCounter = 0;
 
-            if (event.Type() == sLastEventType) {
-                sEventCounter++;
-                sLastEventType = event.Type();
+            if (event.Type() == s_LastEventType) {
+                s_EventCounter++;
+                s_LastEventType = event.Type();
                 return;
             }
 
-            if (sEventCounter > 1) {
+            if (s_EventCounter > 1) {
                 EngineLogger()->trace("Processing {} events of class - {} | type - {}",
-                                      sEventCounter,
-                                      ToString(EventTypeToCategory(sLastEventType)),
-                                      ToString(sLastEventType));
+                                      s_EventCounter,
+                                      ToString(EventTypeToCategory(s_LastEventType)),
+                                      ToString(s_LastEventType));
             } else {
                 EngineLogger()->trace("Processing event of class - {} | type - {}",
-                                      ToString(EventTypeToCategory(sLastEventType)),
-                                      ToString(sLastEventType));
+                                      ToString(EventTypeToCategory(s_LastEventType)),
+                                      ToString(s_LastEventType));
             }
 
-            sEventCounter = 1;
-            sLastEventType = event.Type();
+            s_EventCounter = 1;
+            s_LastEventType = event.Type();
         }
 
         IWindow* m_MainWindow = nullptr;
@@ -168,8 +168,8 @@ namespace JE
 
     inline auto Application() -> App&
     {
-        static App sApplication;
-        return sApplication;
+        static App s_Application;
+        return s_Application;
     }
 
     inline auto Input() -> InputController& { return Application().InputController(); }

@@ -43,8 +43,8 @@ namespace JE::detail
         {
             m_Window = window;
 
-            auto* previousWindow = SDL_GL_GetCurrentWindow();
-            auto* previousContext = SDL_GL_GetCurrentContext();
+            auto* previous_window = SDL_GL_GetCurrentWindow();
+            auto* previous_context = SDL_GL_GetCurrentContext();
 
             m_Context = SDL_GL_CreateContext(window);
             if (m_Context == nullptr) {
@@ -59,7 +59,6 @@ namespace JE::detail
 
             // cppcheck-suppress knownConditionTrueFalse
             if (!sGladInitialized) {
-                // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
                 auto version = gladLoadGL(reinterpret_cast<GLADloadfunc>(SDL_GL_GetProcAddress));
                 if (version == 0) {
                     EngineLogger()->error("Failed to initialize GLAD");
@@ -77,12 +76,12 @@ namespace JE::detail
                 sGladInitialized = true;
             }
 
-            if (previousWindow == nullptr || previousContext == nullptr) {
+            if (previous_window == nullptr || previous_context == nullptr) {
                 EngineLogger()->trace("No previous graphics context available");
                 return;
             }
 
-            if (SDL_GL_MakeCurrent(previousWindow, previousContext) != 0) {
+            if (SDL_GL_MakeCurrent(previous_window, previous_context) != 0) {
                 EngineLogger()->error("Failed to make previous SDL OpenGL context current: {}", SDL_GetError());
             }
         }
@@ -157,7 +156,7 @@ namespace JE::detail
         SDL_Window* m_PreviousWindow = nullptr;
         SDL_GLContext m_PreviousContext = nullptr;
 
-        static inline bool sGladInitialized = false;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+        static inline bool sGladInitialized = false;
     };
 
     class SDLWindow final : public IWindow
@@ -172,8 +171,8 @@ namespace JE::detail
             : m_Window(SDL_CreateWindow(title.c_str(),
                                         SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
                                         SDL_WINDOWPOS_CENTERED,  // NOLINT(hicpp-signed-bitwise)
-                                        size.x,
-                                        size.y,
+                                        size.X,
+                                        size.Y,
                                         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE))
         {
             if (m_Window == nullptr) {
@@ -194,15 +193,15 @@ namespace JE::detail
 
         inline auto SetWindowMode(WindowMode mode) -> bool override
         {
-            std::uint32_t sdlWindowFlags = 0;
+            std::uint32_t sdl_window_flags = 0;
             if (mode == IWindow::WindowMode::FULLSCREEN) {
-                sdlWindowFlags |= SDL_WINDOW_FULLSCREEN;
+                sdl_window_flags |= SDL_WINDOW_FULLSCREEN;
             }
             if (mode == IWindow::WindowMode::FULLSCREEN_BORDERLESS) {
-                sdlWindowFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+                sdl_window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
             }
 
-            return SDL_SetWindowFullscreen(m_Window, sdlWindowFlags) == 0;
+            return SDL_SetWindowFullscreen(m_Window, sdl_window_flags) == 0;
         }
 
         ~SDLWindow() override
@@ -258,7 +257,7 @@ namespace JE::detail
             return m_PlatformInitialized;
         }
 
-        inline auto PollEvents(IEventProcessor& eventProcessor) -> bool override
+        inline auto PollEvents(IEventProcessor& event_processor) -> bool override
         {
             ASSERT(m_PlatformInitialized);
 
@@ -267,23 +266,23 @@ namespace JE::detail
             if (EVENTS_PENDING) {
                 if (event.type == SDL_QUIT) {
                     QuitEvent evnt{};
-                    eventProcessor.ProcessEvent(evnt);
+                    event_processor.ProcessEvent(evnt);
                 }
                 if (event.type == SDL_KEYDOWN) {
                     KeyDownEvent evnt{static_cast<KeyCode>(event.key.keysym.sym), static_cast<bool>(event.key.state)};
-                    eventProcessor.ProcessEvent(evnt);
+                    event_processor.ProcessEvent(evnt);
                 }
                 if (event.type == SDL_KEYUP) {
                     KeyUpEvent evnt{static_cast<KeyCode>(event.key.keysym.sym), static_cast<bool>(event.key.state)};
-                    eventProcessor.ProcessEvent(evnt);
+                    event_processor.ProcessEvent(evnt);
                 }
                 if (event.type == SDL_MOUSEMOTION) {
                     MouseMoveEvent evnt{Size2D{event.motion.xrel, event.motion.yrel},
                                         Size2D{event.motion.x, event.motion.y}};
-                    eventProcessor.ProcessEvent(evnt);
+                    event_processor.ProcessEvent(evnt);
                 } else {
                     UnknownEvent evnt{};
-                    eventProcessor.ProcessEvent(evnt);
+                    event_processor.ProcessEvent(evnt);
                 }
             }
 

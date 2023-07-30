@@ -26,7 +26,7 @@ namespace JE
 
     void Callback(void*, [[maybe_unused]] Uint8* stream_u8, int len)
     {
-        auto stream = reinterpret_cast<int32_t*>(stream_u8);  // NOLINT
+        auto* stream = reinterpret_cast<int32_t*>(stream_u8);
 
         len /= 8;  // 8 because /4 for each channel
         EngineLogger()->trace(len);
@@ -37,10 +37,10 @@ namespace JE
     void ImpulseAudio::TestStuff()
     {
         // Generate single period sine wave into lookup
-        auto lut_pos = 0.0f;
-        for (auto& lut : g_BufferSineLookup) {
-            lut = sinf(static_cast<float>(M_PI) * 2.0f / SAMPLE_RATE * lut_pos++);
-        }
+        std::generate(std::begin(g_BufferSineLookup),
+                      std::end(g_BufferSineLookup),
+                      [lut_pos = 0.0f]() mutable
+                      { return sinf(static_cast<float>(M_PI) * 2.0f / SAMPLE_RATE * lut_pos++); });
 
         EngineLogger()->trace("[ImpulseAudio Test Stuff]");
 
@@ -65,7 +65,7 @@ namespace JE
                                          local_spec.samples,
                                          local_spec.freq,
                                          local_spec.format & 0xFF,
-                                         local_spec.format & 0x100 ? "Float" : "Integer",  // NOLINT
+                                         (local_spec.format & 0x100) != 0 ? "Float" : "Integer",
                                          local_spec.channels);
                 } else {
                     EngineLogger()->info(" [{}] - {} [specs not available]", i, device_name);
@@ -93,7 +93,7 @@ namespace JE
                              got_spec.samples,
                              got_spec.freq,
                              got_spec.format & 0xFF,
-                             got_spec.format & 0x100 ? "Float" : "Integer",  // NOLINT
+                             (got_spec.format & 0x100) != 0 ? "Float" : "Integer",
                              got_spec.channels);
 
         SDL_PauseAudioDevice(dev, 0);

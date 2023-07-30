@@ -43,10 +43,10 @@ namespace JE::detail
             func();
 
             bool errored = false;
-            GLenum errorCode = 0;
-            while ((errorCode = glGetError()) != GL_NO_ERROR) {
-                auto errorMessage = ToString(errorCode);
-                JE::EngineLogger()->error("OpenGL API Error: {}", errorMessage);
+            GLenum error_code = 0;
+            while ((error_code = glGetError()) != GL_NO_ERROR) {
+                auto error_message = ToString(error_code);
+                JE::EngineLogger()->error("OpenGL API Error: {}", error_message);
                 errored = true;
             }
 
@@ -66,26 +66,26 @@ namespace JE::detail
         return OpenGLErrorWrapper::Call(
             [flags]()
             {
-                AttachmentFlags glFlags = 0;
+                AttachmentFlags gl_flags = 0;
                 if ((flags & AttachmentFlag::COLOR) != 0u) {
-                    glFlags |= static_cast<std::uint32_t>(GL_COLOR_BUFFER_BIT);
+                    gl_flags |= static_cast<std::uint32_t>(GL_COLOR_BUFFER_BIT);
                 }
 
                 if ((flags & AttachmentFlag::DEPTH) != 0u) {
-                    glFlags |= static_cast<std::uint32_t>(GL_DEPTH_BUFFER_BIT);
+                    gl_flags |= static_cast<std::uint32_t>(GL_DEPTH_BUFFER_BIT);
                 }
 
                 if ((flags & AttachmentFlag::STENCIL) != 0u) {
-                    glFlags |= static_cast<std::uint32_t>(GL_STENCIL_BUFFER_BIT);
+                    gl_flags |= static_cast<std::uint32_t>(GL_STENCIL_BUFFER_BIT);
                 }
 
-                glClear(glFlags);
+                glClear(gl_flags);
             });
     }
 
-    auto OpenGLRendererAPI::BindFramebuffer(FramebufferID bufferID) -> bool
+    auto OpenGLRendererAPI::BindFramebuffer(FramebufferID buffer_id) -> bool
     {
-        return OpenGLErrorWrapper::Call([bufferID]() { glBindFramebuffer(GL_FRAMEBUFFER, bufferID); });
+        return OpenGLErrorWrapper::Call([buffer_id]() { glBindFramebuffer(GL_FRAMEBUFFER, buffer_id); });
     }
 
     namespace
@@ -114,14 +114,14 @@ namespace JE::detail
 
     }  // namespace
 
-    auto OpenGLRendererAPI::DrawIndexed(Primitive primitiveType, std::uint32_t indexCount, Type indexType) -> bool
+    auto OpenGLRendererAPI::DrawIndexed(Primitive primitive_type, std::uint32_t index_count, Type index_type) -> bool
     {
         return OpenGLErrorWrapper::Call(
-            [primitiveType, indexCount, indexType]()
+            [primitive_type, index_count, index_type]()
             {
-                glDrawElements(PrimitiveToOpenGLPrimitive(primitiveType),
-                               static_cast<GLsizei>(indexCount),
-                               TypeToOpenGLType(indexType),
+                glDrawElements(PrimitiveToOpenGLPrimitive(primitive_type),
+                               static_cast<GLsizei>(index_count),
+                               TypeToOpenGLType(index_type),
                                nullptr);
             });
     }
