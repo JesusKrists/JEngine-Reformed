@@ -47,7 +47,7 @@ the project:
                 "dev-mode",
                 "clang-tidy",
                 "cppcheck",
-                "Ccache",
+                "ccache",
                 "iwyu"
             ],
             "cacheVariables": {
