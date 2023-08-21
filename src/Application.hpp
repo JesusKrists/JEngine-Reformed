@@ -77,6 +77,10 @@ namespace JE
             while (m_LoopCount != loop_count && m_Running) {
                 ProcessEvents();
 
+                m_Renderer.Begin(m_MainWindow, {1.0f, 0, 0, 1});
+                m_Renderer.DrawQuad({0, 0, 1.0f, 1.0f}, m_InputController.MousePos(), {0, 0, 0}, {1, 1, 1});
+                m_Renderer.End();
+
                 m_Renderer.ProcessCommandQueue();
 
                 m_MainWindow->GraphicsContext().SwapBuffers();

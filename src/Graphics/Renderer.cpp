@@ -174,4 +174,10 @@ namespace JE
             });
     }
 
+// cppcheck-suppress unusedFunction
+void Renderer::DrawQuad(const RGBA& color, const glm::vec2& position, const glm::vec3& rotation, const glm::vec3& scale)
+{
+    SubmitRenderCommand([]() {});
+}
+
 }  // namespace JE

@@ -766,8 +766,8 @@ namespace JE
     class MouseMoveEvent final : public IEvent
     {
       public:
-        MouseMoveEvent(const Size2D& relative_motion,  // NOLINT(bugprone-easily-swappable-parameters)
-                       const Size2D& relative_position)
+        MouseMoveEvent(const glm::vec2& relative_motion,  // NOLINT(bugprone-easily-swappable-parameters)
+                       const glm::vec2& relative_position)
             : m_RelativeMotion(relative_motion)
             , m_RelativePosition(relative_position)
         {
@@ -778,12 +778,12 @@ namespace JE
 
         static constexpr auto StaticType() -> EventType { return EventType::MOUSE_MOVE; }
 
-        inline auto Motion() const -> const Size2D& { return m_RelativeMotion; }
-        inline auto Position() const -> const Size2D& { return m_RelativePosition; }
+        inline auto Motion() const -> const glm::vec2& { return m_RelativeMotion; }
+        inline auto Position() const -> const glm::vec2& { return m_RelativePosition; }
 
       private:
-        Size2D m_RelativeMotion;
-        Size2D m_RelativePosition;
+        glm::vec2 m_RelativeMotion;
+        glm::vec2 m_RelativePosition;
     };
 
     class InputController : public IEventProcessor
@@ -814,8 +814,8 @@ namespace JE
             dispatcher.Dispatch<MouseMoveEvent>(
                 [this](const MouseMoveEvent& evnt)
                 {
-                    m_MouseFrameMotion.X += evnt.Motion().X;
-                    m_MouseFrameMotion.Y += evnt.Motion().Y;
+                    m_MouseFrameMotion.x += evnt.Motion().x;  // NOLINT
+                    m_MouseFrameMotion.y += evnt.Motion().y;  // NOLINT
 
                     m_MousePosition = evnt.Position();
 
@@ -844,15 +844,15 @@ namespace JE
 
         inline auto KeyReleasedOnce(KeyCode key) const -> bool { return !KeyPressedOnce(key); }
 
-        inline auto MousePos() const -> const Size2D& { return m_MousePosition; }
-        inline auto MouseFrameMotion() const -> const Size2D& { return m_MouseFrameMotion; }
+        inline auto MousePos() const -> const glm::vec2& { return m_MousePosition; }
+        inline auto MouseFrameMotion() const -> const glm::vec2& { return m_MouseFrameMotion; }
 
       private:
         std::unordered_map<KeyCode, bool> m_KeyMap;
         std::unordered_map<KeyCode, bool> m_PreviousKeyMap;
 
-        Size2D m_MouseFrameMotion;
-        Size2D m_MousePosition;
+        glm::vec2 m_MouseFrameMotion;
+        glm::vec2 m_MousePosition;
     };
 
     class HotkeyRegister : public IEventProcessor

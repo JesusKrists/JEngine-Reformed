@@ -277,8 +277,8 @@ namespace JE::detail
                     event_processor.ProcessEvent(evnt);
                 }
                 if (event.type == SDL_MOUSEMOTION) {
-                    MouseMoveEvent evnt{Size2D{event.motion.xrel, event.motion.yrel},
-                                        Size2D{event.motion.x, event.motion.y}};
+                    MouseMoveEvent evnt{glm::vec2{event.motion.xrel, event.motion.yrel},
+                                        glm::vec2{event.motion.x, event.motion.y}};
                     event_processor.ProcessEvent(evnt);
                 } else {
                     UnknownEvent evnt{};

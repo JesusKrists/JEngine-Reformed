@@ -1,7 +1,5 @@
 #pragma once
 
-// IWYU pragma: no_include <glm/detail/type_vec3.inl>
-
 #include <cstddef>
 #include <cstdint>
 #include <functional>
@@ -12,8 +10,7 @@
 #include <string_view>
 #include <utility>
 
-#include <glm/detail/qualifier.hpp>
-#include <glm/detail/type_vec3.hpp>
+#include <glm/glm.hpp>
 
 #include "Assert.hpp"
 #include "IRendererAPI.hpp"
@@ -300,6 +297,8 @@ namespace JE
 
         void DrawMesh(Mesh& mesh);
         void DrawMesh(Mesh& mesh, IShaderProgram& shader_program);
+
+        void DrawQuad(const RGBA& color, const glm::vec2& position, const glm::vec3& rotation, const glm::vec3& scale);
 
         inline auto CommandQueue() const -> const Vector<RenderCommand>& { return m_CommandQueue; }
 
